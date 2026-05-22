@@ -334,6 +334,48 @@
       background: var(--emerald); animation: blink 2.2s infinite;
     }
 
+    /* BNCC credential badge */
+    .bncc-badge {
+      display: inline-flex; align-items: stretch;
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      max-width: fit-content;
+    }
+    .bncc-badge .bncc-tag {
+      background: var(--brand);
+      color: #fff;
+      padding: 10px 14px;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .04em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .bncc-badge .bncc-tag::before {
+      content: "✓";
+      font-size: 11px;
+      background: #fff;
+      color: var(--brand);
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900;
+    }
+    .bncc-badge .bncc-text {
+      padding: 10px 16px;
+      font-size: 12.5px;
+      color: var(--ink-2);
+      display: flex; align-items: center;
+      line-height: 1.35;
+    }
+    .bncc-badge .bncc-text strong { color: var(--ink); font-weight: 700; }
+    .bncc-badge .bncc-text small {
+      display: block; font-size: 11px; color: var(--muted); margin-top: 1px;
+    }
+
     /* Hero stats */
     .hero-stats {
       display: flex; gap: 36px; padding-top: 28px;
@@ -946,9 +988,14 @@
           Uso gratuito disponível · Sem cartão de crédito
         </div>
 
-        <div class="hero-trust animate-in" style="transition-delay:.36s;margin-top:8px">
-          <span style="font-size:15px">📋</span>
-          Planos alinhados à <strong>BNCC</strong> — com habilidades reais do banco oficial
+        <div class="bncc-badge animate-in" style="transition-delay:.36s">
+          <div class="bncc-tag">BNCC</div>
+          <div class="bncc-text">
+            <span>
+              <strong>Planos alinhados</strong> ao banco oficial
+              <small>Habilidades reais — não inventadas pela IA</small>
+            </span>
+          </div>
         </div>
 
         <div class="hero-stats animate-in" style="transition-delay:.4s">
