@@ -45,6 +45,28 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ── Owl flying easter egg ── */
+    .owl-fly {
+      position: fixed;
+      left: 0;
+      width: 130px;
+      height: 130px;
+      z-index: 9999;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .owl-fly img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scaleX(-1); /* vira pra esquerda — direção do voo */
+      filter: drop-shadow(0 8px 24px rgba(70,89,255,.35));
+    }
+    @keyframes owl-bob {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50%       { transform: translateY(-14px) rotate(3deg); }
+    }
+
     /* ── Animations ── */
     @keyframes pulse-ring {
       0%,100% { box-shadow: 0 0 0 0 rgba(70,89,255,.35); }
@@ -1641,6 +1663,62 @@
   }
   resetRows();
   setTimeout(showRows, 1400);
+</script>
+
+<script>
+/* ── Owl flying easter egg ── */
+(function () {
+  // Cria o elemento
+  const wrap = document.createElement('div');
+  wrap.className = 'owl-fly';
+  wrap.setAttribute('aria-hidden', 'true');
+  wrap.innerHTML = '<img src="illu-01.png" alt="">';
+  document.body.appendChild(wrap);
+
+  const img = wrap.querySelector('img');
+
+  function fly() {
+    // Posição vertical aleatória (entre 10% e 72% da tela)
+    const topVh = 10 + Math.random() * 62;
+    wrap.style.top = topVh + 'vh';
+
+    // Tamanho levemente aleatório (brincadeira de perspectiva)
+    const size = 100 + Math.random() * 60;
+    wrap.style.width  = size + 'px';
+    wrap.style.height = size + 'px';
+
+    // Começa fora da tela à direita (sem transição)
+    wrap.style.transition = 'none';
+    wrap.style.opacity    = '1';
+    wrap.style.transform  = 'translateX(calc(100vw + ' + size + 'px))';
+
+    // Ativa o bob (asa batendo)
+    img.style.animation = 'owl-bob ' + (0.45 + Math.random() * 0.25).toFixed(2) + 's ease-in-out infinite';
+
+    // Velocidade aleatória: 3,5s a 5,5s para cruzar a tela
+    const duration = 3500 + Math.random() * 2000;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        wrap.style.transition = 'transform ' + duration + 'ms linear';
+        wrap.style.transform  = 'translateX(calc(-' + size + 'px - 10px))';
+
+        // Quando sair da tela, fica invisível
+        setTimeout(() => {
+          wrap.style.opacity = '0';
+          img.style.animation = 'none';
+
+          // Espera entre 9s e 22s para a próxima passagem
+          const wait = 9000 + Math.random() * 13000;
+          setTimeout(fly, wait);
+        }, duration + 100);
+      });
+    });
+  }
+
+  // Primeira passagem após 4 segundos
+  setTimeout(fly, 4000);
+})();
 </script>
 
 </body>
