@@ -633,16 +633,8 @@
     }
     .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
-    /* Escape Room — leve destaque no topo da grid */
-    .gami-pill.gami-top {
-      grid-column: 1 / -1;
-      background: var(--brand-soft);
-      border-color: rgba(70,89,255,.22);
-      padding: 16px 18px;
-      display: flex; align-items: center; gap: 12px;
-      text-align: left; font-size: 13px;
-    }
-    .gami-pill.gami-top .gp-em { display: inline; font-size: 22px; margin: 0; }
+    /* Escape Room — largura total, mesmo estilo dos outros */
+    .gami-pill.gami-top { grid-column: 1 / -1; }
 
     /* ══════════════════════════════════════
        SECTION 04 — TCC
@@ -1282,7 +1274,7 @@
         </ul>
         <div class="gami-grid" style="margin-top:24px">
           <!-- Escape Room — leve destaque acima dos demais -->
-          <div class="gami-pill gami-top"><span class="gp-em">🔐</span><span>Escape Room <span style="font-weight:400;opacity:.65">— completo, narrativa imersiva, 4 ambientações</span></span></div>
+          <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room</div>
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
           <div class="gami-pill"><span class="gp-em">🔤</span>Caça-palavras</div>
