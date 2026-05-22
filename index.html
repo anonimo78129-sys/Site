@@ -633,6 +633,16 @@
     }
     .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
+    /* Escape Room — leve destaque no topo da grid */
+    .gami-pill.gami-top {
+      grid-column: 1 / -1;
+      background: var(--brand-soft);
+      border-color: rgba(70,89,255,.22);
+      padding: 16px 18px;
+      display: flex; align-items: center; gap: 12px;
+      text-align: left; font-size: 13px;
+    }
+    .gami-pill.gami-top .gp-em { display: inline; font-size: 22px; margin: 0; }
 
     /* ══════════════════════════════════════
        SECTION 04 — TCC
@@ -1251,43 +1261,10 @@
       </div>
     </div>
 
-    <!-- Escape Room -->
-    <div class="feat-row">
-      <div class="feat-content animate-in">
-        <div class="feat-num">iii.</div>
-        <span class="pill pill-green">🔐 Escape Room · Destaque</span>
-        <h3 class="feat-title">
-          Aventura imersiva<br>
-          <em>na sua sala.</em>
-        </h3>
-        <p class="feat-desc">
-          Cria um Escape Room temático completo, pronto para imprimir.
-          Aluno virando protagonista da sua própria aula.
-        </p>
-        <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span>4 ambientações: <strong>Medieval, Lab Científico, Detetive, Espacial</strong></span></li>
-          <li><span class="feat-check">✓</span><span>Enigmas encadeados com o conteúdo real da disciplina</span></li>
-          <li><span class="feat-check">✓</span><span>Narrativa imersiva — o aluno é o protagonista</span></li>
-          <li><span class="feat-check">✓</span><span>Gabarito com carimbo <strong>CONFIDENCIAL</strong></span></li>
-          <li><span class="feat-check">✓</span><span>PDF profissional pronto para imprimir</span></li>
-        </ul>
-      </div>
-
-      <!-- ILLUSTRATION #06 -->
-      <div class="illu animate-in" style="transition-delay:.1s">
-        <div class="illu-num">06</div>
-        <div class="illu-name">Escape Room</div>
-        <div class="illu-desc">
-          Cadeado, mapa antigo, lupa e pergaminho / 4 temas em um mosaico
-        </div>
-        <div class="illu-spec">600 × 600 px</div>
-      </div>
-    </div>
-
-    <!-- Gamificação (Diferencial, reversed) — full width -->
+    <!-- Gamificação + Escape Room (Diferencial) -->
     <div class="feat-row reverse">
       <div class="feat-content animate-in">
-        <div class="feat-num">iv.</div>
+        <div class="feat-num">iii.</div>
         <span class="pill pill-pink">🎮 Gamificação · Diferencial</span>
         <h3 class="feat-title">
           Nenhum outro app<br>
@@ -1299,12 +1276,13 @@
           mostrar o app para os colegas.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>7 formatos prontos</strong> — quiz, caça-palavras, cruzadas, bingo, memória, storytelling e mais</span></li>
           <li><span class="feat-check">✓</span><span><strong>Geração automática</strong> a partir do tema da aula</span></li>
           <li><span class="feat-check">✓</span><span><strong>Imprima ou use na tela</strong> — pronto pra projetar ou distribuir</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Personalização total</strong> — nível de dificuldade, faixa etária e disciplina</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Personalização total</strong> — nível, faixa etária e disciplina</span></li>
         </ul>
         <div class="gami-grid" style="margin-top:24px">
+          <!-- Escape Room — leve destaque acima dos demais -->
+          <div class="gami-pill gami-top"><span class="gp-em">🔐</span><span>Escape Room <span style="font-weight:400;opacity:.65">— completo, narrativa imersiva, 4 ambientações</span></span></div>
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
           <div class="gami-pill"><span class="gp-em">🔤</span>Caça-palavras</div>
@@ -1314,9 +1292,9 @@
         </div>
       </div>
 
-      <!-- ILLUSTRATION #07 -->
+      <!-- ILLUSTRATION #06 -->
       <div class="illu tall animate-in" style="transition-delay:.1s">
-        <div class="illu-num">07</div>
+        <div class="illu-num">06</div>
         <div class="illu-name">Estúdio de Gamificação</div>
         <div class="illu-desc">
           Cartas de jogos / dado / tabuleiro / peças coloridas
