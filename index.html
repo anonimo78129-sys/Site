@@ -1677,9 +1677,9 @@
 
   function fly() {
     const size     = 60 + Math.random() * 50;            // tamanho aleatório (60–110px)
-    const duration = 5500 + Math.random() * 1000;        // 5.5s–6.5s para cruzar
+    const duration = 4000 + Math.random() * 1500;        // 4s–5.5s para cruzar
     const baseY    = (0.10 + Math.random() * 0.62) * window.innerHeight; // Y base aleatório
-    const amplitude = 30 + Math.random() * 50;           // amplitude da onda (px)
+    const amplitude = 15 + Math.random() * 25;           // amplitude da onda (px)
     const waves     = 1.5 + Math.random() * 2;           // quantos "altos e baixos"
 
     wrap.style.width  = size + 'px';
