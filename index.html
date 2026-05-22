@@ -59,12 +59,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      transform: scaleX(-1); /* vira pra esquerda — direção do voo */
       filter: drop-shadow(0 8px 24px rgba(70,89,255,.35));
-    }
-    @keyframes owl-bob {
-      0%, 100% { transform: translateY(0px) rotate(-3deg); }
-      50%       { transform: translateY(-14px) rotate(3deg); }
     }
 
     /* ── Animations ── */
@@ -1677,42 +1672,49 @@
 
   const img = wrap.querySelector('img');
 
-  function fly() {
-    // Posição vertical aleatória (entre 10% e 72% da tela)
-    const topVh = 10 + Math.random() * 62;
-    wrap.style.top = topVh + 'vh';
+  let raf;
 
-    // Tamanho levemente aleatório (brincadeira de perspectiva)
-    const size = 100 + Math.random() * 60;
+  function fly() {
+    const size     = 100 + Math.random() * 60;           // tamanho aleatório
+    const duration = 4000 + Math.random() * 2500;        // 4s–6.5s para cruzar
+    const baseY    = (0.12 + Math.random() * 0.58) * window.innerHeight; // Y base aleatório
+    const amplitude = 30 + Math.random() * 50;           // amplitude da onda (px)
+    const waves     = 1.5 + Math.random() * 2;           // quantos "altos e baixos"
+
     wrap.style.width  = size + 'px';
     wrap.style.height = size + 'px';
-
-    // Começa fora da tela à direita (sem transição)
+    wrap.style.opacity = '1';
     wrap.style.transition = 'none';
-    wrap.style.opacity    = '1';
-    wrap.style.transform  = 'translateX(calc(100vw + ' + size + 'px))';
+    wrap.style.transform  = 'none'; // reseta
 
-    // Sem animação de asa — voa reto
-    img.style.animation = 'none';
+    const startX  = -size - 10;
+    const endX    = window.innerWidth + size + 10;
+    const totalDist = endX - startX;
 
-    // Velocidade aleatória: 3,5s a 5,5s para cruzar a tela
-    const duration = 3500 + Math.random() * 2000;
+    const startTime = performance.now();
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        wrap.style.transition = 'transform ' + duration + 'ms linear';
-        wrap.style.transform  = 'translateX(calc(-' + size + 'px - 10px))';
+    function step(now) {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
 
-        // Quando sair da tela, fica invisível
-        setTimeout(() => {
-          wrap.style.opacity = '0';
+      const x = startX + totalDist * progress;
+      // Caminho ondulado: seno suave
+      const y = baseY + Math.sin(progress * Math.PI * 2 * waves) * amplitude;
 
-          // Espera entre 9s e 22s para a próxima passagem
-          const wait = 9000 + Math.random() * 13000;
-          setTimeout(fly, wait);
-        }, duration + 100);
-      });
-    });
+      wrap.style.left = '0';
+      wrap.style.top  = '0';
+      wrap.style.transform = `translate(${x}px, ${y}px)`;
+
+      if (progress < 1) {
+        raf = requestAnimationFrame(step);
+      } else {
+        wrap.style.opacity = '0';
+        const wait = 9000 + Math.random() * 13000;
+        setTimeout(fly, wait);
+      }
+    }
+
+    raf = requestAnimationFrame(step);
   }
 
   // Primeira passagem após 4 segundos
