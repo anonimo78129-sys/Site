@@ -7,22 +7,30 @@
   <meta name="description" content="O assistente de IA feito por professor, para professor. Cria planos de aula, provas, atividades e escape rooms em segundos.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --indigo: #4659ff;
-      --indigo-dark: #2a35cc;
-      --indigo-light: #eef0ff;
+      --brand: #4659ff;
+      --brand-dark: #2a35cc;
+      --brand-soft: #eef0ff;
+      --brand-50: #f5f6ff;
       --bg: #f8f9fe;
-      --white: #ffffff;
-      --text: #111827;
-      --text-muted: #6b7280;
+      --paper: #faf8f4;
+      --ink: #0c1015;
+      --ink-2: #2c3037;
+      --muted: #6b7280;
+      --muted-2: #9ca3af;
+      --line: #e7e9f7;
+      --night: #0d1043;
+      --night-2: #1a1f6e;
       --emerald: #10b981;
       --amber: #f59e0b;
-      --shadow: 0 4px 24px rgba(70,89,255,0.08);
-      --shadow-lg: 0 12px 48px rgba(70,89,255,0.18);
+      --shadow-sm: 0 1px 3px rgba(12,16,21,.04), 0 1px 2px rgba(12,16,21,.06);
+      --shadow:    0 4px 24px rgba(70,89,255,.07);
+      --shadow-lg: 0 18px 60px rgba(70,89,255,.16);
+      --serif: 'Instrument Serif', Georgia, serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -30,164 +38,326 @@
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+      color: var(--ink);
+      line-height: 1.65;
       font-size: 16px;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
     @keyframes pulse-ring {
-      0%,100% { box-shadow: 0 0 0 0 rgba(70,89,255,.4); }
+      0%,100% { box-shadow: 0 0 0 0 rgba(70,89,255,.35); }
       50%     { box-shadow: 0 0 0 14px rgba(70,89,255,0); }
     }
     @keyframes float {
-      0%,100% { transform: translateY(0px); }
-      50%     { transform: translateY(-12px); }
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-10px); }
     }
     @keyframes blink {
       0%,100% { opacity: 1; } 50% { opacity: 0; }
     }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-12px); }
-      to   { opacity: 1; transform: translateX(0); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
-    @keyframes shimmerBg {
-      0%   { background-position: -400px 0; }
-      100% { background-position: 400px 0; }
-    }
-
     .animate-in {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .65s cubic-bezier(.16,1,.3,1),
-                  transform .65s cubic-bezier(.16,1,.3,1);
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1),
+                  transform .7s cubic-bezier(.16,1,.3,1);
     }
     .animate-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── Utilities ── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    /* ── Utility ── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+    .container-tight { max-width: 880px; margin: 0 auto; padding: 0 28px; }
 
-    .badge {
-      display: inline-block;
-      background: var(--indigo-light);
-      color: var(--indigo);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 9999px;
+    /* ── Typography helpers ── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--brand);
     }
-    .badge-amber  { background: #fef3c7; color: #92400e; }
-    .badge-green  { background: #d1fae5; color: #065f46; }
-    .badge-pink   { background: #fce7f3; color: #9d174d; }
-    .badge-red    { background: #fee2e2; color: #991b1b; }
+    .eyebrow::before {
+      content: ''; width: 28px; height: 1.5px; background: var(--brand);
+    }
+    .eyebrow.center { justify-content: center; }
+    .eyebrow.light { color: rgba(255,255,255,.7); }
+    .eyebrow.light::before { background: rgba(255,255,255,.6); }
+
+    .section-num {
+      font-family: var(--serif); font-style: italic;
+      font-size: 18px; color: var(--muted-2);
+      letter-spacing: .04em;
+    }
+
+    .display {
+      font-size: clamp(38px, 6vw, 76px);
+      font-weight: 900; letter-spacing: -.035em;
+      line-height: 1.02;
+    }
+    .h1 {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 900; letter-spacing: -.03em;
+      line-height: 1.08;
+    }
+    .h2 {
+      font-size: clamp(26px, 3.6vw, 40px);
+      font-weight: 800; letter-spacing: -.02em;
+      line-height: 1.18;
+    }
+    .h3 {
+      font-size: 22px; font-weight: 800; letter-spacing: -.012em;
+      line-height: 1.25;
+    }
+    .lead {
+      font-size: 19px; color: var(--muted);
+      line-height: 1.65; font-weight: 400;
+    }
+    .ink-accent {
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400; color: var(--brand);
+      letter-spacing: -.01em;
+    }
+
+    /* ── Badges / pills ── */
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--brand-soft); color: var(--brand);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 9999px;
+    }
+    .pill-amber { background: #fef3c7; color: #92400e; }
+    .pill-green { background: #d1fae5; color: #065f46; }
+    .pill-pink  { background: #fce7f3; color: #9d174d; }
+    .pill-red   { background: #fee2e2; color: #991b1b; }
+    .pill-line  {
+      background: transparent; color: var(--brand);
+      border: 1px solid var(--brand);
+    }
 
     /* ── Buttons ── */
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #4659ff;
-      color: #fff; font-weight: 700; font-size: 16px;
-      padding: 16px 32px; border-radius: 9999px; border: none;
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: 'Inter', sans-serif; font-weight: 700;
       cursor: pointer; text-decoration: none;
-      transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 4px 22px rgba(70,89,255,.38);
-      animation: pulse-ring 2.8s infinite;
+      transition: transform .2s, box-shadow .2s, background-color .2s;
+      border-radius: 9999px; border: none;
     }
-    .btn-primary:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(70,89,255,.50); }
+    .btn-primary {
+      background: var(--brand); color: #fff;
+      padding: 17px 34px; font-size: 16px;
+      box-shadow: 0 6px 26px rgba(70,89,255,.34);
+      animation: pulse-ring 2.6s infinite;
+    }
+    .btn-primary:hover { transform: scale(1.03); background: var(--brand-dark); }
+    .btn-primary.lg { padding: 22px 44px; font-size: 18px; }
+    .btn-primary.sm { padding: 11px 22px; font-size: 14px; animation: none; }
 
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--indigo);
-      font-weight: 600; font-size: 15px;
-      padding: 14px 28px; border-radius: 9999px;
-      border: 2px solid var(--indigo-light); cursor: pointer;
-      text-decoration: none; transition: transform .2s, border-color .2s;
+    .btn-outline {
+      background: #fff; color: var(--ink);
+      padding: 15px 30px; font-size: 15px;
+      border: 1.5px solid var(--line);
     }
-    .btn-secondary:hover { transform: scale(1.02); border-color: var(--indigo); }
+    .btn-outline:hover { border-color: var(--brand); color: var(--brand); transform: scale(1.02); }
+
+    /* ══════════════════════════════════════
+       ILLUSTRATION SLOTS (numbered)
+    ══════════════════════════════════════ */
+    .illu {
+      position: relative;
+      background:
+        repeating-linear-gradient(
+          135deg,
+          var(--brand-soft) 0,
+          var(--brand-soft) 14px,
+          var(--brand-50) 14px,
+          var(--brand-50) 28px
+        );
+      border: 2px dashed rgba(70,89,255,.28);
+      border-radius: 24px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; gap: 8px;
+      padding: 28px 24px;
+      color: var(--muted);
+      min-height: 280px;
+    }
+    .illu-num {
+      font-family: var(--serif); font-style: italic;
+      font-size: 56px; line-height: 1; color: var(--brand);
+      margin-bottom: 6px;
+    }
+    .illu-name {
+      font-size: 13px; font-weight: 700; color: var(--brand);
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .illu-desc {
+      font-size: 13px; color: var(--muted);
+      max-width: 280px; line-height: 1.5;
+    }
+    .illu-spec {
+      font-size: 10px; color: var(--muted-2);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .illu.dark {
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(255,255,255,.04) 0,
+          rgba(255,255,255,.04) 14px,
+          rgba(255,255,255,.07) 14px,
+          rgba(255,255,255,.07) 28px
+        );
+      border-color: rgba(255,255,255,.18);
+    }
+    .illu.dark .illu-num,
+    .illu.dark .illu-name { color: #fff; }
+    .illu.dark .illu-desc { color: rgba(255,255,255,.65); }
+    .illu.dark .illu-spec { color: rgba(255,255,255,.4); }
+    .illu.square { aspect-ratio: 1/1; }
+    .illu.tall   { min-height: 420px; }
+    .illu.wide   { min-height: 220px; }
 
     /* ══════════════════════════════════════
        NAV
     ══════════════════════════════════════ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 14px 24px;
-      background: rgba(248,249,254,.92);
+      padding: 14px 28px;
+      background: rgba(248,249,254,.86);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(70,89,255,.07);
-      transition: box-shadow .3s;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
     }
-    nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.07); }
+    nav.scrolled {
+      border-color: var(--line);
+      background: rgba(248,249,254,.95);
+    }
     .nav-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1180px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 800; font-size: 18px;
-      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 11px;
+      font-weight: 800; font-size: 17px;
+      color: var(--ink); text-decoration: none;
     }
     .owl-chip {
-      width: 38px; height: 38px;
-      background: #4659ff;
+      width: 38px; height: 38px; background: var(--brand);
       border-radius: 11px; display: flex; align-items: center;
-      justify-content: center; font-size: 20px;
+      justify-content: center; font-size: 19px;
     }
-    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-menu { display: flex; align-items: center; gap: 4px; }
     .nav-link {
-      font-size: 14px; font-weight: 600; color: var(--text-muted);
-      text-decoration: none; transition: color .2s;
+      font-size: 14px; font-weight: 600; color: var(--ink-2);
+      text-decoration: none; padding: 8px 14px; border-radius: 9999px;
+      transition: background .2s;
     }
-    .nav-link:hover { color: var(--indigo); }
-    .nav-cta { font-size: 14px; padding: 10px 22px; animation: none; }
-    @media (max-width: 640px) {
-      .nav-right .nav-link { display: none; }
+    .nav-link:hover { background: var(--brand-soft); color: var(--brand); }
+    @media (max-width: 820px) {
+      .nav-menu { display: none; }
     }
 
     /* ══════════════════════════════════════
        HERO
     ══════════════════════════════════════ */
     #hero {
-      padding: 148px 0 90px;
-      text-align: center; position: relative; overflow: hidden;
+      padding: 130px 0 110px;
+      position: relative; overflow: hidden;
     }
     #hero::before {
-      content: '';
-      position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
-      width: 900px; height: 900px;
-      background: radial-gradient(ellipse, rgba(70,89,255,.07) 0%, transparent 68%);
-      pointer-events: none;
+      content: ''; position: absolute;
+      top: -20%; left: 50%; transform: translateX(-50%);
+      width: 1100px; height: 700px;
+      background: radial-gradient(ellipse, rgba(70,89,255,.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
     }
-    .hero-eyebrow { margin-bottom: 22px; }
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px;
+      align-items: center;
+    }
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .hero-actions { justify-content: center; }
+      .eyebrow { justify-content: center; }
+    }
+    .hero-text { max-width: 580px; }
+    .hero-text .eyebrow { margin-bottom: 22px; }
     .hero-title {
-      font-size: clamp(30px,5.2vw,60px); font-weight: 900;
-      letter-spacing: -.025em; max-width: 820px;
-      margin: 0 auto 24px; line-height: 1.15;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 900; letter-spacing: -.035em;
+      line-height: 1.02; margin-bottom: 24px;
+      color: var(--ink);
     }
-    .hero-title .gradient-text { color: #4659ff; }
+    .hero-title em {
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400; color: var(--brand);
+    }
     .hero-sub {
-      font-size: 18px; color: var(--text-muted);
-      max-width: 580px; margin: 0 auto 40px; line-height: 1.75;
+      font-size: 19px; color: var(--muted);
+      max-width: 520px; line-height: 1.65;
+      margin-bottom: 36px;
     }
     .hero-actions {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-      margin-bottom: 64px;
+      display: flex; flex-wrap: wrap; gap: 14px;
+      align-items: center; margin-bottom: 28px;
     }
-    .hero-note { font-size: 13px; color: var(--text-muted); }
+    .hero-trust {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--muted);
+    }
+    .hero-trust .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--emerald); animation: blink 2.2s infinite;
+    }
+
+    /* Hero stats */
+    .hero-stats {
+      display: flex; gap: 36px; padding-top: 28px;
+      border-top: 1px solid var(--line);
+      margin-top: 8px;
+    }
+    .hero-stat-num {
+      font-family: var(--serif); font-size: 34px;
+      color: var(--brand); line-height: 1; margin-bottom: 4px;
+    }
+    .hero-stat-lbl {
+      font-size: 12px; color: var(--muted);
+      letter-spacing: .04em;
+    }
+    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 24px; } }
+
+    .hero-visual {
+      position: relative;
+      display: grid; gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    .hero-illu-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+    }
+    .hero-illu-grid .illu { min-height: 180px; padding: 18px; }
+    .hero-illu-grid .illu .illu-num { font-size: 38px; }
+    .hero-illu-grid .illu .illu-name { font-size: 11px; }
+    .hero-illu-grid .illu .illu-desc { font-size: 11px; }
+    .hero-illu-grid .illu .illu-spec { display: none; }
 
     /* Phone mockup */
     .phone-wrap {
-      max-width: 340px; margin: 0 auto;
+      max-width: 360px; margin: 0 auto;
       animation: float 6s ease-in-out infinite;
+      position: relative;
     }
     .phone-frame {
-      background: #16141f;
-      border-radius: 44px; padding: 14px;
-      box-shadow:
-        0 40px 100px rgba(0,0,0,.25),
-        0 0 0 1px rgba(255,255,255,.08) inset;
+      background: #16141f; border-radius: 44px; padding: 14px;
+      box-shadow: 0 50px 120px rgba(13,16,67,.25),
+                  0 0 0 1px rgba(255,255,255,.08) inset;
     }
     .phone-screen {
       background: var(--bg); border-radius: 32px;
@@ -199,358 +369,504 @@
       border-bottom: 1px dashed rgba(70,89,255,.18);
     }
     .phone-icon {
-      width: 34px; height: 34px;
-      background: #4659ff;
+      width: 34px; height: 34px; background: var(--brand);
       border-radius: 9px; display: flex; align-items: center;
       justify-content: center; font-size: 17px; flex-shrink: 0;
     }
     .phone-title { font-size: 13px; font-weight: 700; }
-    .phone-sub   { font-size: 11px; color: var(--text-muted); }
+    .phone-sub   { font-size: 11px; color: var(--muted); }
     .p-label {
-      font-size: 10px; font-weight: 700; color: var(--indigo);
-      text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px;
+      font-size: 10px; font-weight: 700; color: var(--brand);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px;
     }
     .p-input {
-      background: #fff; border: 2px solid var(--indigo-light);
+      background: #fff; border: 2px solid var(--brand-soft);
       border-radius: 10px; padding: 9px 13px;
       font-size: 13px; font-family: 'Inter', sans-serif;
-      color: var(--text); margin-bottom: 14px; width: 100%;
+      color: var(--ink); margin-bottom: 14px; width: 100%;
     }
     .demo-cursor {
       display: inline-block; width: 2px; height: 13px;
-      background: var(--indigo); animation: blink 1s infinite;
+      background: var(--brand); animation: blink 1s infinite;
       vertical-align: middle; margin-left: 1px;
     }
     .p-output { display: flex; flex-direction: column; gap: 7px; }
     .p-row {
       display: flex; gap: 8px; align-items: flex-start;
       background: #fff; border-radius: 10px;
-      padding: 8px 11px; box-shadow: var(--shadow);
+      padding: 9px 12px; box-shadow: var(--shadow);
       font-size: 12px; line-height: 1.5; opacity: 0;
     }
-    .p-row .emoji { flex-shrink: 0; }
+
+    /* ── Marquee bar between hero & dor ── */
+    .marquee {
+      background: var(--ink); color: #fff;
+      padding: 18px 0; overflow: hidden;
+      border-top: 1px solid var(--line);
+    }
+    .marquee-track {
+      display: flex; gap: 60px;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-track span {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-size: 14px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+    }
+    .marquee-track span::after {
+      content: '🦉'; font-size: 14px; opacity: .5;
+    }
 
     /* ══════════════════════════════════════
-       SECTION COMMON
+       SECTION BASE
     ══════════════════════════════════════ */
-    section { padding: 100px 0; }
-    .sec-eyebrow { text-align: center; margin-bottom: 14px; }
-    .sec-title {
-      font-size: clamp(28px,4vw,46px); font-weight: 900;
-      text-align: center; margin-bottom: 14px; letter-spacing: -.02em;
+    section { padding: 120px 0; position: relative; }
+    .sec-header {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      gap: 16px; max-width: 720px;
+      margin: 0 auto 70px;
     }
-    .sec-sub {
-      text-align: center; color: var(--text-muted);
-      font-size: 18px; max-width: 560px; margin: 0 auto 60px;
+    .sec-header .eyebrow-row {
+      display: flex; align-items: center; gap: 18px;
     }
 
     /* ══════════════════════════════════════
-       DOR
+       SECTION 01 — DOR
     ══════════════════════════════════════ */
     #dor { background: #fff; }
-    .dor-quote {
-      font-size: 18px; font-style: italic; color: var(--text-muted);
-      text-align: center; max-width: 660px; margin: 0 auto 60px;
-      line-height: 1.85; border-left: 4px solid var(--indigo-light);
-      padding-left: 24px; text-align: left;
+    .dor-feature {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      margin-bottom: 80px;
     }
+    @media (max-width: 860px) { .dor-feature { grid-template-columns: 1fr; gap: 36px; } }
+
+    .dor-quote-block {
+      position: relative; padding-left: 36px;
+    }
+    .dor-quote-block::before {
+      content: '"';
+      position: absolute; top: -36px; left: -10px;
+      font-family: var(--serif); font-size: 130px;
+      color: var(--brand); opacity: .15; line-height: 1;
+    }
+    .dor-quote-block p {
+      font-size: 22px; line-height: 1.55;
+      color: var(--ink); font-family: var(--serif);
+      font-style: italic; font-weight: 400;
+      margin-bottom: 18px;
+    }
+    .dor-quote-block .quote-sig {
+      font-size: 12px; color: var(--muted);
+      letter-spacing: .12em; text-transform: uppercase;
+      font-weight: 600; font-family: 'Inter', sans-serif; font-style: normal;
+    }
+
     .dor-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      gap: 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
     }
     .dor-card {
-      background: var(--bg); border-radius: 22px; padding: 28px;
-      border: 1px solid rgba(70,89,255,.07);
-      transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
+      background: var(--bg); border-radius: 20px;
+      padding: 26px; border: 1px solid var(--line);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative;
     }
-    .dor-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-    .dor-icon  { font-size: 34px; margin-bottom: 14px; }
-    .dor-name  { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .dor-desc  { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+    .dor-card:hover {
+      transform: translateY(-4px); border-color: var(--brand);
+      box-shadow: var(--shadow-lg);
+    }
+    .dor-card-num {
+      position: absolute; top: 18px; right: 22px;
+      font-family: var(--serif); font-style: italic;
+      font-size: 16px; color: var(--muted-2);
+    }
+    .dor-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+    .dor-name { font-size: 16px; font-weight: 800; margin-bottom: 6px; letter-spacing: -.01em; }
+    .dor-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 
     /* ══════════════════════════════════════
-       VIRADA
+       SECTION 02 — VIRADA
     ══════════════════════════════════════ */
     #virada {
-      background: #111643;
-      color: #fff; text-align: center; position: relative; overflow: hidden;
+      background: var(--night); color: #fff;
+      position: relative; overflow: hidden;
     }
     #virada::before {
-      content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 700px 500px at 50% 0%, rgba(70,89,255,.18) 0%, transparent 70%);
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 800px 600px at 50% 0%, rgba(70,89,255,.22) 0%, transparent 65%);
     }
+    .virada-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    @media (max-width: 880px) { .virada-inner { grid-template-columns: 1fr; gap: 40px; } }
+
     .virada-question {
-      font-size: clamp(24px,3.8vw,40px); font-weight: 900; font-style: italic;
-      max-width: 720px; margin: 0 auto 22px; color: #fff; line-height: 1.25;
+      font-size: clamp(28px, 4vw, 46px); font-weight: 900;
+      letter-spacing: -.025em; color: #fff;
+      line-height: 1.15; margin-bottom: 20px;
+    }
+    .virada-question em {
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400; color: #b3c0ff;
     }
     .virada-desc {
-      font-size: 18px; color: rgba(255,255,255,.72);
-      max-width: 540px; margin: 0 auto 52px;
+      font-size: 17px; color: rgba(255,255,255,.72);
+      line-height: 1.65; margin-bottom: 32px;
     }
     .terminal {
-      max-width: 580px; margin: 0 auto;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 22px; padding: 30px;
-      text-align: left; backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px; padding: 26px;
+      backdrop-filter: blur(12px);
     }
-    .t-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+    .t-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
     .t-row:last-child { margin-bottom: 0; }
     .t-role {
       font-size: 10px; font-weight: 700; letter-spacing: .07em;
       text-transform: uppercase; padding: 4px 11px; border-radius: 9999px;
       white-space: nowrap; flex-shrink: 0; margin-top: 2px;
     }
-    .t-role.prof { background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); }
-    .t-role.owl  { background: rgba(70,89,255,.55); color: #fff; }
+    .t-role.prof { background: rgba(255,255,255,.13); color: rgba(255,255,255,.9); }
+    .t-role.owl  { background: rgba(70,89,255,.5); color: #fff; }
     .t-text  { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
     .t-output {
-      background: rgba(70,89,255,.22); border-radius: 14px;
-      padding: 16px; font-size: 13px; color: rgba(255,255,255,.88);
-      line-height: 1.75;
+      background: rgba(70,89,255,.18); border-radius: 14px;
+      padding: 16px; font-size: 13.5px; color: rgba(255,255,255,.9);
+      line-height: 1.85;
     }
-    .t-output p { margin-bottom: 2px; }
     .t-output strong { color: #b3c0ff; }
 
     /* ══════════════════════════════════════
-       FEATURES
+       SECTION 03 — FEATURES
     ══════════════════════════════════════ */
-    #features { background: var(--bg); }
-    .feat-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-    @media (max-width: 768px) { .feat-grid { grid-template-columns: 1fr; } }
+    #features { background: var(--bg); padding-bottom: 140px; }
 
-    .feat-card {
-      background: #fff; border-radius: 26px; padding: 34px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(70,89,255,.06);
-      transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s;
+    .feat-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      margin-bottom: 100px;
     }
-    .feat-card:hover { transform: translateY(-7px); box-shadow: var(--shadow-lg); }
-    .feat-card.main {
-      grid-column: 1 / -1;
-      background: var(--indigo-light);
-      border: 2px solid rgba(70,89,255,.18);
+    .feat-row.reverse { direction: rtl; }
+    .feat-row.reverse > * { direction: ltr; }
+    @media (max-width: 880px) {
+      .feat-row, .feat-row.reverse { grid-template-columns: 1fr; gap: 36px; direction: ltr; }
     }
-    .feat-card.escape {
-      border: 2px solid rgba(70,89,255,.22);
-      background: var(--indigo-light);
-    }
-    .feat-icon {
-      width: 58px; height: 58px; border-radius: 17px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 30px; margin-bottom: 22px; flex-shrink: 0;
-    }
-    .fi-indigo { background: #fff; }
-    .fi-purple { background: #fff; }
-    .fi-green  { background: #d1fae5; }
-    .fi-amber  { background: #fef3c7; }
+    .feat-row:last-child { margin-bottom: 0; }
 
-    .feat-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-    .feat-title { font-size: 21px; font-weight: 800; margin-bottom: 10px; }
-    .feat-desc  { font-size: 15px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.65; }
-    .feat-list  { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .feat-content .feat-num {
+      font-family: var(--serif); font-style: italic;
+      font-size: 56px; color: var(--brand-soft);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .feat-content .pill { margin-bottom: 14px; }
+    .feat-title {
+      font-size: clamp(26px, 3.4vw, 38px);
+      font-weight: 900; letter-spacing: -.025em;
+      line-height: 1.12; margin-bottom: 14px;
+    }
+    .feat-title em {
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400; color: var(--brand);
+    }
+    .feat-desc {
+      font-size: 16px; color: var(--muted);
+      line-height: 1.65; margin-bottom: 22px;
+    }
+    .feat-list {
+      list-style: none; display: flex; flex-direction: column;
+      gap: 10px; margin-bottom: 4px;
+    }
     .feat-list li {
-      display: flex; gap: 10px; align-items: flex-start;
-      font-size: 14px; line-height: 1.55;
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 15px; line-height: 1.55;
     }
-    .check-dot {
-      width: 20px; height: 20px; min-width: 20px;
-      background: #fff; color: var(--indigo);
-      font-size: 11px; font-weight: 900; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+    .feat-check {
+      width: 22px; height: 22px; min-width: 22px;
+      background: var(--brand); color: #fff;
+      font-size: 12px; font-weight: 900;
+      border-radius: 50%; display: flex;
+      align-items: center; justify-content: center;
       margin-top: 2px;
     }
+    .feat-meta {
+      display: flex; gap: 24px; padding-top: 22px;
+      border-top: 1px solid var(--line); margin-top: 24px;
+    }
+    .feat-meta div { font-size: 12px; color: var(--muted); }
+    .feat-meta strong {
+      display: block; font-family: var(--serif);
+      font-size: 24px; color: var(--ink); margin-bottom: 2px;
+    }
+
     .gami-grid {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 9px;
-      margin-top: 18px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+      margin-top: 4px;
     }
     .gami-pill {
-      background: #fff; border-radius: 12px;
-      padding: 10px 8px; text-align: center;
-      font-size: 12px; font-weight: 600; color: var(--indigo);
+      background: #fff; border-radius: 14px; padding: 14px 10px;
+      text-align: center; font-size: 12px; font-weight: 700;
+      color: var(--ink-2); border: 1px solid var(--line);
+      transition: border-color .2s, transform .2s;
     }
-    .gami-pill .gp-em { display: block; font-size: 22px; margin-bottom: 4px; }
+    .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
 
     /* ══════════════════════════════════════
-       TCC STORY
+       SECTION 04 — TCC
     ══════════════════════════════════════ */
     #tcc {
-      background: #faf8f4; position: relative; overflow: hidden;
+      background: var(--paper); position: relative; overflow: hidden;
     }
-    #tcc::after {
+    #tcc::before {
       content: '"';
-      position: absolute; top: -40px; left: -20px;
-      font-size: 300px; font-weight: 900; color: rgba(70,89,255,.04);
-      line-height: 1; pointer-events: none; font-family: Georgia, serif;
+      position: absolute; top: 40px; left: 30px;
+      font-size: 280px; font-weight: 900;
+      color: rgba(70,89,255,.06); line-height: 1;
+      pointer-events: none; font-family: var(--serif);
     }
-    .tcc-wrap {
-      max-width: 740px; margin: 0 auto; text-align: center;
-      position: relative; z-index: 1;
+    .tcc-grid {
+      display: grid; grid-template-columns: .9fr 1.1fr;
+      gap: 60px; align-items: center; position: relative;
     }
-    .tcc-avatar {
-      width: 100px; height: 100px;
-      background: #4659ff;
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-size: 52px;
-      margin: 0 auto 30px;
-      box-shadow: 0 10px 40px rgba(70,89,255,.3);
-    }
+    @media (max-width: 880px) { .tcc-grid { grid-template-columns: 1fr; gap: 40px; } }
+
     .tcc-body {
-      font-size: 18px; font-style: italic; line-height: 1.85;
-      color: var(--text); margin-bottom: 36px;
+      font-size: 21px; line-height: 1.7; color: var(--ink);
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400;
     }
-    .tcc-body strong { color: var(--indigo); font-style: normal; }
-    .tcc-sig {
-      font-family: 'Caveat', cursive; font-size: 26px;
-      color: var(--indigo); margin-bottom: 6px;
+    .tcc-body strong {
+      color: var(--brand); font-style: normal;
+      font-family: 'Inter', sans-serif; font-weight: 700;
     }
-    .tcc-role-label {
-      font-size: 12px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .09em; color: var(--text-muted);
+    .tcc-body p { margin-bottom: 18px; }
+    .tcc-body p:last-child { margin-bottom: 0; }
+
+    .tcc-sign-block {
+      margin-top: 36px; padding-top: 28px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 18px;
+    }
+    .tcc-sig-name {
+      font-family: 'Caveat', cursive; font-size: 30px;
+      color: var(--brand); line-height: 1.1;
+    }
+    .tcc-sig-role {
+      font-size: 12px; color: var(--muted);
+      letter-spacing: .1em; text-transform: uppercase;
+      font-weight: 600;
     }
 
     /* ══════════════════════════════════════
-       PLANOS
+       SECTION 05 — PLANOS
     ══════════════════════════════════════ */
     #planos { background: #fff; }
+
     .urgency-strip {
-      background: #4659ff;
-      color: #fff; border-radius: 18px; padding: 16px 24px;
+      background: var(--brand); color: #fff;
+      border-radius: 16px; padding: 16px 24px;
       text-align: center; font-size: 14px; font-weight: 600;
-      margin-bottom: 52px;
+      max-width: 720px; margin: 0 auto 52px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .urgency-strip .bolt {
+      display: inline-flex; width: 28px; height: 28px;
+      background: rgba(255,255,255,.18); border-radius: 50%;
+      align-items: center; justify-content: center; font-size: 13px;
     }
     .urgency-strip span { opacity: .82; }
+
     .plans-wrap {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 26px; max-width: 820px; margin: 0 auto 40px;
+      display: grid; grid-template-columns: 1fr 1.05fr;
+      gap: 26px; max-width: 880px; margin: 0 auto 40px;
+      align-items: stretch;
     }
-    @media (max-width: 600px) { .plans-wrap { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .plans-wrap { grid-template-columns: 1fr; } }
 
     .plan-card {
-      background: var(--bg); border-radius: 26px; padding: 38px;
-      border: 2px solid transparent; position: relative;
-      transition: transform .25s, box-shadow .25s;
+      background: var(--bg); border-radius: 28px; padding: 38px;
+      border: 1.5px solid var(--line); position: relative;
+      display: flex; flex-direction: column;
+      transition: transform .25s;
     }
-    .plan-card:hover { transform: translateY(-5px); }
+    .plan-card:hover { transform: translateY(-4px); }
     .plan-card.pro {
-      background: #fff; border-color: var(--indigo);
+      background: #fff; border-color: var(--brand);
       box-shadow: var(--shadow-lg);
     }
     .pro-tag {
-      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-      background: #4659ff;
-      color: #fff; font-size: 12px; font-weight: 700;
-      padding: 6px 22px; border-radius: 9999px; white-space: nowrap;
+      position: absolute; top: -15px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand); color: #fff;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 7px 20px; border-radius: 9999px;
+      white-space: nowrap;
+    }
+    .plan-head {
+      display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;
     }
     .plan-label {
-      font-size: 13px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--text-muted); margin-bottom: 10px;
+      font-size: 13px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--ink);
     }
+    .plan-label.pro-color { color: var(--brand); }
     .plan-price {
-      font-size: 44px; font-weight: 900; color: var(--text); margin-bottom: 4px;
-      line-height: 1;
+      font-size: 52px; font-weight: 900; color: var(--ink);
+      line-height: 1; margin: 18px 0 6px; letter-spacing: -.03em;
+      font-family: var(--serif); font-style: normal;
     }
-    .plan-price sub { font-size: 18px; font-weight: 600; vertical-align: super; }
-    .plan-period { font-size: 13px; color: var(--text-muted); margin-bottom: 30px; }
+    .plan-price sup {
+      font-size: 16px; font-weight: 600; vertical-align: super;
+      font-family: 'Inter', sans-serif;
+    }
+    .plan-price .per {
+      font-size: 16px; font-weight: 600; color: var(--muted);
+      font-family: 'Inter', sans-serif;
+    }
+    .plan-period {
+      font-size: 13px; color: var(--muted); margin-bottom: 28px;
+    }
     .plan-feats {
       list-style: none; display: flex; flex-direction: column;
-      gap: 11px; margin-bottom: 34px;
+      gap: 12px; margin-bottom: 28px; flex: 1;
     }
     .plan-feats li {
-      display: flex; gap: 10px; font-size: 14px; align-items: flex-start;
+      display: flex; gap: 11px; font-size: 14px;
+      align-items: flex-start; line-height: 1.5;
     }
-    .pf-check { color: var(--emerald); font-size: 16px; line-height: 1.4; font-weight: 900; }
+    .pf-check {
+      color: var(--brand); font-size: 16px;
+      font-weight: 900; line-height: 1.4;
+    }
     .pf-check.dim { color: #d1d5db; }
-    .plan-btn { width: 100%; justify-content: center; font-size: 15px; }
+    .plan-btn { width: 100%; }
     .plan-sub-note {
-      font-size: 12px; color: var(--text-muted); text-align: center;
-      margin-top: 12px; line-height: 1.6;
+      font-size: 12px; color: var(--muted);
+      text-align: center; margin-top: 14px; line-height: 1.6;
     }
     .plans-note {
-      text-align: center; font-size: 14px; color: var(--text-muted);
-      max-width: 520px; margin: 0 auto; font-style: italic;
+      text-align: center; font-size: 13px; color: var(--muted);
+      max-width: 520px; margin: 24px auto 0; font-style: italic;
     }
 
     /* ══════════════════════════════════════
-       FAQ
+       SECTION 06 — FAQ
     ══════════════════════════════════════ */
     #faq { background: var(--bg); }
     .faq-list {
-      max-width: 720px; margin: 0 auto;
+      max-width: 760px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 12px;
     }
     .faq-item {
       background: #fff; border-radius: 18px;
-      border: 1px solid rgba(70,89,255,.08); overflow: hidden;
+      border: 1px solid var(--line); overflow: hidden;
+      transition: border-color .2s;
     }
+    .faq-item.open { border-color: var(--brand); }
     .faq-btn {
       width: 100%; display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 26px; background: none; border: none;
-      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-      color: var(--text); cursor: pointer; text-align: left; gap: 16px;
+      padding: 22px 28px; background: none; border: none;
+      font-family: 'Inter', sans-serif; font-size: 15.5px; font-weight: 700;
+      color: var(--ink); cursor: pointer; text-align: left; gap: 16px;
+      letter-spacing: -.005em;
     }
     .faq-plus {
       width: 30px; height: 30px; min-width: 30px;
-      background: var(--indigo-light); border-radius: 50%;
+      background: var(--brand-soft); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      color: var(--indigo); font-size: 20px; font-weight: 300;
-      transition: transform .3s cubic-bezier(.16,1,.3,1);
+      color: var(--brand); font-size: 20px; font-weight: 300;
+      transition: transform .3s cubic-bezier(.16,1,.3,1), background .2s;
     }
-    .faq-item.open .faq-plus { transform: rotate(45deg); }
+    .faq-item.open .faq-plus {
+      transform: rotate(45deg); background: var(--brand); color: #fff;
+    }
     .faq-ans {
-      max-height: 0; overflow: hidden; padding: 0 26px;
-      font-size: 14px; color: var(--text-muted); line-height: 1.75;
+      max-height: 0; overflow: hidden; padding: 0 28px;
+      font-size: 14.5px; color: var(--muted); line-height: 1.75;
       transition: max-height .35s cubic-bezier(.16,1,.3,1), padding .3s;
     }
-    .faq-item.open .faq-ans { max-height: 220px; padding-bottom: 22px; }
+    .faq-item.open .faq-ans { max-height: 260px; padding-bottom: 24px; }
 
     /* ══════════════════════════════════════
-       CTA FINAL
+       SECTION 07 — CTA FINAL
     ══════════════════════════════════════ */
     #cta-final {
-      background: #111643;
-      color: #fff; text-align: center; padding: 130px 0;
+      background: var(--night); color: #fff;
+      text-align: center; padding: 140px 0;
       position: relative; overflow: hidden;
     }
     #cta-final::before {
-      content: '🦉';
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      font-size: 320px; opacity: .04; pointer-events: none;
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 900px 500px at 50% 50%, rgba(70,89,255,.25) 0%, transparent 65%);
+      pointer-events: none;
     }
+    .cta-final-inner { position: relative; z-index: 1; }
     .cta-final-title {
-      font-size: clamp(28px,4.2vw,52px); font-weight: 900;
-      color: #fff; max-width: 700px; margin: 0 auto 20px;
-      line-height: 1.18;
+      font-size: clamp(32px, 5vw, 60px); font-weight: 900;
+      color: #fff; max-width: 760px; margin: 28px auto 22px;
+      line-height: 1.1; letter-spacing: -.03em;
+    }
+    .cta-final-title em {
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400; color: #b3c0ff;
     }
     .cta-final-sub {
-      font-size: 18px; color: rgba(255,255,255,.72);
-      max-width: 560px; margin: 0 auto 52px;
+      font-size: 18px; color: rgba(255,255,255,.7);
+      max-width: 560px; margin: 0 auto 44px;
+      line-height: 1.65;
     }
 
     /* ══════════════════════════════════════
        FOOTER
     ══════════════════════════════════════ */
     footer {
-      background: #0e0d1a; color: rgba(255,255,255,.38);
-      text-align: center; padding: 36px 24px; font-size: 13px;
+      background: #06081e; color: rgba(255,255,255,.45);
+      padding: 60px 28px 40px; font-size: 13px;
     }
-    footer strong { color: rgba(255,255,255,.62); }
-    footer a {
-      color: rgba(70,89,255,.7); text-decoration: none;
-      transition: color .2s;
+    .footer-inner {
+      max-width: 1180px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 30px; align-items: start;
     }
-    footer a:hover { color: var(--indigo); }
+    @media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr; } }
+    .footer-brand {
+      display: flex; align-items: center; gap: 11px;
+      color: #fff; font-weight: 800; font-size: 16px;
+      margin-bottom: 14px;
+    }
+    .footer-brand .owl-chip { width: 34px; height: 34px; font-size: 17px; }
+    .footer-body { max-width: 460px; line-height: 1.65; }
+    .footer-body strong { color: rgba(255,255,255,.85); }
+    .footer-meta {
+      font-size: 11px; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+      text-align: right;
+    }
+    @media (max-width: 700px) { .footer-meta { text-align: left; } }
+    .footer-divider {
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 36px; padding-top: 22px;
+      text-align: center; font-size: 11px;
+      letter-spacing: .08em; color: rgba(255,255,255,.3);
+    }
 
     /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(70,89,255,.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: rgba(70,89,255,.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(70,89,255,.5); }
+
+    /* ── Section padding mobile ── */
+    @media (max-width: 700px) {
+      section { padding: 80px 0; }
+      .sec-header { margin-bottom: 50px; }
+    }
   </style>
 </head>
 <body>
@@ -562,213 +878,380 @@
       <div class="owl-chip">🦉</div>
       Prof. Corujão
     </a>
-    <div class="nav-right">
+    <div class="nav-menu">
       <a href="#features" class="nav-link">Funcionalidades</a>
+      <a href="#tcc" class="nav-link">História</a>
       <a href="#planos" class="nav-link">Planos</a>
-      <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89" target="_blank" rel="noopener" class="btn-primary nav-cta">Ser Apoiador</a>
+      <a href="#faq" class="nav-link">FAQ</a>
     </div>
+    <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+       target="_blank" rel="noopener" class="btn btn-primary sm">Ser Apoiador</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
 <section id="hero">
   <div class="container">
+    <div class="hero-inner">
 
-    <div class="hero-eyebrow animate-in">
-      <span class="badge">IA Educacional · Feito por professor, para professor</span>
-    </div>
+      <!-- LEFT — text -->
+      <div class="hero-text">
+        <div class="eyebrow animate-in">IA Educacional · TCC 2025</div>
 
-    <h1 class="hero-title animate-in" style="transition-delay:.08s">
-      Você planeja, corrige, improvisa, repete —
-      <br class="hide-sm">
-      <span class="gradient-text">e ainda tira tempo do seu fim de semana.</span>
-    </h1>
+        <h1 class="hero-title animate-in" style="transition-delay:.08s">
+          Você planeja, corrige, improvisa —
+          <em>e ainda perde o fim de semana.</em>
+        </h1>
 
-    <p class="hero-sub animate-in" style="transition-delay:.18s">
-      O Prof. Corujão é o assistente de IA feito pra você: cria planos de aula,
-      atividades, provas, slides e até escape rooms em segundos.
-      Enquanto você toma o café.
-    </p>
+        <p class="hero-sub animate-in" style="transition-delay:.16s">
+          O Prof. Corujão é o assistente de IA feito por professor, para professor.
+          Cria planos de aula, atividades, provas, slides e até escape rooms em segundos.
+          Enquanto você toma o café.
+        </p>
 
-    <div class="hero-actions animate-in" style="transition-delay:.28s">
-      <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89" target="_blank" rel="noopener" class="btn-primary">
-        🦉&nbsp; Quero ser Apoiador e ter acesso ao Pro
-      </a>
-      <span class="hero-note">Uso gratuito disponível · Sem cartão de crédito agora</span>
-    </div>
+        <div class="hero-actions animate-in" style="transition-delay:.24s">
+          <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+             target="_blank" rel="noopener" class="btn btn-primary">
+            🦉 Quero ser Apoiador
+          </a>
+          <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-outline">
+            Testar gratuitamente →
+          </a>
+        </div>
 
-    <!-- Phone mockup -->
-    <div class="phone-wrap animate-in" style="transition-delay:.4s">
-      <div class="phone-frame">
-        <div class="phone-screen">
-          <div class="phone-topbar">
-            <div class="phone-icon">🦉</div>
-            <div>
-              <div class="phone-title">Prof. Corujão</div>
-              <div class="phone-sub">Planejador Inteligente</div>
-            </div>
+        <div class="hero-trust animate-in" style="transition-delay:.32s">
+          <span class="dot"></span>
+          Uso gratuito disponível · Sem cartão de crédito agora
+        </div>
+
+        <div class="hero-stats animate-in" style="transition-delay:.4s">
+          <div>
+            <div class="hero-stat-num">8+</div>
+            <div class="hero-stat-lbl">Ferramentas</div>
           </div>
-          <div class="p-label">Tema da aula</div>
-          <div class="p-input">Fotossíntese, 8º ano<span class="demo-cursor"></span></div>
-          <div class="p-label">Gerando plano de aula…</div>
-          <div class="p-output">
-            <div class="p-row" id="pr1">
-              <span class="emoji">📋</span>
-              <span><strong>Objetivo:</strong> Compreender o processo de fotossíntese</span>
-            </div>
-            <div class="p-row" id="pr2">
-              <span class="emoji">🔬</span>
-              <span><strong>Metodologia:</strong> Experimento prático + discussão em grupo</span>
-            </div>
-            <div class="p-row" id="pr3">
-              <span class="emoji">📝</span>
-              <span><strong>Avaliação:</strong> Quiz gamificado ao final da aula</span>
+          <div>
+            <div class="hero-stat-num">7</div>
+            <div class="hero-stat-lbl">Tipos de jogos</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">4</div>
+            <div class="hero-stat-lbl">Temas de Escape Room</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — visual -->
+      <div class="hero-visual animate-in" style="transition-delay:.3s">
+
+        <!-- ILLUSTRATION #01 -->
+        <div class="illu tall">
+          <div class="illu-num">01</div>
+          <div class="illu-name">Ilustração Principal</div>
+          <div class="illu-desc">
+            Coruja-mascote com capelo segurando livros / tablet com IA gerando conteúdo
+          </div>
+          <div class="illu-spec">800 × 800 px · PNG transparente</div>
+        </div>
+
+        <!-- Phone mockup BELOW the illustration -->
+        <div class="phone-wrap">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-topbar">
+                <div class="phone-icon">🦉</div>
+                <div>
+                  <div class="phone-title">Prof. Corujão</div>
+                  <div class="phone-sub">Planejador Inteligente</div>
+                </div>
+              </div>
+              <div class="p-label">Tema da aula</div>
+              <div class="p-input">Fotossíntese, 8º ano<span class="demo-cursor"></span></div>
+              <div class="p-label">Gerando plano de aula…</div>
+              <div class="p-output">
+                <div class="p-row" id="pr1">
+                  <span class="emoji">📋</span>
+                  <span><strong>Objetivo:</strong> Compreender o processo de fotossíntese</span>
+                </div>
+                <div class="p-row" id="pr2">
+                  <span class="emoji">🔬</span>
+                  <span><strong>Metodologia:</strong> Experimento prático + discussão</span>
+                </div>
+                <div class="p-row" id="pr3">
+                  <span class="emoji">📝</span>
+                  <span><strong>Avaliação:</strong> Quiz gamificado ao final</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </section>
 
-<!-- ══ DOR ══ -->
+<!-- ══ MARQUEE STRIP ══ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Planos de aula em segundos</span>
+    <span>Provas personalizadas</span>
+    <span>Escape Rooms imprimíveis</span>
+    <span>Atividades gamificadas</span>
+    <span>Slides automáticos</span>
+    <span>Calendário escolar</span>
+    <span>Chat com IA pedagógica</span>
+    <!-- duplicado para loop -->
+    <span>Planos de aula em segundos</span>
+    <span>Provas personalizadas</span>
+    <span>Escape Rooms imprimíveis</span>
+    <span>Atividades gamificadas</span>
+    <span>Slides automáticos</span>
+    <span>Calendário escolar</span>
+    <span>Chat com IA pedagógica</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 01 — DOR
+══════════════════════════════════════ -->
 <section id="dor">
   <div class="container">
-    <div class="sec-eyebrow animate-in">
-      <span class="badge badge-red">A Realidade do Professor</span>
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">— 01 / 07 —</span>
+        <div class="eyebrow">A Realidade do Professor</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        Isso soa <em class="ink-accent">familiar?</em>
+      </h2>
     </div>
-    <h2 class="sec-title animate-in">Isso soa familiar?</h2>
 
-    <blockquote class="dor-quote animate-in">
-      "Você entra na sala com 35 alunos, um conteúdo pra cumprir, e o celular deles competindo
-      com você. Você passa horas montando uma atividade que eles fazem em 10 minutos —
-      ou não fazem. Você quer que a aula seja incrível.
-      <em>Mas o tempo não colabora.</em>"
-    </blockquote>
+    <!-- Quote + Illustration -->
+    <div class="dor-feature">
+      <div class="dor-quote-block animate-in">
+        <p>
+          Você entra na sala com 35 alunos, um conteúdo pra cumprir, e o celular deles
+          competindo com você. Você passa horas montando uma atividade que eles fazem
+          em 10 minutos — ou não fazem.
+        </p>
+        <p style="font-size:24px;font-weight:600;font-style:normal;font-family:'Inter';color:var(--ink);line-height:1.45;">
+          Você quer que a aula seja incrível. <span class="ink-accent">Mas o tempo não colabora.</span>
+        </p>
+        <div class="quote-sig">— Todo professor brasileiro, em algum momento</div>
+      </div>
 
+      <!-- ILLUSTRATION #02 -->
+      <div class="illu animate-in" style="transition-delay:.1s">
+        <div class="illu-num">02</div>
+        <div class="illu-name">Cena de Empatia</div>
+        <div class="illu-desc">
+          Professor(a) exausto(a) à noite cercado de cadernos / pilha de provas
+        </div>
+        <div class="illu-spec">600 × 600 px · PNG ou SVG</div>
+      </div>
+    </div>
+
+    <!-- Cards -->
     <div class="dor-grid">
       <div class="dor-card animate-in">
-        <div class="dor-icon">⏰</div>
+        <span class="dor-card-num">i.</span>
+        <span class="dor-icon">⏰</span>
         <div class="dor-name">Falta de tempo</div>
-        <div class="dor-desc">Planejamento consome horas que simplesmente não existem na sua semana.</div>
+        <div class="dor-desc">Planejamento consome horas que não existem na sua semana.</div>
       </div>
-      <div class="dor-card animate-in" style="transition-delay:.07s">
-        <div class="dor-icon">😴</div>
+      <div class="dor-card animate-in" style="transition-delay:.06s">
+        <span class="dor-card-num">ii.</span>
+        <span class="dor-icon">😴</span>
         <div class="dor-name">Turma desengajada</div>
-        <div class="dor-desc">Conteúdo seco não prende atenção. E criar algo diferente exige energia que não sobra.</div>
+        <div class="dor-desc">Conteúdo seco não prende atenção. Criar algo diferente exige energia.</div>
       </div>
-      <div class="dor-card animate-in" style="transition-delay:.14s">
-        <div class="dor-icon">📋</div>
+      <div class="dor-card animate-in" style="transition-delay:.12s">
+        <span class="dor-card-num">iii.</span>
+        <span class="dor-icon">📋</span>
         <div class="dor-name">Burocracia infinita</div>
-        <div class="dor-desc">Provas, atividades, relatórios — uma pilha interminável que rouba o fim de semana.</div>
+        <div class="dor-desc">Provas, atividades, relatórios — pilha interminável que rouba o fim de semana.</div>
       </div>
-      <div class="dor-card animate-in" style="transition-delay:.21s">
-        <div class="dor-icon">🤯</div>
+      <div class="dor-card animate-in" style="transition-delay:.18s">
+        <span class="dor-card-num">iv.</span>
+        <span class="dor-icon">🤯</span>
         <div class="dor-name">Sobrecarga criativa</div>
-        <div class="dor-desc">Criar do zero todo dia é exaustivo. Inspiração não surge com 6 turmas nas costas.</div>
+        <div class="dor-desc">Criar do zero todo dia é exaustivo. Inspiração não surge com 6 turmas.</div>
       </div>
-      <div class="dor-card animate-in" style="transition-delay:.28s">
-        <div class="dor-icon">💡</div>
+      <div class="dor-card animate-in" style="transition-delay:.24s">
+        <span class="dor-card-num">v.</span>
+        <span class="dor-icon">💡</span>
         <div class="dor-name">Boa ideia, mas…</div>
-        <div class="dor-desc">"Queria gamificar, mas não sei por onde começar." Você tem a vontade — só falta a ferramenta.</div>
+        <div class="dor-desc">"Queria gamificar, mas não sei por onde começar." Falta a ferramenta certa.</div>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ══ VIRADA ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 02 — VIRADA
+══════════════════════════════════════ -->
 <section id="virada">
-  <div class="container" style="position:relative;z-index:1;text-align:center">
+  <div class="container">
+    <div class="virada-inner">
 
-    <p class="virada-question animate-in">
-      "E se a IA fizesse a parte chata —<br>e você ficasse só com a parte boa de ensinar?"
-    </p>
-    <p class="virada-desc animate-in" style="transition-delay:.1s">
-      O Prof. Corujão é um assistente educacional com IA que trabalha com você em segundo plano.
-      Você digita o tema, ele pensa, estrutura, cria — e você escolhe o que usar.
-    </p>
+      <!-- LEFT — Question + terminal -->
+      <div>
+        <div class="eyebrow-row animate-in" style="margin-bottom:24px;display:flex;align-items:center;gap:18px">
+          <span class="section-num" style="color:rgba(255,255,255,.4)">— 02 / 07 —</span>
+          <div class="eyebrow light">A Virada</div>
+        </div>
 
-    <div class="terminal animate-in" style="transition-delay:.2s">
-      <div class="t-row">
-        <span class="t-role prof">Professor</span>
-        <span class="t-text">Fotossíntese, 8º ano — quero algo que engaje a turma de verdade</span>
-      </div>
-      <div class="t-row">
-        <span class="t-role owl">🦉 Corujão</span>
-        <div class="t-output">
-          <p>✅ Plano de aula com 3 objetivos pedagógicos</p>
-          <p>✅ Atividade impressa pronta para distribuir</p>
-          <p>✅ Quiz: Verdadeiro ou Falso com justificativas</p>
-          <p>✅ Slides com layouts e ilustrações automáticas</p>
-          <p>⏱ Gerado em <strong>4 segundos</strong></p>
+        <h2 class="virada-question animate-in" style="transition-delay:.08s">
+          E se a IA fizesse a parte chata —
+          <br><em>e você ficasse só com a parte boa de ensinar?</em>
+        </h2>
+
+        <p class="virada-desc animate-in" style="transition-delay:.16s">
+          O Prof. Corujão é um assistente educacional com IA que trabalha com você
+          em segundo plano. Você digita o tema, ele pensa, estrutura, cria —
+          e você escolhe o que usar.
+        </p>
+
+        <div class="terminal animate-in" style="transition-delay:.24s">
+          <div class="t-row">
+            <span class="t-role prof">Professor</span>
+            <span class="t-text">Fotossíntese, 8º ano — algo que engaje a turma</span>
+          </div>
+          <div class="t-row">
+            <span class="t-role owl">🦉 Corujão</span>
+            <div class="t-output">
+              ✅ Plano de aula com 3 objetivos pedagógicos<br>
+              ✅ Atividade impressa pronta para distribuir<br>
+              ✅ Quiz: Verdadeiro ou Falso com justificativas<br>
+              ✅ Slides com ilustrações automáticas<br>
+              ⏱ Gerado em <strong>4 segundos</strong>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
+      <!-- RIGHT — Illustration #03 -->
+      <div class="illu dark tall animate-in" style="transition-delay:.16s">
+        <div class="illu-num">03</div>
+        <div class="illu-name">A IA em ação</div>
+        <div class="illu-desc">
+          Coruja com óculos / circuitos saindo do livro / IA materializando conteúdo
+        </div>
+        <div class="illu-spec">800 × 800 px · PNG transparente</div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- ══ FEATURES ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 03 — FEATURES
+══════════════════════════════════════ -->
 <section id="features">
   <div class="container">
-    <div class="sec-eyebrow animate-in">
-      <span class="badge">Funcionalidades</span>
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">— 03 / 07 —</span>
+        <div class="eyebrow">Funcionalidades</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        Tudo isso num <em class="ink-accent">só lugar?</em>
+      </h2>
+      <p class="lead animate-in" style="transition-delay:.16s">
+        Cada ferramenta resolve uma dor real do professor.
+        Juntas, elas transformam sua rotina de trabalho.
+      </p>
     </div>
-    <h2 class="sec-title animate-in">Tudo isso num só lugar?</h2>
-    <p class="sec-sub animate-in">
-      Cada ferramenta resolve uma dor real do professor.
-      Juntas, elas transformam sua rotina de trabalho.
-    </p>
 
-    <div class="feat-grid">
-
-      <!-- ★ Planejador — main card ★ -->
-      <div class="feat-card main animate-in">
-        <div class="feat-badges">
-          <span class="badge">🗓 Planejador Inteligente</span>
-          <span class="badge badge-amber">★ Carro-Chefe</span>
-        </div>
-        <h3 class="feat-title">O núcleo do app — resolve a dor diária.</h3>
+    <!-- ★ Planejador (carro-chefe) — full width -->
+    <div class="feat-row">
+      <div class="feat-content animate-in">
+        <div class="feat-num">i.</div>
+        <span class="pill pill-amber">★ Carro-Chefe</span>
+        <h3 class="feat-title">
+          O núcleo do app —<br>
+          <em>resolve a dor diária.</em>
+        </h3>
         <p class="feat-desc">
           Planejar, organizar e produzir materiais — tudo em um só lugar.
           É o app que substitui horas de planejamento por minutos.
         </p>
         <ul class="feat-list">
-          <li><span class="check-dot">✓</span><span><strong>Planos de aula completos</strong> com objetivos, metodologia e avaliação — em segundos</span></li>
-          <li><span class="check-dot">✓</span><span><strong>Atividades impressas</strong> prontas para distribuir para a turma</span></li>
-          <li><span class="check-dot">✓</span><span><strong>Provas personalizadas</strong> com múltipla escolha, dissertativa ou mista</span></li>
-          <li><span class="check-dot">✓</span><span><strong>Slides profissionais</strong> com layouts e ilustrações automáticas</span></li>
-          <li><span class="check-dot">✓</span><span><strong>Calendário escolar por turma</strong> — organiza todas as aulas no cronograma</span></li>
-          <li><span class="check-dot">✓</span><span>Gerencia múltiplas turmas simultaneamente, cada uma com seu cronograma</span></li>
-          <li><span class="check-dot">✓</span><span>Funciona em <strong>segundo plano</strong> — gera enquanto você usa outra parte do app</span></li>
-          <li><span class="check-dot">✓</span><span><strong>Histórico</strong> de tudo que foi gerado — acesse e reutilize quando quiser</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Planos de aula completos</strong> com objetivos, metodologia e avaliação</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Atividades impressas</strong> prontas para distribuir</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Provas personalizadas</strong> — múltipla escolha, dissertativa, mista</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Slides profissionais</strong> com layouts e ilustrações automáticas</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Calendário escolar</strong> por turma — organiza todo o cronograma</span></li>
+          <li><span class="feat-check">✓</span><span>Funciona em <strong>segundo plano</strong> — gera enquanto você faz outra coisa</span></li>
         </ul>
-      </div>
-
-      <!-- Chat -->
-      <div class="feat-card animate-in" style="transition-delay:.06s">
-        <div class="feat-icon fi-purple">💬</div>
-        <div class="feat-badges"><span class="badge">Chat com IA</span></div>
-        <h3 class="feat-title">Um colega, não um robô.</h3>
-        <p class="feat-desc">Assistente especializado em educação que responde como alguém da área, não como uma máquina.</p>
-        <ul class="feat-list">
-          <li><span class="check-dot">✓</span><span>Tira dúvidas e sugere abordagens pedagógicas</span></li>
-          <li><span class="check-dot">✓</span><span>Dá feedback sobre suas atividades e provas</span></li>
-          <li><span class="check-dot">✓</span><span>Aceita arquivos e imagens para análise</span></li>
-          <li><span class="check-dot">✓</span><span>Responde como colega de profissão</span></li>
-        </ul>
-      </div>
-
-      <!-- Gamificação -->
-      <div class="feat-card animate-in" style="transition-delay:.12s">
-        <div class="feat-icon fi-amber">🎮</div>
-        <div class="feat-badges">
-          <span class="badge">Estúdio de Gamificação</span>
-          <span class="badge badge-green">Destaque</span>
+        <div class="feat-meta">
+          <div><strong>8+</strong>Tipos de saída</div>
+          <div><strong>∞</strong>Histórico salvo</div>
+          <div><strong>4s</strong>Tempo médio</div>
         </div>
-        <h3 class="feat-title">Qualquer conteúdo vira jogo.</h3>
-        <p class="feat-desc">7 formatos de atividades gamificadas geradas automaticamente a partir do seu tema.</p>
+      </div>
+
+      <!-- ILLUSTRATION #04 -->
+      <div class="illu tall animate-in" style="transition-delay:.1s">
+        <div class="illu-num">04</div>
+        <div class="illu-name">Planejador Inteligente</div>
+        <div class="illu-desc">
+          Tela do app gerando plano de aula / cards de aulas no calendário
+        </div>
+        <div class="illu-spec">700 × 700 px</div>
+      </div>
+    </div>
+
+    <!-- Chat com IA (reversed) -->
+    <div class="feat-row reverse">
+      <div class="feat-content animate-in">
+        <div class="feat-num">ii.</div>
+        <span class="pill">💬 Chat com IA</span>
+        <h3 class="feat-title">
+          Um colega,<br>
+          <em>não um robô.</em>
+        </h3>
+        <p class="feat-desc">
+          Assistente especializado em educação que responde como alguém da área,
+          não como uma máquina genérica.
+        </p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span><span>Tira dúvidas e sugere abordagens pedagógicas</span></li>
+          <li><span class="feat-check">✓</span><span>Dá feedback sobre suas atividades e provas</span></li>
+          <li><span class="feat-check">✓</span><span>Aceita arquivos e imagens para análise</span></li>
+          <li><span class="feat-check">✓</span><span>Responde como colega de profissão</span></li>
+        </ul>
+      </div>
+
+      <!-- ILLUSTRATION #05 -->
+      <div class="illu animate-in" style="transition-delay:.1s">
+        <div class="illu-num">05</div>
+        <div class="illu-name">Chat com IA</div>
+        <div class="illu-desc">
+          Balão de conversa entre professor e coruja / interface de chat
+        </div>
+        <div class="illu-spec">600 × 600 px</div>
+      </div>
+    </div>
+
+    <!-- Gamificação -->
+    <div class="feat-row">
+      <div class="feat-content animate-in">
+        <div class="feat-num">iii.</div>
+        <span class="pill pill-green">🎮 Estúdio · Destaque</span>
+        <h3 class="feat-title">
+          Qualquer conteúdo<br>
+          <em>vira jogo.</em>
+        </h3>
+        <p class="feat-desc">
+          7 formatos de atividades gamificadas geradas automaticamente
+          a partir do seu tema. Imprima ou use direto na tela.
+        </p>
         <div class="gami-grid">
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
@@ -779,109 +1262,181 @@
         </div>
       </div>
 
-      <!-- Escape Room -->
-      <div class="feat-card escape animate-in" style="transition-delay:.18s">
-        <div class="feat-icon fi-purple">🔐</div>
-        <div class="feat-badges">
-          <span class="badge">Escape Room Educacional</span>
-          <span class="badge badge-pink">Diferencial</span>
+      <!-- ILLUSTRATION #06 -->
+      <div class="illu animate-in" style="transition-delay:.1s">
+        <div class="illu-num">06</div>
+        <div class="illu-name">Estúdio de Gamificação</div>
+        <div class="illu-desc">
+          Cartas de jogos / dado / tabuleiro / peças coloridas
         </div>
-        <h3 class="feat-title">Nenhum outro app faz isso.</h3>
-        <p class="feat-desc">A funcionalidade mais surpreendente. Cria um Escape Room temático completo, pronto para imprimir — e é o que faz o professor mostrar o app para outros professores.</p>
+        <div class="illu-spec">600 × 600 px</div>
+      </div>
+    </div>
+
+    <!-- Escape Room (reversed) -->
+    <div class="feat-row reverse">
+      <div class="feat-content animate-in">
+        <div class="feat-num">iv.</div>
+        <span class="pill pill-pink">🔐 Escape Room · Diferencial</span>
+        <h3 class="feat-title">
+          Nenhum outro app<br>
+          <em>faz isso.</em>
+        </h3>
+        <p class="feat-desc">
+          A funcionalidade mais surpreendente. Cria um Escape Room temático
+          completo, pronto para imprimir — e é o que faz o professor
+          mostrar o app para outros.
+        </p>
         <ul class="feat-list">
-          <li><span class="check-dot">✓</span><span>4 ambientações: <strong>Medieval, Lab Científico, Detetive, Espacial</strong></span></li>
-          <li><span class="check-dot">✓</span><span>Enigmas encadeados com o conteúdo real da disciplina</span></li>
-          <li><span class="check-dot">✓</span><span>Narrativa imersiva — o aluno é o protagonista</span></li>
-          <li><span class="check-dot">✓</span><span>Gabarito com carimbo <strong>CONFIDENCIAL</strong></span></li>
-          <li><span class="check-dot">✓</span><span>PDF profissional pronto para imprimir em casa ou na escola</span></li>
+          <li><span class="feat-check">✓</span><span>4 ambientações: <strong>Medieval, Lab Científico, Detetive, Espacial</strong></span></li>
+          <li><span class="feat-check">✓</span><span>Enigmas encadeados com o conteúdo real da disciplina</span></li>
+          <li><span class="feat-check">✓</span><span>Narrativa imersiva — o aluno é o protagonista</span></li>
+          <li><span class="feat-check">✓</span><span>Gabarito com carimbo <strong>CONFIDENCIAL</strong></span></li>
+          <li><span class="feat-check">✓</span><span>PDF profissional pronto para imprimir</span></li>
         </ul>
       </div>
 
+      <!-- ILLUSTRATION #07 -->
+      <div class="illu tall animate-in" style="transition-delay:.1s">
+        <div class="illu-num">07</div>
+        <div class="illu-name">Escape Room</div>
+        <div class="illu-desc">
+          Cadeado, mapa antigo, lupa e pergaminho / 4 temas em um mosaico
+        </div>
+        <div class="illu-spec">700 × 700 px</div>
+      </div>
     </div>
+
   </div>
 </section>
 
-<!-- ══ TCC STORY ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 04 — TCC
+══════════════════════════════════════ -->
 <section id="tcc">
   <div class="container">
-    <div class="tcc-wrap">
-      <div class="tcc-avatar animate-in">🦉</div>
 
-      <div class="sec-eyebrow animate-in">
-        <span class="badge badge-amber">A História por Trás do App</span>
-      </div>
-      <h2 class="sec-title animate-in">Eu não sou uma empresa.</h2>
+    <div class="tcc-grid">
 
-      <p class="tcc-body animate-in">
-        "Sou um estudante que está construindo o app que queria que existisse —
-        para os professores que eu vi trabalhando até tarde, improvisando com o que tinham,
-        sem apoio de tecnologia de verdade.
-        <br><br>
-        <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
-        isso vai facilitar a vida de alguém amanhã?
-        <br><br>
-        Se você se tornar Apoiador, não está só pagando por um app.
-        Está dizendo que acredita que professores merecem ferramentas melhores.
-        E me ajudando a provar isso."
-      </p>
-
+      <!-- LEFT — Illustration #08 -->
       <div class="animate-in">
-        <div class="tcc-sig">Lyelson Martins</div>
-        <div class="tcc-role-label">Criador do Prof. Corujão · Estudante de TCC</div>
+        <!-- ILLUSTRATION #08 -->
+        <div class="illu tall">
+          <div class="illu-num">08</div>
+          <div class="illu-name">O Criador</div>
+          <div class="illu-desc">
+            Retrato/ilustração informal do Lyelson / mesa de estudante com código + livros
+          </div>
+          <div class="illu-spec">600 × 720 px · Retrato</div>
+        </div>
       </div>
+
+      <!-- RIGHT — Story -->
+      <div class="animate-in" style="transition-delay:.1s">
+        <div class="eyebrow-row" style="margin-bottom:20px;display:flex;align-items:center;gap:18px">
+          <span class="section-num">— 04 / 07 —</span>
+          <div class="eyebrow">A História por Trás</div>
+        </div>
+
+        <h2 class="h1" style="margin-bottom:30px">
+          Eu não sou uma empresa.<br>
+          <em class="ink-accent">Sou um estudante.</em>
+        </h2>
+
+        <div class="tcc-body">
+          <p>
+            Estou construindo o app que eu queria que existisse — para os professores
+            que eu vi trabalhando até tarde, improvisando com o que tinham, sem apoio
+            de tecnologia de verdade.
+          </p>
+          <p>
+            <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
+            isso vai facilitar a vida de alguém amanhã?
+          </p>
+          <p>
+            Se você se tornar Apoiador, não está só pagando por um app.
+            Está dizendo que acredita que professores merecem ferramentas melhores.
+            E me ajudando a provar isso.
+          </p>
+        </div>
+
+        <div class="tcc-sign-block">
+          <div>
+            <div class="tcc-sig-name">Lyelson Martins</div>
+            <div class="tcc-sig-role">Criador do Prof. Corujão · Estudante de TCC</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ══ PLANOS ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 05 — PLANOS
+══════════════════════════════════════ -->
 <section id="planos">
   <div class="container">
-    <div class="sec-eyebrow animate-in">
-      <span class="badge">Planos</span>
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">— 05 / 07 —</span>
+        <div class="eyebrow">Planos</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        Escolha como <em class="ink-accent">fazer parte.</em>
+      </h2>
+      <p class="lead animate-in" style="transition-delay:.16s">
+        Não estamos vendendo. Estamos convidando professores a se tornarem Apoiadores —
+        pessoas que acreditam que a educação merece tecnologia de verdade.
+      </p>
     </div>
-    <h2 class="sec-title animate-in">Escolha como fazer parte</h2>
-    <p class="sec-sub animate-in">
-      Não estamos vendendo. Estamos convidando professores a se tornarem Apoiadores
-      — pessoas que acreditam que educação merece tecnologia de verdade.
-    </p>
 
     <div class="urgency-strip animate-in">
-      ⚡ As primeiras vagas de Apoiadores têm condição especial.
-      <span>Depois do lançamento oficial, o preço muda.</span>
+      <span class="bolt">⚡</span>
+      <span>As primeiras vagas de Apoiadores têm condição especial. Depois do lançamento, o preço muda.</span>
     </div>
 
     <div class="plans-wrap">
+
       <!-- Gratuito -->
       <div class="plan-card animate-in">
-        <div class="plan-label">Plano Gratuito</div>
+        <div class="plan-head">
+          <div class="plan-label">Gratuito</div>
+        </div>
         <div class="plan-price">R$&nbsp;0</div>
         <div class="plan-period">para sempre gratuito</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> Planejador (limite de gerações)</li>
+          <li><span class="pf-check">✓</span> Planejador <em style="color:var(--muted)">(limite de gerações)</em></li>
           <li><span class="pf-check">✓</span> Chat com IA</li>
           <li><span class="pf-check">✓</span> Estúdio básico de gamificação</li>
-          <li><span class="pf-check dim">✓</span> <span style="color:#9ca3af">Escape Room (limitado)</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:#9ca3af">Execução em segundo plano</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:#9ca3af">Acesso antecipado a novidades</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Escape Room limitado</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Execução em segundo plano</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Acesso antecipado a novidades</span></li>
         </ul>
-        <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn-secondary plan-btn">Usar gratuitamente</a>
+        <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-outline plan-btn">
+          Usar gratuitamente
+        </a>
       </div>
 
       <!-- Pro -->
-      <div class="plan-card pro animate-in" style="transition-delay:.12s">
-        <div class="pro-tag">⭐ Apoiador Pro — Recomendado</div>
-        <div class="plan-label" style="color:var(--indigo)">Apoiador Pro</div>
-        <div class="plan-price"><sub>R$</sub>&nbsp;59,90<span style="font-size:20px;font-weight:600">/mês</span></div>
+      <div class="plan-card pro animate-in" style="transition-delay:.1s">
+        <div class="pro-tag">⭐ Apoiador Pro · Recomendado</div>
+        <div class="plan-head">
+          <div class="plan-label pro-color">Apoiador Pro</div>
+        </div>
+        <div class="plan-price"><sup>R$</sup>&nbsp;59,90<span class="per">&nbsp;/mês</span></div>
         <div class="plan-period">acesso completo e ilimitado</div>
         <ul class="plan-feats">
           <li><span class="pf-check">✓</span> <strong>Gerações ilimitadas</strong> em tudo</li>
-          <li><span class="pf-check">✓</span> <strong>Escape Room completo</strong> (todos os 4 temas)</li>
+          <li><span class="pf-check">✓</span> <strong>Escape Room completo</strong> · todos os 4 temas</li>
           <li><span class="pf-check">✓</span> <strong>Execução em segundo plano</strong></li>
           <li><span class="pf-check">✓</span> <strong>Acesso antecipado</strong> a novidades</li>
           <li><span class="pf-check">✓</span> Nome na lista de Apoiadores do app</li>
           <li><span class="pf-check">✓</span> <strong>Suporte direto</strong> com o criador</li>
         </ul>
-        <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89" target="_blank" rel="noopener" class="btn-primary plan-btn">
+        <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+           target="_blank" rel="noopener" class="btn btn-primary plan-btn">
           Quero apoiar e ter acesso completo
         </a>
         <p class="plan-sub-note">
@@ -889,22 +1444,32 @@
           o melhor app educacional do seu celular.
         </p>
       </div>
+
     </div>
 
     <p class="plans-note animate-in">
       O app funciona em qualquer navegador e é instalável como PWA no Android e iPhone.
       Login com Google ou e-mail · dados protegidos pelo Firebase.
     </p>
+
   </div>
 </section>
 
-<!-- ══ FAQ ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 06 — FAQ
+══════════════════════════════════════ -->
 <section id="faq">
-  <div class="container">
-    <div class="sec-eyebrow animate-in">
-      <span class="badge">Dúvidas frequentes</span>
+  <div class="container-tight">
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">— 06 / 07 —</span>
+        <div class="eyebrow">Dúvidas Frequentes</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        Respostas <em class="ink-accent">rápidas.</em>
+      </h2>
     </div>
-    <h2 class="sec-title animate-in">Respostas rápidas</h2>
 
     <div class="faq-list">
       <div class="faq-item animate-in">
@@ -913,7 +1478,7 @@
           <span class="faq-plus">+</span>
         </button>
         <div class="faq-ans">
-          Sim, para gerar conteúdo com IA é necessária conexão com a internet.
+          Sim, para gerar conteúdo com IA é necessária conexão.
           Mas o app é instalável como PWA e funciona como app nativo no celular,
           com experiência fluida e responsiva.
         </div>
@@ -960,34 +1525,78 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ══ CTA FINAL ══ -->
+<!-- ══════════════════════════════════════
+     SECTION 07 — CTA FINAL
+══════════════════════════════════════ -->
 <section id="cta-final">
-  <div class="container" style="position:relative;z-index:1">
-    <h2 class="cta-final-title animate-in">
-      A aula que você sempre quis dar começa com a ferramenta certa.
-    </h2>
-    <p class="cta-final-sub animate-in" style="transition-delay:.1s">
-      Seja um Apoiador do Prof. Corujão. Acesse tudo. Ilimitado.
-      E faça parte de algo que está mudando a forma de ensinar.
-    </p>
-    <div class="animate-in" style="transition-delay:.2s">
-      <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89" target="_blank" rel="noopener" class="btn-primary" style="font-size:18px;padding:20px 44px">
-        🦉&nbsp; Quero ser Apoiador agora
-      </a>
+  <div class="container">
+    <div class="cta-final-inner">
+
+      <!-- ILLUSTRATION #09 -->
+      <div class="illu dark animate-in" style="max-width:300px;margin:0 auto 16px;min-height:300px">
+        <div class="illu-num">09</div>
+        <div class="illu-name">Coruja Final</div>
+        <div class="illu-desc" style="color:rgba(255,255,255,.6)">
+          Coruja-mascote com capelo / pose triunfante / asas abertas
+        </div>
+        <div class="illu-spec" style="color:rgba(255,255,255,.35)">500 × 500 px</div>
+      </div>
+
+      <div class="eyebrow-row animate-in" style="margin-bottom:8px;display:flex;justify-content:center;align-items:center;gap:18px">
+        <span class="section-num" style="color:rgba(255,255,255,.4)">— 07 / 07 —</span>
+        <div class="eyebrow light">Sua próxima aula</div>
+      </div>
+
+      <h2 class="cta-final-title animate-in" style="transition-delay:.08s">
+        A aula que você sempre quis dar<br>
+        <em>começa com a ferramenta certa.</em>
+      </h2>
+
+      <p class="cta-final-sub animate-in" style="transition-delay:.16s">
+        Seja um Apoiador do Prof. Corujão. Acesse tudo. Ilimitado.
+        E faça parte de algo que está mudando a forma de ensinar.
+      </p>
+
+      <div class="animate-in" style="transition-delay:.24s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+           target="_blank" rel="noopener" class="btn btn-primary lg">
+          🦉 Quero ser Apoiador agora
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
 <footer>
-  <p>
-    Projeto de TCC — desenvolvido com <strong>amor</strong>
-    por <strong>Lyelson Martins</strong> — estudante que acredita na educação brasileira. 🇧🇷
-  </p>
-  <p style="margin-top:8px">© 2025 Prof. Corujão · IA Educacional</p>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <div class="owl-chip">🦉</div>
+        Prof. Corujão
+      </div>
+      <p class="footer-body">
+        Projeto de TCC desenvolvido com cuidado por <strong>Lyelson Martins</strong> —
+        estudante que acredita na educação brasileira. Feito por professor, para professor.
+      </p>
+    </div>
+    <div class="footer-meta">
+      Versão 1.0<br>
+      Lançamento 2025<br>
+      <br>
+      <a href="https://wa.me/5598981796309" target="_blank" style="color:rgba(70,89,255,.7);text-decoration:none">WhatsApp →</a>
+    </div>
+  </div>
+  <div class="footer-divider">
+    © 2025 Prof. Corujão · IA Educacional
+  </div>
 </footer>
 
 <script>
