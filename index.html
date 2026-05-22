@@ -1692,8 +1692,8 @@
     wrap.style.opacity    = '1';
     wrap.style.transform  = 'translateX(calc(100vw + ' + size + 'px))';
 
-    // Ativa o bob (asa batendo)
-    img.style.animation = 'owl-bob ' + (0.45 + Math.random() * 0.25).toFixed(2) + 's ease-in-out infinite';
+    // Sem animação de asa — voa reto
+    img.style.animation = 'none';
 
     // Velocidade aleatória: 3,5s a 5,5s para cruzar a tela
     const duration = 3500 + Math.random() * 2000;
@@ -1706,7 +1706,6 @@
         // Quando sair da tela, fica invisível
         setTimeout(() => {
           wrap.style.opacity = '0';
-          img.style.animation = 'none';
 
           // Espera entre 9s e 22s para a próxima passagem
           const wait = 9000 + Math.random() * 13000;
