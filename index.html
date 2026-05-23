@@ -265,10 +265,10 @@
       color: var(--ink); text-decoration: none;
     }
     .owl-chip {
-      width: 38px; height: 38px; background: var(--brand);
-      border-radius: 11px; display: flex; align-items: center;
-      justify-content: center; font-size: 19px;
+      width: 38px; height: 38px; border-radius: 11px;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
+    .owl-chip img { width: 100%; height: 100%; object-fit: cover; }
     .nav-menu { display: flex; align-items: center; gap: 4px; }
     .nav-link {
       font-size: 14px; font-weight: 600; color: var(--ink-2);
@@ -938,7 +938,7 @@
 <nav id="main-nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <div class="owl-chip">🦉</div>
+      <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
       Prof. Corujão
     </a>
     <div class="nav-menu">
@@ -1650,7 +1650,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand">
-        <div class="owl-chip">🦉</div>
+        <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
         Prof. Corujão
       </div>
       <p class="footer-body">
