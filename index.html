@@ -593,6 +593,25 @@
     }
     .t-role.prof { background: rgba(255,255,255,.13); color: rgba(255,255,255,.9); }
     .t-role.owl  { background: rgba(70,89,255,.5); color: #fff; }
+    /* Itens animados do terminal */
+    .t-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13.5px; color: rgba(255,255,255,.82);
+      line-height: 1.5; opacity: 0; transform: translateX(-8px);
+      transition: opacity .4s ease, transform .4s ease;
+      margin-bottom: 8px;
+    }
+    .t-item:last-child { margin-bottom: 0; }
+    .t-item.visible { opacity: 1; transform: translateX(0); }
+    .t-item .t-em { font-size: 16px; flex-shrink: 0; }
+    .t-item.t-timer { color: rgba(255,255,255,.55); font-size: 12px; margin-top: 4px; }
+    .t-item.t-timer strong { color: #fff; }
+    /* Cursor piscante enquanto "digita" */
+    .t-cursor {
+      display: inline-block; width: 2px; height: 14px;
+      background: rgba(255,255,255,.7); border-radius: 2px;
+      animation: blink .8s infinite; vertical-align: middle; margin-left: 4px;
+    }
     .t-text  { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
     .t-output {
       background: rgba(70,89,255,.18); border-radius: 14px;
@@ -1216,12 +1235,13 @@
           </div>
           <div class="t-row">
             <span class="t-role owl">🦉 Corujão</span>
-            <div class="t-output">
-              ✅ Plano de aula com 3 objetivos pedagógicos<br>
-              ✅ Atividade impressa pronta para distribuir<br>
-              ✅ Quiz: Verdadeiro ou Falso com justificativas<br>
-              ✅ Slides com ilustrações automáticas<br>
-              ⏱ Gerado em <strong>4 segundos</strong>
+            <div id="t-anim-output">
+              <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula com 3 objetivos pedagógicos</div>
+              <div class="t-item" data-delay="900"><span class="t-em">✅</span> Atividade impressa pronta para distribuir</div>
+              <div class="t-item" data-delay="1400"><span class="t-em">✅</span> Quiz: Verdadeiro ou Falso com justificativas</div>
+              <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Slides com ilustrações automáticas</div>
+              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>4 segundos</strong></div>
+              <span class="t-cursor" id="t-cursor"></span>
             </div>
           </div>
         </div>
@@ -1732,6 +1752,45 @@
 </script>
 
 <script>
+/* ── Terminal animation ── */
+(function () {
+  const output = document.getElementById('t-anim-output');
+  const cursor = document.getElementById('t-cursor');
+  if (!output) return;
+
+  const items = output.querySelectorAll('.t-item');
+  let animated = false;
+
+  function runAnimation() {
+    if (animated) return;
+    animated = true;
+    items.forEach(item => {
+      const delay = parseInt(item.dataset.delay) || 0;
+      setTimeout(() => { item.classList.add('visible'); }, delay);
+    });
+    setTimeout(() => { if (cursor) cursor.style.display = 'none'; }, 3200);
+  }
+
+  function loopAnimation() {
+    animated = false;
+    items.forEach(item => item.classList.remove('visible'));
+    if (cursor) cursor.style.display = 'inline-block';
+    setTimeout(runAnimation, 600);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        runAnimation();
+        setTimeout(() => { setInterval(loopAnimation, 5500); }, 3500);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  observer.observe(output);
+})();
+
 /* ── Slideshow cena 06 ── */
 (function () {
   const imgs = document.querySelectorAll('.slide06-img');
