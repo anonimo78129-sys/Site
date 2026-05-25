@@ -679,6 +679,34 @@
     /* Escape Room — largura total, mesmo estilo dos outros */
     .gami-pill.gami-top { grid-column: 1 / -1; }
 
+    /* ── Slideshow cena 06 ── */
+    .slide06 {
+      position: relative; border-radius: 24px;
+      overflow: hidden; aspect-ratio: 4/3;
+      background: var(--brand-soft);
+    }
+    .slide06-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 0; transition: opacity .8s ease;
+    }
+    .slide06-img.active { opacity: 1; }
+    .slide06-dots {
+      position: absolute; bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 7px; z-index: 2;
+    }
+    .slide06-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.45);
+      transition: background .3s, transform .3s;
+    }
+    .slide06-dot.active {
+      background: #fff;
+      transform: scale(1.3);
+    }
+
     /* ══════════════════════════════════════
        SECTION 04 — TCC
     ══════════════════════════════════════ */
@@ -1321,14 +1349,18 @@
         </div>
       </div>
 
-      <!-- ILLUSTRATION #06 -->
-      <div class="illu tall animate-in" style="transition-delay:.1s">
-        <div class="illu-num">06</div>
-        <div class="illu-name">Estúdio de Gamificação</div>
-        <div class="illu-desc">
-          Cartas de jogos / dado / tabuleiro / peças coloridas
+      <!-- ILLUSTRATION #06 — Slideshow automático -->
+      <div class="slide06 animate-in" style="transition-delay:.1s">
+        <img src="illu-06a.jpg" class="slide06-img active" alt="Gamificação 1">
+        <img src="illu-06b.jpg" class="slide06-img" alt="Gamificação 2">
+        <img src="illu-06c.jpg" class="slide06-img" alt="Gamificação 3">
+        <img src="illu-06d.jpg" class="slide06-img" alt="Gamificação 4">
+        <div class="slide06-dots">
+          <span class="slide06-dot active"></span>
+          <span class="slide06-dot"></span>
+          <span class="slide06-dot"></span>
+          <span class="slide06-dot"></span>
         </div>
-        <div class="illu-spec">700 × 700 px</div>
       </div>
     </div>
 
@@ -1700,6 +1732,21 @@
 </script>
 
 <script>
+/* ── Slideshow cena 06 ── */
+(function () {
+  const imgs = document.querySelectorAll('.slide06-img');
+  const dots = document.querySelectorAll('.slide06-dot');
+  if (!imgs.length) return;
+  let cur = 0;
+  setInterval(() => {
+    imgs[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }, 3000);
+})();
+
 /* ── Owl flying easter egg ── */
 (function () {
   // Cria o elemento
