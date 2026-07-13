@@ -190,6 +190,75 @@
       display: block; font-size: 11px; font-weight: 500;
       opacity: .75; margin-top: -2px;
     }
+    .btn-logo {
+      width: 22px; height: 22px; object-fit: contain;
+      border-radius: 6px; flex-shrink: 0;
+    }
+
+    /* ── Leaderboard mockup (Turma Gamificada) ── */
+    .board-card {
+      background: var(--night); border-radius: 28px;
+      padding: 30px 26px; color: #fff;
+      box-shadow: 0 30px 80px rgba(13,16,67,.35);
+      position: relative; overflow: hidden;
+    }
+    .board-card::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 400px 300px at 80% 0%, rgba(70,89,255,.35) 0%, transparent 65%);
+    }
+    .board-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 22px; position: relative;
+    }
+    .board-head img { width: 40px; height: 40px; border-radius: 12px; }
+    .board-head .bh-title { font-size: 15px; font-weight: 800; }
+    .board-head .bh-sub { font-size: 11.5px; color: rgba(255,255,255,.55); }
+    .board-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px; padding: 13px 16px;
+      margin-bottom: 10px; position: relative;
+    }
+    .board-row .br-rank {
+      font-family: var(--serif); font-style: italic;
+      font-size: 20px; color: rgba(255,255,255,.5); width: 22px;
+      flex-shrink: 0; text-align: center;
+    }
+    .board-row .br-em { font-size: 22px; flex-shrink: 0; }
+    .board-row .br-info { flex: 1; min-width: 0; }
+    .board-row .br-name { font-size: 13.5px; font-weight: 800; margin-bottom: 5px; }
+    .board-row .br-bar {
+      height: 7px; border-radius: 9999px;
+      background: rgba(255,255,255,.12); overflow: hidden;
+    }
+    .board-row .br-fill {
+      height: 100%; border-radius: 9999px;
+      background: linear-gradient(90deg, #4659ff, #8b9aff);
+    }
+    .board-row .br-xp {
+      font-size: 12px; font-weight: 800; color: #b3c0ff;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .board-row.gold {
+      border-color: rgba(251,191,36,.4);
+      background: rgba(251,191,36,.09);
+    }
+    .board-row.gold .br-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .board-row.gold .br-xp { color: #fbbf24; }
+    .board-foot {
+      display: flex; gap: 10px; margin-top: 18px; position: relative;
+    }
+    .board-chip {
+      flex: 1; text-align: center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px; padding: 12px 8px;
+      font-size: 11px; color: rgba(255,255,255,.6);
+    }
+    .board-chip strong {
+      display: block; font-size: 16px; color: #fff; margin-bottom: 2px;
+    }
 
     /* ── Sticky mobile CTA ── */
     .sticky-cta {
@@ -442,7 +511,9 @@
       letter-spacing: .06em; text-transform: uppercase;
     }
     .marquee-track span::after {
-      content: '🦉'; font-size: 14px; opacity: .5;
+      content: ''; width: 18px; height: 18px;
+      background: url('logo.png') center/contain no-repeat;
+      opacity: .75;
     }
 
     /* ══════════════════════════════════════
@@ -1120,7 +1191,7 @@
           </a>
           <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
              target="_blank" rel="noopener" class="btn btn-outline">
-            🦉 Quero ser Apoiador
+            <img src="logo.png" alt="" class="btn-logo"> Quero ser Apoiador
           </a>
         </div>
 
@@ -1182,7 +1253,7 @@
           <div class="phone-frame">
             <div class="phone-screen">
               <div class="phone-topbar">
-                <div class="phone-icon">🦉</div>
+                <div class="phone-icon"><img src="logo.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div>
                 <div>
                   <div class="phone-title">Prof. Corujão</div>
                   <div class="phone-sub">Planejador Inteligente</div>
@@ -1346,7 +1417,7 @@
             <span class="t-text">Fotossíntese, 8º ano — algo que engaje a turma</span>
           </div>
           <div class="t-row">
-            <span class="t-role owl">🦉 Corujão</span>
+            <span class="t-role owl"><img src="logo.png" alt="" style="width:14px;height:14px;object-fit:contain;border-radius:4px;vertical-align:-2px;margin-right:3px;"> Corujão</span>
             <div id="t-anim-output">
               <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula alinhado à BNCC</div>
               <div class="t-item" data-delay="900"><span class="t-em">✅</span> Atividade impressa pronta para distribuir</div>
@@ -1508,8 +1579,47 @@
         </div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
-        <img src="illu-05.png?v=3" alt="Turma Gamificada" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <!-- Placar de equipes (mockup) -->
+      <div class="board-card animate-in" style="transition-delay:.1s" aria-hidden="true">
+        <div class="board-head">
+          <img src="logo.png" alt="">
+          <div>
+            <div class="bh-title">Turma 8º B · Placar da Semana</div>
+            <div class="bh-sub">Missão: 500 XP até sexta · Recompensa: aula no pátio</div>
+          </div>
+        </div>
+        <div class="board-row gold">
+          <span class="br-rank">1.</span>
+          <span class="br-em">🐉</span>
+          <div class="br-info">
+            <div class="br-name">Dragões Vermelhos</div>
+            <div class="br-bar"><div class="br-fill" style="width:88%"></div></div>
+          </div>
+          <span class="br-xp">440 XP</span>
+        </div>
+        <div class="board-row">
+          <span class="br-rank">2.</span>
+          <span class="br-em">🦅</span>
+          <div class="br-info">
+            <div class="br-name">Águias Azuis</div>
+            <div class="br-bar"><div class="br-fill" style="width:74%"></div></div>
+          </div>
+          <span class="br-xp">370 XP</span>
+        </div>
+        <div class="board-row">
+          <span class="br-rank">3.</span>
+          <span class="br-em">🐺</span>
+          <div class="br-info">
+            <div class="br-name">Lobos da Noite</div>
+            <div class="br-bar"><div class="br-fill" style="width:61%"></div></div>
+          </div>
+          <span class="br-xp">305 XP</span>
+        </div>
+        <div class="board-foot">
+          <div class="board-chip"><strong>🪙 128</strong>moedas na loja</div>
+          <div class="board-chip"><strong>🏆 3</strong>no Hall da Fama</div>
+          <div class="board-chip"><strong>⚔️ 2</strong>batalhas na semana</div>
+        </div>
       </div>
     </div>
 
@@ -1537,8 +1647,8 @@
         </ul>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-03.png" alt="Agenda Inteligente" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
+      <div class="animate-in" style="transition-delay:.1s;background:var(--night);border-radius:24px;padding:28px;overflow:hidden;box-shadow:0 30px 80px rgba(13,16,67,.35);">
+        <img src="illu-03.png" alt="Agenda Inteligente" style="width:100%;height:100%;object-fit:contain;display:block;">
       </div>
     </div>
 
@@ -1563,28 +1673,8 @@
         </ul>
       </div>
 
-      <div class="phone-wrap animate-in" style="transition-delay:.1s;max-width:320px">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <div class="phone-topbar">
-              <div class="phone-icon">🦉</div>
-              <div>
-                <div class="phone-title">Chat Corujão</div>
-                <div class="phone-sub">seu colega de IA</div>
-              </div>
-            </div>
-            <div class="p-output">
-              <div class="p-row" style="opacity:1">
-                <span class="emoji">👩‍🏫</span>
-                <span>Como explico fração pra uma turma agitada de 6º ano?</span>
-              </div>
-              <div class="p-row" style="opacity:1;background:var(--brand-soft)">
-                <span class="emoji">🦉</span>
-                <span>Começa com pizza de verdade (ou de papel). Divide na frente deles e deixa a turma "comprar" fatias com moedas da gamificação. Quer que eu monte a atividade?</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
+        <img src="illu-05.png?v=3" alt="Chat com IA" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
     </div>
 
@@ -1728,7 +1818,7 @@
         <div class="kit-desc">Gere materiais a partir do seu livro didático ou apostila.</div>
       </div>
       <div class="kit-card wide dark animate-in" style="transition-delay:.35s">
-        <div class="kit-icon" style="background:rgba(255,255,255,.12)">🦉</div>
+        <div class="kit-icon" style="background:rgba(255,255,255,.12)"><img src="logo.png" alt="" style="width:28px;height:28px;object-fit:contain;"></div>
         <div class="kit-name">Tudo salvo no seu Acervo</div>
         <div class="kit-desc">Cada material gerado fica na sua biblioteca pessoal — com busca, filtros e download quando quiser. Nada se perde.</div>
       </div>
@@ -2038,7 +2128,7 @@
         </a>
         <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
            target="_blank" rel="noopener" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3)">
-          🦉 Quero ser Apoiador
+          <img src="logo.png" alt="" class="btn-logo"> Quero ser Apoiador
         </a>
       </div>
 
@@ -2077,7 +2167,7 @@
 <div class="sticky-cta" id="sticky-cta">
   <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Testar grátis</a>
   <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
-     target="_blank" rel="noopener" class="btn btn-outline">🦉 Apoiar</a>
+     target="_blank" rel="noopener" class="btn btn-outline"><img src="logo.png" alt="" class="btn-logo"> Apoiar</a>
 </div>
 
 <script>
