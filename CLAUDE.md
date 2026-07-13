@@ -17,7 +17,10 @@ Resumo:
 - O mascote (coruja de óculos e capelo) é o centro da comunicação.
   **Nunca usar emoji de coruja 🦉 — sempre a `logo.png`.**
 
-Qualquer alteração de design no site deve seguir esse guia.
+**Decisão do dono (2026-07):** o site continua com o azul-índigo atual
+(`--brand: #4659FF`) — NÃO migrar a paleta do site para o violeta dos posts
+sem pedido explícito. O guia da marca vale como referência de estilo
+(componentes, tom, mascote) e para materiais futuros.
 
 ## Convenções
 

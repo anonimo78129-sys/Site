@@ -1,7 +1,12 @@
 # Identidade Visual — Prof. Corujão
 
 Guia oficial da marca, extraído das artes de referência em `brand/ref-*.png`
-(posts do Instagram @prof.corujão). **Toda evolução do site deve seguir este guia.**
+(posts do Instagram @prof.corujão).
+
+> **Nota (decisão do dono, 2026-07):** o site mantém o azul-índigo atual
+> (`#4659FF`) como cor principal — não migrar para o violeta dos posts sem
+> pedido explícito. Este guia orienta componentes, tom de voz e materiais
+> futuros (posts, artes, peças).
 
 ---
 
