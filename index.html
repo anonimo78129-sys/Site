@@ -111,7 +111,38 @@
       transition: opacity .7s cubic-bezier(.16,1,.3,1),
                   transform .7s cubic-bezier(.16,1,.3,1);
     }
-    .animate-in.visible { opacity: 1; transform: translateY(0); }
+    .animate-in.from-left  { transform: translateX(-44px); }
+    .animate-in.from-right { transform: translateX(44px); }
+    .animate-in.zoom       { transform: scale(.92); }
+    .animate-in.visible { opacity: 1; transform: none; }
+
+    /* grades com entrada em cascata (pílulas de jogos/ferramentas) */
+    .gami-grid.animate-in { opacity: 1; transform: none; }
+    .gami-grid.animate-in .gami-pill {
+      opacity: 0; transform: translateY(16px) scale(.93);
+      transition: opacity .5s cubic-bezier(.16,1,.3,1),
+                  transform .5s cubic-bezier(.16,1,.3,1),
+                  border-color .2s;
+    }
+    .gami-grid.animate-in.visible .gami-pill { opacity: 1; transform: none; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(2)  { transition-delay: .05s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(3)  { transition-delay: .1s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(4)  { transition-delay: .15s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(5)  { transition-delay: .2s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(6)  { transition-delay: .25s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(7)  { transition-delay: .3s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(8)  { transition-delay: .35s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(9)  { transition-delay: .4s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(10) { transition-delay: .45s; }
+
+    /* barra de progresso de leitura */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 500;
+      height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--brand), #8b9aff);
+      border-radius: 0 3px 3px 0;
+      pointer-events: none;
+    }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -179,6 +210,38 @@
       animation: shine 3s linear infinite;
     }
 
+    /* ── Estilo dos posts: caixa adesiva amarela ── */
+    .hl-box {
+      display: inline-block;
+      background: #f5c842; color: #180e4e;
+      border: 3px solid #180e4e;
+      border-radius: 14px;
+      padding: .02em .34em .08em;
+      box-shadow: 6px 7px 0 #180e4e;
+      transform: rotate(-1.2deg);
+      line-height: 1.12;
+    }
+    @keyframes sticker-pop {
+      0%   { transform: rotate(-1.2deg) scale(.55); }
+      70%  { transform: rotate(-1.2deg) scale(1.08); }
+      100% { transform: rotate(-1.2deg) scale(1); }
+    }
+    .animate-in.visible .hl-box {
+      animation: sticker-pop .6s cubic-bezier(.34,1.56,.64,1) both .18s;
+    }
+    /* selo verde estilo "acesso gratuito" dos posts */
+    .sticker-green {
+      display: inline-block;
+      background: #10b981; color: #063a28;
+      border: 2.5px solid #063a28;
+      border-radius: 10px;
+      padding: 3px 12px 4px;
+      font-size: 12px; font-weight: 900;
+      letter-spacing: .08em; text-transform: uppercase;
+      box-shadow: 4px 4px 0 #063a28;
+      transform: rotate(-1deg);
+    }
+
     /* ── Buttons ── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -193,7 +256,17 @@
       padding: 17px 34px; font-size: 16px;
       box-shadow: 0 6px 26px rgba(70,89,255,.34);
       animation: pulse-ring 2.6s infinite;
+      position: relative; overflow: hidden;
     }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -70%;
+      width: 45%; height: 100%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,.4), transparent);
+      transform: skewX(-20deg);
+      transition: left .55s ease;
+      pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 130%; }
     .btn-primary:hover { transform: scale(1.03); background: var(--brand-dark); }
     .btn-primary.lg { padding: 22px 44px; font-size: 18px; }
     .btn-primary.sm { padding: 11px 22px; font-size: 14px; animation: none; }
@@ -214,9 +287,17 @@
     .sep svg { display: block; width: 100%; height: 72px; }
     .sep.short svg { height: 52px; }
     .sep.pixel svg { height: 38px; }
+    /* borda de nuvem DENTRO da seção escura: a cor da seção anterior
+       desce por cima do fundo (com gradiente) da seção — emenda invisível */
+    .cloud-top {
+      position: absolute; top: -1px; left: 0; right: 0;
+      line-height: 0; z-index: 1; pointer-events: none;
+    }
+    .cloud-top svg { display: block; width: 100%; height: 72px; }
     @media (max-width: 700px) {
       .sep svg { height: 44px; }
       .sep.pixel svg { height: 26px; }
+      .cloud-top svg { height: 44px; }
     }
 
     /* ── Sticky mobile CTA ── */
@@ -721,6 +802,7 @@
     .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
     .gami-pill.gami-top { grid-column: 1 / -1; }
+    .gami-pill.gami-wide { grid-column: span 2; }
 
     /* imagens de feature em "cartão de cena" */
     .scene-frame {
@@ -1028,20 +1110,24 @@
     ══════════════════════════════════════ */
     #planos { background: var(--brand-50); padding-top: 90px; }
 
+    /* faixa de urgência no estilo adesivo dos posts */
     .urgency-strip {
-      background: var(--brand); color: #fff;
-      border-radius: 16px; padding: 16px 24px;
-      text-align: center; font-size: 14px; font-weight: 600;
+      background: #f5c842; color: #180e4e;
+      border: 3px solid #180e4e;
+      border-radius: 18px; padding: 15px 24px;
+      text-align: center; font-size: 14px; font-weight: 700;
       max-width: 720px; margin: 0 auto 52px;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      box-shadow: 7px 8px 0 #180e4e;
+      transform: rotate(-.6deg);
     }
     .urgency-strip .bolt {
       display: inline-flex; width: 28px; height: 28px;
-      background: rgba(255,255,255,.18); border-radius: 50%;
+      background: #180e4e; color: #f5c842; border-radius: 50%;
       align-items: center; justify-content: center; font-size: 13px;
       flex-shrink: 0;
     }
-    .urgency-strip span { opacity: .82; }
+    .urgency-strip span { opacity: 1; }
 
     .plans-wrap {
       display: grid; grid-template-columns: 1fr 1.05fr;
@@ -1236,6 +1322,8 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
 <!-- ══ NAV ══ -->
 <nav id="main-nav">
   <div class="nav-inner">
@@ -1325,19 +1413,19 @@
 
         <div class="hero-stats animate-in" style="transition-delay:.4s">
           <div>
-            <div class="hero-stat-num">30+</div>
+            <div class="hero-stat-num" data-count="30" data-suffix="+">30+</div>
             <div class="hero-stat-lbl">Recursos no app</div>
           </div>
           <div>
-            <div class="hero-stat-num">9</div>
+            <div class="hero-stat-num" data-count="9">9</div>
             <div class="hero-stat-lbl">Jogos com IA</div>
           </div>
           <div>
-            <div class="hero-stat-num">8</div>
+            <div class="hero-stat-num" data-count="8">8</div>
             <div class="hero-stat-lbl">Ferramentas ao vivo</div>
           </div>
           <div>
-            <div class="hero-stat-num">7</div>
+            <div class="hero-stat-num" data-count="7">7</div>
             <div class="hero-stat-lbl">Kit do Professor</div>
           </div>
         </div>
@@ -1406,7 +1494,7 @@
         <div class="eyebrow">A Realidade do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Isso soa <em class="ink-accent">familiar?</em>
+        Isso soa <span class="hl-box">familiar?</span>
       </h2>
     </div>
 
@@ -1423,7 +1511,7 @@
         <div class="quote-sig">— Todo professor brasileiro, em algum momento</div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;overflow:hidden;">
+      <div class="animate-in from-right" style="transition-delay:.1s;overflow:hidden;">
         <img src="illu-02.png" alt="Professora exausta corrigindo provas à noite" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;" loading="lazy">
       </div>
     </div>
@@ -1465,17 +1553,16 @@
 
 </section>
 
-<!-- nuvens: dia → noite -->
-<div class="sep" style="background:#fff" aria-hidden="true">
-  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
-    <path fill="#0d1043" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
-  </svg>
-</div>
-
 <!-- ══════════════════════════════════════
      02 — VIRADA (noite)
 ══════════════════════════════════════ -->
-<section id="virada">
+<section id="virada" style="padding-top:160px">
+  <!-- nuvens: o branco da seção anterior desce sobre a noite -->
+  <div class="cloud-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,0 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,0 Z"/>
+    </svg>
+  </div>
   <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="virada-inner">
@@ -1516,7 +1603,7 @@
         </div>
       </div>
 
-      <div class="scene-frame animate-in" style="transition-delay:.16s;aspect-ratio:1/1;background:#000;">
+      <div class="scene-frame animate-in from-right" style="transition-delay:.16s;aspect-ratio:1/1;background:#000;">
         <video autoplay loop muted playsinline aria-label="Demonstração animada do Prof. Corujão">
           <source src="illu-03.mp4" type="video/mp4">
         </video>
@@ -1582,7 +1669,7 @@
         </div>
       </div>
 
-      <div class="scene-frame animate-in" style="transition-delay:.1s;">
+      <div class="scene-frame animate-in from-right" style="transition-delay:.1s;">
         <img src="illu-04.png" alt="Planejador Inteligente do Prof. Corujão" loading="lazy">
       </div>
     </div>
@@ -1606,7 +1693,7 @@
           <li><span class="feat-check">✓</span><span><strong>Escape Room com 4 temas</strong> — Medieval, Laboratório, Detetive e Espaço</span></li>
           <li><span class="feat-check">✓</span><span><strong>Personalização total</strong> — nível, faixa etária e disciplina</span></li>
         </ul>
-        <div class="gami-grid" style="margin-top:24px">
+        <div class="gami-grid animate-in" style="margin-top:24px">
           <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room · 4 temas</div>
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
@@ -1620,7 +1707,7 @@
         </div>
       </div>
 
-      <div class="slide06 animate-in" style="transition-delay:.1s">
+      <div class="slide06 animate-in from-left" style="transition-delay:.1s">
         <img src="illu-06a.jpg" class="slide06-img active" alt="Escape Room impresso gerado pelo app" loading="lazy">
         <img src="illu-06b.jpg" class="slide06-img" alt="Material de jogo educativo" loading="lazy">
         <img src="illu-06c.jpg" class="slide06-img" alt="Alunos jogando atividades gamificadas" loading="lazy">
@@ -1658,7 +1745,7 @@
         <p class="feat-desc" style="margin-top:22px;margin-bottom:12px">
           <strong style="color:var(--ink)">E na hora da aula</strong>, 8 ferramentas ao vivo pra usar no projetor:
         </p>
-        <div class="gami-grid">
+        <div class="gami-grid animate-in">
           <div class="gami-pill"><span class="gp-em">🎟️</span>Sorteador</div>
           <div class="gami-pill"><span class="gp-em">⏱️</span>Timer</div>
           <div class="gami-pill"><span class="gp-em">👥</span>Grupos</div>
@@ -1666,12 +1753,12 @@
           <div class="gami-pill"><span class="gp-em">🚦</span>Semáforo</div>
           <div class="gami-pill"><span class="gp-em">🎲</span>Dado</div>
           <div class="gami-pill"><span class="gp-em">🏅</span>Placar</div>
-          <div class="gami-pill gami-top"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
+          <div class="gami-pill gami-wide"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
         </div>
       </div>
 
       <!-- Placar de equipes (mockup) -->
-      <div class="board-card animate-in" style="transition-delay:.1s" aria-hidden="true">
+      <div class="board-card animate-in from-right" style="transition-delay:.1s" aria-hidden="true">
         <div class="board-head">
           <img src="logo.png" alt="">
           <div>
@@ -1738,7 +1825,7 @@
         </ul>
       </div>
 
-      <div class="night-panel animate-in" style="transition-delay:.1s;">
+      <div class="night-panel animate-in from-left" style="transition-delay:.1s;">
         <img src="illu-03.png" alt="Corujão organizando o ano letivo em telas holográficas" loading="lazy">
       </div>
     </div>
@@ -1764,7 +1851,7 @@
         </ul>
       </div>
 
-      <div class="scene-frame animate-in" style="transition-delay:.1s;aspect-ratio:16/9;">
+      <div class="scene-frame animate-in from-right" style="transition-delay:.1s;aspect-ratio:16/9;">
         <img src="illu-05.png?v=3" alt="Corujão conversando com uma professora" loading="lazy">
       </div>
     </div>
@@ -1804,7 +1891,7 @@
 
     <div class="batalha-grid">
 
-      <div class="animate-in">
+      <div class="animate-in from-left">
         <div class="batalha-banner">
           <img src="illu-batalha.jpg" alt="QuaqueMagia — Arena do Conhecimento" loading="lazy">
         </div>
@@ -1815,7 +1902,7 @@
         </div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.12s">
+      <div class="animate-in from-right" style="transition-delay:.12s">
         <div class="rule-cards">
           <div class="rule-card">
             <span class="rc-em">✅</span>
@@ -1877,7 +1964,7 @@
         <div class="eyebrow">Kit do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        A burocracia que roubava seu domingo, <em class="ink-accent">resolvida.</em>
+        A burocracia que roubava seu domingo, <span class="hl-box">resolvida.</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
         Sete ferramentas de IA para o trabalho invisível que ninguém vê —
@@ -1946,7 +2033,7 @@
 
     <div class="tcc-grid">
 
-      <div class="animate-in">
+      <div class="animate-in from-left">
         <img src="illu-08.png" alt="Lyelson Martins, criador do Prof. Corujão" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;" loading="lazy">
       </div>
 
@@ -2011,7 +2098,7 @@
         <div class="eyebrow">Planos</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Escolha como <em class="ink-accent">fazer parte.</em>
+        Escolha como <span class="hl-box">fazer parte.</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
         Estamos convidando professores a se tornarem Apoiadores —
@@ -2029,7 +2116,7 @@
       <!-- Gratuito -->
       <div class="plan-card animate-in">
         <div class="plan-head">
-          <div class="plan-label">Gratuito</div>
+          <span class="sticker-green">Acesso Gratuito</span>
         </div>
         <div class="plan-price">R$&nbsp;0</div>
         <div class="plan-period">para sempre gratuito · sem cartão</div>
@@ -2222,17 +2309,16 @@
   </div>
 </section>
 
-<!-- nuvens: dia → noite final -->
-<div class="sep" style="background:#fff" aria-hidden="true">
-  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
-    <path fill="#0d1043" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
-  </svg>
-</div>
-
 <!-- ══════════════════════════════════════
      CTA FINAL (noite)
 ══════════════════════════════════════ -->
-<section id="cta-final">
+<section id="cta-final" style="padding-top:180px">
+  <!-- nuvens: o branco da seção anterior desce sobre a noite -->
+  <div class="cloud-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,0 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,0 Z"/>
+    </svg>
+  </div>
   <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="cta-final-inner">
@@ -2315,10 +2401,33 @@
   /* ── Nav shadow + sticky mobile CTA ── */
   const nav = document.getElementById('main-nav');
   const stickyCta = document.getElementById('sticky-cta');
+  const progress = document.getElementById('scroll-progress');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
     stickyCta.classList.toggle('show', window.scrollY > window.innerHeight * 0.9);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
   }, { passive: true });
+
+  /* ── Contador dos números do hero ── */
+  const statEls = document.querySelectorAll('.hero-stat-num[data-count]');
+  const statIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      statIO.unobserve(e.target);
+      const el = e.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      if (reducedMotion) { el.textContent = target + suffix; return; }
+      const t0 = performance.now(), dur = 1100;
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: .6 });
+  statEls.forEach(el => statIO.observe(el));
 
   /* ── Mobile menu ── */
   const burger = document.getElementById('nav-burger');
