@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prof. Corujão — IA Educacional para Professores</title>
-  <meta name="description" content="O assistente de IA feito por professor, para professor. Cria planos de aula, provas, atividades e escape rooms em segundos.">
+  <title>Prof. Corujão — O assistente de IA completo para professores</title>
+  <meta name="description" content="Feito por professor, para professor. Planos de aula BNCC, provas, slides, 9 jogos com IA, Batalha de Revisão, gamificação de turma, diário de bordo e agenda inteligente — tudo em um só app.">
+  <meta property="og:title" content="Prof. Corujão — IA Educacional para Professores">
+  <meta property="og:description" content="Planos de aula, provas, slides, jogos, Batalha de Revisão e gamificação de turma. 30+ recursos em um só app. Teste grátis, sem cartão.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="illu-01.png">
+  <meta property="og:locale" content="pt_BR">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@600&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,10 +34,12 @@
       --night-2: #1a1f6e;
       --emerald: #10b981;
       --amber: #f59e0b;
+      --crimson: #9f1239;
       --shadow-sm: 0 1px 3px rgba(12,16,21,.04), 0 1px 2px rgba(12,16,21,.06);
       --shadow:    0 4px 24px rgba(70,89,255,.07);
       --shadow-lg: 0 18px 60px rgba(70,89,255,.16);
       --serif: 'Instrument Serif', Georgia, serif;
+      --pixel: 'Press Start 2P', monospace;
     }
 
     html { scroll-behavior: smooth; }
@@ -81,6 +88,10 @@
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
+    @keyframes shine {
+      from { background-position: -200% center; }
+      to   { background-position: 200% center; }
+    }
     .animate-in {
       opacity: 0; transform: translateY(28px);
       transition: opacity .7s cubic-bezier(.16,1,.3,1),
@@ -112,11 +123,6 @@
       letter-spacing: .04em;
     }
 
-    .display {
-      font-size: clamp(38px, 6vw, 76px);
-      font-weight: 900; letter-spacing: -.035em;
-      line-height: 1.02;
-    }
     .h1 {
       font-size: clamp(34px, 5vw, 56px);
       font-weight: 900; letter-spacing: -.03em;
@@ -126,10 +132,6 @@
       font-size: clamp(26px, 3.6vw, 40px);
       font-weight: 800; letter-spacing: -.02em;
       line-height: 1.18;
-    }
-    .h3 {
-      font-size: 22px; font-weight: 800; letter-spacing: -.012em;
-      line-height: 1.25;
     }
     .lead {
       font-size: 19px; color: var(--muted);
@@ -153,9 +155,11 @@
     .pill-green { background: #d1fae5; color: #065f46; }
     .pill-pink  { background: #fce7f3; color: #9d174d; }
     .pill-red   { background: #fee2e2; color: #991b1b; }
-    .pill-line  {
-      background: transparent; color: var(--brand);
-      border: 1px solid var(--brand);
+    .pill-new {
+      background: linear-gradient(120deg, #f43f5e, #e11d48 40%, #fb7185 50%, #e11d48 60%);
+      background-size: 200% auto;
+      color: #fff;
+      animation: shine 3s linear infinite;
     }
 
     /* ── Buttons ── */
@@ -182,65 +186,25 @@
       border: 1.5px solid var(--line);
     }
     .btn-outline:hover { border-color: var(--brand); color: var(--brand); transform: scale(1.02); }
+    .btn-note {
+      display: block; font-size: 11px; font-weight: 500;
+      opacity: .75; margin-top: -2px;
+    }
 
-    /* ══════════════════════════════════════
-       ILLUSTRATION SLOTS (numbered)
-    ══════════════════════════════════════ */
-    .illu {
-      position: relative;
-      background:
-        repeating-linear-gradient(
-          135deg,
-          var(--brand-soft) 0,
-          var(--brand-soft) 14px,
-          var(--brand-50) 14px,
-          var(--brand-50) 28px
-        );
-      border: 2px dashed rgba(70,89,255,.28);
-      border-radius: 24px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; gap: 8px;
-      padding: 28px 24px;
-      color: var(--muted);
-      min-height: 280px;
+    /* ── Sticky mobile CTA ── */
+    .sticky-cta {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 300;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--line);
+      display: none; gap: 10px;
+      transform: translateY(110%);
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
     }
-    .illu-num {
-      font-family: var(--serif); font-style: italic;
-      font-size: 56px; line-height: 1; color: var(--brand);
-      margin-bottom: 6px;
-    }
-    .illu-name {
-      font-size: 13px; font-weight: 700; color: var(--brand);
-      letter-spacing: .12em; text-transform: uppercase;
-    }
-    .illu-desc {
-      font-size: 13px; color: var(--muted);
-      max-width: 280px; line-height: 1.5;
-    }
-    .illu-spec {
-      font-size: 10px; color: var(--muted-2);
-      letter-spacing: .14em; text-transform: uppercase;
-      margin-top: 4px;
-    }
-    .illu.dark {
-      background:
-        repeating-linear-gradient(
-          135deg,
-          rgba(255,255,255,.04) 0,
-          rgba(255,255,255,.04) 14px,
-          rgba(255,255,255,.07) 14px,
-          rgba(255,255,255,.07) 28px
-        );
-      border-color: rgba(255,255,255,.18);
-    }
-    .illu.dark .illu-num,
-    .illu.dark .illu-name { color: #fff; }
-    .illu.dark .illu-desc { color: rgba(255,255,255,.65); }
-    .illu.dark .illu-spec { color: rgba(255,255,255,.4); }
-    .illu.square { aspect-ratio: 1/1; }
-    .illu.tall   { min-height: 420px; }
-    .illu.wide   { min-height: 220px; }
+    .sticky-cta.show { transform: translateY(0); }
+    .sticky-cta .btn { flex: 1; padding: 14px 10px; font-size: 14px; animation: none; }
+    @media (max-width: 700px) { .sticky-cta { display: flex; } }
 
     /* ══════════════════════════════════════
        NAV
@@ -278,7 +242,12 @@
       transition: background .2s;
     }
     .nav-link:hover { background: var(--brand-soft); color: var(--brand); }
-    @media (max-width: 820px) {
+    .nav-link .mini-new {
+      display: inline-block; font-size: 8.5px; font-weight: 800;
+      background: #e11d48; color: #fff; border-radius: 6px;
+      padding: 1px 5px; vertical-align: super; letter-spacing: .05em;
+    }
+    @media (max-width: 900px) {
       .nav-menu { display: none; }
     }
 
@@ -305,6 +274,7 @@
       .hero-inner { grid-template-columns: 1fr; gap: 50px; text-align: center; }
       .hero-actions { justify-content: center; }
       .eyebrow { justify-content: center; }
+      .hero-badges { justify-content: center; }
     }
     .hero-text { max-width: 580px; }
     .hero-text .eyebrow { margin-bottom: 22px; }
@@ -323,6 +293,7 @@
       max-width: 520px; line-height: 1.65;
       margin-bottom: 36px;
     }
+    .hero-sub strong { color: var(--ink); font-weight: 700; }
     .hero-actions {
       display: flex; flex-wrap: wrap; gap: 14px;
       align-items: center; margin-bottom: 28px;
@@ -336,10 +307,12 @@
       background: var(--emerald); animation: blink 2.2s infinite;
     }
 
-    /* BNCC credential badge */
+    /* Hero badges row (BNCC + Novidade) */
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;
+    }
     .bncc-badge {
       display: inline-flex; align-items: stretch;
-      margin-top: 18px;
       border: 1px solid var(--line);
       border-radius: 12px;
       background: #fff;
@@ -377,12 +350,14 @@
     .bncc-badge .bncc-text small {
       display: block; font-size: 11px; color: var(--muted); margin-top: 1px;
     }
+    .bncc-badge.new-badge .bncc-tag { background: #e11d48; }
+    .bncc-badge.new-badge .bncc-tag::before { color: #e11d48; content: "★"; }
 
     /* Hero stats */
     .hero-stats {
       display: flex; gap: 36px; padding-top: 28px;
       border-top: 1px solid var(--line);
-      margin-top: 8px;
+      margin-top: 26px;
     }
     .hero-stat-num {
       font-family: var(--serif); font-size: 34px;
@@ -392,23 +367,13 @@
       font-size: 12px; color: var(--muted);
       letter-spacing: .04em;
     }
-    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 24px; } }
+    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 24px; justify-content: center; } }
 
     .hero-visual {
       position: relative;
       display: grid; gap: 16px;
       grid-template-columns: 1fr;
     }
-    .hero-illu-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
-    }
-    .hero-illu-grid .illu { min-height: 180px; padding: 18px; }
-    .hero-illu-grid .illu .illu-num { font-size: 38px; }
-    .hero-illu-grid .illu .illu-name { font-size: 11px; }
-    .hero-illu-grid .illu .illu-desc { font-size: 11px; }
-    .hero-illu-grid .illu .illu-spec { display: none; }
 
     /* Phone mockup */
     .phone-wrap {
@@ -468,7 +433,7 @@
     }
     .marquee-track {
       display: flex; gap: 60px;
-      animation: marquee 28s linear infinite;
+      animation: marquee 34s linear infinite;
       white-space: nowrap;
     }
     .marquee-track span {
@@ -595,7 +560,6 @@
     }
     .t-role.prof { background: rgba(255,255,255,.13); color: rgba(255,255,255,.9); }
     .t-role.owl  { background: rgba(70,89,255,.5); color: #fff; }
-    /* Itens animados do terminal */
     .t-item {
       display: flex; align-items: center; gap: 8px;
       font-size: 13.5px; color: rgba(255,255,255,.82);
@@ -608,19 +572,12 @@
     .t-item .t-em { font-size: 16px; flex-shrink: 0; }
     .t-item.t-timer { color: rgba(255,255,255,.55); font-size: 12px; margin-top: 4px; }
     .t-item.t-timer strong { color: #fff; }
-    /* Cursor piscante enquanto "digita" */
     .t-cursor {
       display: inline-block; width: 2px; height: 14px;
       background: rgba(255,255,255,.7); border-radius: 2px;
       animation: blink .8s infinite; vertical-align: middle; margin-left: 4px;
     }
     .t-text  { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
-    .t-output {
-      background: rgba(70,89,255,.18); border-radius: 14px;
-      padding: 16px; font-size: 13.5px; color: rgba(255,255,255,.9);
-      line-height: 1.85;
-    }
-    .t-output strong { color: #b3c0ff; }
 
     /* ══════════════════════════════════════
        SECTION 03 — FEATURES
@@ -697,10 +654,9 @@
     }
     .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
-    /* Escape Room — largura total, mesmo estilo dos outros */
     .gami-pill.gami-top { grid-column: 1 / -1; }
 
-    /* ── Slideshow cena 06 ── */
+    /* ── Slideshow gamificação ── */
     .slide06 {
       position: relative; border-radius: 24px;
       overflow: hidden; aspect-ratio: 4/3;
@@ -727,6 +683,131 @@
       background: #fff;
       transform: scale(1.3);
     }
+
+    /* ══════════════════════════════════════
+       SECTION 03B — BATALHA (destaque)
+    ══════════════════════════════════════ */
+    #batalha {
+      background: #12060f;
+      color: #fff; position: relative; overflow: hidden;
+      padding: 130px 0;
+    }
+    #batalha::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 700px 500px at 20% 10%, rgba(225,29,72,.22) 0%, transparent 60%),
+        radial-gradient(ellipse 700px 500px at 85% 90%, rgba(70,89,255,.18) 0%, transparent 60%);
+    }
+    .batalha-inner { position: relative; z-index: 1; }
+    .batalha-head {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 18px; margin-bottom: 56px;
+    }
+    .batalha-title {
+      font-size: clamp(30px, 4.6vw, 54px); font-weight: 900;
+      letter-spacing: -.03em; line-height: 1.08; max-width: 760px;
+    }
+    .batalha-title em {
+      font-family: var(--serif); font-style: italic; font-weight: 400;
+      color: #fda4af;
+    }
+    .batalha-sub {
+      font-size: 17px; color: rgba(255,255,255,.72);
+      max-width: 620px; line-height: 1.7;
+    }
+    .batalha-grid {
+      display: grid; grid-template-columns: 1.1fr .9fr;
+      gap: 50px; align-items: center;
+    }
+    @media (max-width: 880px) { .batalha-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+    .batalha-banner {
+      border-radius: 24px; overflow: hidden;
+      border: 3px solid rgba(255,255,255,.9);
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+      position: relative;
+    }
+    .batalha-banner img { width: 100%; display: block; }
+
+    /* pixel duel strip */
+    .duel-strip {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: clamp(20px, 6vw, 60px);
+      margin: 34px auto 0; max-width: 560px;
+      padding: 22px 20px 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px;
+    }
+    .duel-duck { width: clamp(64px, 11vw, 96px); image-rendering: pixelated; }
+    .duel-duck.blue { transform: scaleX(-1); }
+    .duel-vs {
+      font-family: var(--pixel); font-size: clamp(14px, 2.4vw, 22px);
+      color: #fbbf24; align-self: center;
+      text-shadow: 0 3px 0 rgba(0,0,0,.5);
+      animation: blink 1.6s infinite;
+    }
+
+    .rule-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    @media (max-width: 480px) { .rule-cards { grid-template-columns: 1fr; } }
+    .rule-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px; padding: 18px;
+    }
+    .rule-card .rc-em { font-size: 24px; display: block; margin-bottom: 8px; }
+    .rule-card .rc-name {
+      font-size: 13px; font-weight: 800; margin-bottom: 4px;
+      letter-spacing: .02em;
+    }
+    .rule-card .rc-desc { font-size: 12.5px; color: rgba(255,255,255,.65); line-height: 1.55; }
+    .rule-card.gold { border-color: rgba(251,191,36,.45); }
+    .rule-card.gold .rc-name { color: #fbbf24; }
+
+    .batalha-cta-note {
+      margin-top: 26px; font-size: 13px; color: rgba(255,255,255,.55);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION — KIT DO PROFESSOR (bento)
+    ══════════════════════════════════════ */
+    #kit { background: #fff; }
+    .kit-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 980px) { .kit-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .kit-grid { grid-template-columns: 1fr; } }
+    .kit-card {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 20px; padding: 24px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .kit-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand);
+      box-shadow: var(--shadow-lg);
+    }
+    .kit-icon {
+      width: 44px; height: 44px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 14px;
+    }
+    .kit-name { font-size: 15px; font-weight: 800; margin-bottom: 5px; letter-spacing: -.01em; }
+    .kit-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .kit-card.wide { grid-column: span 2; }
+    @media (max-width: 520px) { .kit-card.wide { grid-column: span 1; } }
+    .kit-card.dark {
+      background: var(--night); border-color: var(--night-2);
+      color: #fff;
+    }
+    .kit-card.dark .kit-name { color: #fff; }
+    .kit-card.dark .kit-desc { color: rgba(255,255,255,.65); }
+    .kit-card.dark:hover { border-color: var(--brand); }
 
     /* ══════════════════════════════════════
        SECTION 04 — TCC
@@ -777,7 +858,7 @@
     /* ══════════════════════════════════════
        SECTION 05 — PLANOS
     ══════════════════════════════════════ */
-    #planos { background: #fff; }
+    #planos { background: var(--bg); }
 
     .urgency-strip {
       background: var(--brand); color: #fff;
@@ -790,6 +871,7 @@
       display: inline-flex; width: 28px; height: 28px;
       background: rgba(255,255,255,.18); border-radius: 50%;
       align-items: center; justify-content: center; font-size: 13px;
+      flex-shrink: 0;
     }
     .urgency-strip span { opacity: .82; }
 
@@ -801,14 +883,14 @@
     @media (max-width: 700px) { .plans-wrap { grid-template-columns: 1fr; } }
 
     .plan-card {
-      background: var(--bg); border-radius: 28px; padding: 38px;
+      background: #fff; border-radius: 28px; padding: 38px;
       border: 1.5px solid var(--line); position: relative;
       display: flex; flex-direction: column;
       transition: transform .25s;
     }
     .plan-card:hover { transform: translateY(-4px); }
     .plan-card.pro {
-      background: #fff; border-color: var(--brand);
+      border-color: var(--brand);
       box-shadow: var(--shadow-lg);
     }
     .pro-tag {
@@ -866,21 +948,27 @@
       text-align: center; font-size: 13px; color: var(--muted);
       max-width: 520px; margin: 24px auto 0; font-style: italic;
     }
+    .plan-anchor {
+      font-size: 12.5px; color: var(--muted); text-align: center;
+      background: var(--brand-soft); border-radius: 12px;
+      padding: 10px 16px; margin-top: 16px; line-height: 1.6;
+    }
+    .plan-anchor strong { color: var(--brand); }
 
     /* ══════════════════════════════════════
        SECTION 06 — FAQ
     ══════════════════════════════════════ */
-    #faq { background: var(--bg); }
+    #faq { background: #fff; }
     .faq-list {
       max-width: 760px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 12px;
     }
     .faq-item {
-      background: #fff; border-radius: 18px;
+      background: var(--bg); border-radius: 18px;
       border: 1px solid var(--line); overflow: hidden;
       transition: border-color .2s;
     }
-    .faq-item.open { border-color: var(--brand); }
+    .faq-item.open { border-color: var(--brand); background: #fff; }
     .faq-btn {
       width: 100%; display: flex; justify-content: space-between; align-items: center;
       padding: 22px 28px; background: none; border: none;
@@ -978,6 +1066,7 @@
     @media (max-width: 700px) {
       section { padding: 80px 0; }
       .sec-header { margin-bottom: 50px; }
+      #batalha { padding: 90px 0; }
     }
   </style>
 </head>
@@ -992,7 +1081,8 @@
     </a>
     <div class="nav-menu">
       <a href="#features" class="nav-link">Funcionalidades</a>
-      <a href="#tcc" class="nav-link">História</a>
+      <a href="#batalha" class="nav-link">Batalha <span class="mini-new">NOVO</span></a>
+      <a href="#kit" class="nav-link">Kit do Professor</a>
       <a href="#planos" class="nav-link">Planos</a>
       <a href="#faq" class="nav-link">FAQ</a>
     </div>
@@ -1010,7 +1100,7 @@
 
       <!-- LEFT — text -->
       <div class="hero-text">
-        <div class="eyebrow animate-in">IA Educacional · TCC 2026</div>
+        <div class="eyebrow animate-in">IA Educacional · 30+ recursos em um só app</div>
 
         <h1 class="hero-title animate-in" style="transition-delay:.08s">
           Você planeja, corrige, improvisa —
@@ -1019,47 +1109,63 @@
 
         <p class="hero-sub animate-in" style="transition-delay:.16s">
           O Prof. Corujão é o assistente de IA feito por professor, para professor.
-          Cria planos de aula, atividades, provas, slides e até escape rooms em segundos.
-          Enquanto você toma o café.
+          Planos de aula, provas, slides, <strong>9 jogos educativos</strong>,
+          <strong>batalhas de revisão</strong>, gamificação de turma, diário de bordo
+          e agenda inteligente. Tudo em segundos — enquanto você toma o café.
         </p>
 
         <div class="hero-actions animate-in" style="transition-delay:.24s">
-          <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
-             target="_blank" rel="noopener" class="btn btn-primary">
-            🦉 Quero ser Apoiador
+          <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">
+            Testar grátis agora →
           </a>
-          <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-outline">
-            Testar gratuitamente →
+          <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+             target="_blank" rel="noopener" class="btn btn-outline">
+            🦉 Quero ser Apoiador
           </a>
         </div>
 
         <div class="hero-trust animate-in" style="transition-delay:.32s">
           <span class="dot"></span>
-          Uso gratuito disponível · Sem cartão de crédito
+          10 gerações grátis para testar · Sem cartão de crédito · Instala no celular
         </div>
 
-        <div class="bncc-badge animate-in" style="transition-delay:.36s">
-          <div class="bncc-tag">BNCC</div>
-          <div class="bncc-text">
-            <span>
-              <strong>Planos alinhados</strong> ao banco oficial
-              <small>Habilidades reais — não inventadas pela IA</small>
-            </span>
+        <div class="hero-badges animate-in" style="transition-delay:.36s">
+          <div class="bncc-badge">
+            <div class="bncc-tag">BNCC</div>
+            <div class="bncc-text">
+              <span>
+                <strong>Planos alinhados</strong> ao banco oficial
+                <small>Habilidades reais — não inventadas pela IA</small>
+              </span>
+            </div>
+          </div>
+          <div class="bncc-badge new-badge">
+            <div class="bncc-tag">NOVO</div>
+            <div class="bncc-text">
+              <span>
+                <strong>Batalha de Revisão</strong> em turnos
+                <small>Sua turma disputa o conteúdo em uma arena</small>
+              </span>
+            </div>
           </div>
         </div>
 
         <div class="hero-stats animate-in" style="transition-delay:.4s">
           <div>
-            <div class="hero-stat-num">8+</div>
-            <div class="hero-stat-lbl">Ferramentas</div>
+            <div class="hero-stat-num">30+</div>
+            <div class="hero-stat-lbl">Recursos no app</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">9</div>
+            <div class="hero-stat-lbl">Jogos com IA</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">8</div>
+            <div class="hero-stat-lbl">Ferramentas ao vivo</div>
           </div>
           <div>
             <div class="hero-stat-num">7</div>
-            <div class="hero-stat-lbl">Tipos de jogos</div>
-          </div>
-          <div>
-            <div class="hero-stat-num">4</div>
-            <div class="hero-stat-lbl">Temas de Escape Room</div>
+            <div class="hero-stat-lbl">Kit do Professor</div>
           </div>
         </div>
       </div>
@@ -1067,12 +1173,11 @@
       <!-- RIGHT — visual -->
       <div class="hero-visual animate-in" style="transition-delay:.3s">
 
-        <!-- ILLUSTRATION #01 -->
-        <div class="illu tall" style="background:transparent;border:none;padding:0;overflow:hidden;">
+        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
           <img src="illu-01.png" alt="Prof. Corujão — Mascote" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
         </div>
 
-        <!-- Phone mockup BELOW the illustration -->
+        <!-- Phone mockup -->
         <div class="phone-wrap">
           <div class="phone-frame">
             <div class="phone-screen">
@@ -1085,19 +1190,19 @@
               </div>
               <div class="p-label">Tema da aula</div>
               <div class="p-input">Fotossíntese, 8º ano<span class="demo-cursor"></span></div>
-              <div class="p-label">Gerando plano de aula…</div>
+              <div class="p-label">Gerando materiais…</div>
               <div class="p-output">
                 <div class="p-row" id="pr1">
                   <span class="emoji">📋</span>
-                  <span><strong>Objetivo:</strong> Compreender o processo de fotossíntese</span>
+                  <span><strong>Plano BNCC:</strong> objetivos, metodologia e avaliação</span>
                 </div>
                 <div class="p-row" id="pr2">
-                  <span class="emoji">🔬</span>
-                  <span><strong>Metodologia:</strong> Experimento prático + discussão</span>
+                  <span class="emoji">🖥️</span>
+                  <span><strong>Slides prontos:</strong> com imagens e design automático</span>
                 </div>
                 <div class="p-row" id="pr3">
-                  <span class="emoji">📝</span>
-                  <span><strong>Avaliação:</strong> Quiz gamificado ao final</span>
+                  <span class="emoji">⚔️</span>
+                  <span><strong>Batalha de Revisão:</strong> a turma disputa o conteúdo</span>
                 </div>
               </div>
             </div>
@@ -1114,20 +1219,26 @@
   <div class="marquee-track">
     <span>Alinhado à BNCC</span>
     <span>Planos de aula em segundos</span>
-    <span>Provas personalizadas</span>
+    <span>Batalha de Revisão</span>
+    <span>Provas com gabarito</span>
     <span>Escape Rooms imprimíveis</span>
-    <span>Atividades gamificadas</span>
+    <span>Gamificação de turma</span>
     <span>Slides automáticos</span>
-    <span>Calendário escolar</span>
+    <span>Diário de bordo</span>
+    <span>Agenda com importação por PDF</span>
+    <span>Adaptação inclusiva</span>
     <span>Chat com IA pedagógica</span>
     <!-- duplicado para loop -->
     <span>Alinhado à BNCC</span>
     <span>Planos de aula em segundos</span>
-    <span>Provas personalizadas</span>
+    <span>Batalha de Revisão</span>
+    <span>Provas com gabarito</span>
     <span>Escape Rooms imprimíveis</span>
-    <span>Atividades gamificadas</span>
+    <span>Gamificação de turma</span>
     <span>Slides automáticos</span>
-    <span>Calendário escolar</span>
+    <span>Diário de bordo</span>
+    <span>Agenda com importação por PDF</span>
+    <span>Adaptação inclusiva</span>
     <span>Chat com IA pedagógica</span>
   </div>
 </div>
@@ -1140,7 +1251,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 01 / 07 —</span>
+        <span class="section-num">— 01 / 08 —</span>
         <div class="eyebrow">A Realidade do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1162,8 +1273,7 @@
         <div class="quote-sig">— Todo professor brasileiro, em algum momento</div>
       </div>
 
-      <!-- ILLUSTRATION #02 -->
-      <div class="illu animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
+      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
         <img src="illu-02.png" alt="Cena de Empatia" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
       </div>
     </div>
@@ -1186,7 +1296,7 @@
         <span class="dor-card-num">iii.</span>
         <span class="dor-icon">📋</span>
         <div class="dor-name">Burocracia infinita</div>
-        <div class="dor-desc">Provas, atividades, relatórios — pilha interminável que rouba o fim de semana.</div>
+        <div class="dor-desc">Pareceres, chamada, provas, relatórios — pilha que rouba o fim de semana.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.18s">
         <span class="dor-card-num">iv.</span>
@@ -1215,7 +1325,7 @@
       <!-- LEFT — Question + terminal -->
       <div>
         <div class="eyebrow-row animate-in" style="margin-bottom:24px;display:flex;align-items:center;gap:18px">
-          <span class="section-num" style="color:rgba(255,255,255,.4)">— 02 / 07 —</span>
+          <span class="section-num" style="color:rgba(255,255,255,.4)">— 02 / 08 —</span>
           <div class="eyebrow light">A Virada</div>
         </div>
 
@@ -1225,9 +1335,9 @@
         </h2>
 
         <p class="virada-desc animate-in" style="transition-delay:.16s">
-          O Prof. Corujão é um assistente educacional com IA que trabalha com você
-          em segundo plano. Você digita o tema, ele pensa, estrutura, cria —
-          e você escolhe o que usar.
+          O Prof. Corujão trabalha com você em segundo plano. Você digita o tema,
+          ele pensa, estrutura, cria — e avisa quando termina. Da aula de amanhã
+          à revisão gamificada da prova, tudo sai pronto pra usar.
         </p>
 
         <div class="terminal animate-in" style="transition-delay:.24s">
@@ -1238,18 +1348,18 @@
           <div class="t-row">
             <span class="t-role owl">🦉 Corujão</span>
             <div id="t-anim-output">
-              <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula com 3 objetivos pedagógicos</div>
+              <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula alinhado à BNCC</div>
               <div class="t-item" data-delay="900"><span class="t-em">✅</span> Atividade impressa pronta para distribuir</div>
-              <div class="t-item" data-delay="1400"><span class="t-em">✅</span> Quiz: Verdadeiro ou Falso com justificativas</div>
-              <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Slides com ilustrações automáticas</div>
-              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>4 segundos</strong></div>
+              <div class="t-item" data-delay="1400"><span class="t-em">✅</span> Slides com imagens e design automático</div>
+              <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Batalha de Revisão pra fechar a semana</div>
+              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>segundos</strong> — em segundo plano</div>
               <span class="t-cursor" id="t-cursor"></span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT — Illustration #03 -->
+      <!-- RIGHT — vídeo -->
       <div class="animate-in" style="transition-delay:.16s;aspect-ratio:1/1;overflow:hidden;border-radius:24px;background:#000;">
         <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
           <source src="illu-03.mp4" type="video/mp4">
@@ -1268,7 +1378,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 03 / 07 —</span>
+        <span class="section-num">— 03 / 08 —</span>
         <div class="eyebrow">Funcionalidades</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1276,104 +1386,78 @@
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
         Cada ferramenta resolve uma dor real do professor.
-        Juntas, elas transformam sua rotina de trabalho.
+        Juntas, elas substituem meia dúzia de apps — e devolvem suas horas.
       </p>
     </div>
 
-    <!-- ★ Planejador (carro-chefe) — full width -->
+    <!-- ★ Planejador (carro-chefe) -->
     <div class="feat-row">
       <div class="feat-content animate-in">
         <div class="feat-num">i.</div>
-        <span class="pill pill-amber">★ Carro-Chefe</span>
+        <span class="pill pill-amber">★ Carro-Chefe · Planejador</span>
         <h3 class="feat-title">
-          O núcleo do app —<br>
-          <em>resolve a dor diária.</em>
+          A semana inteira planejada<br>
+          <em>enquanto você toma café.</em>
         </h3>
         <p class="feat-desc">
-          Planejar, organizar e produzir materiais — tudo em um só lugar.
-          É o app que substitui horas de planejamento por minutos.
+          Digite o tema e a turma. O Corujão gera o material completo —
+          e você só revisa, imprime ou projeta.
         </p>
         <ul class="feat-list">
           <li><span class="feat-check">✓</span><span><strong>Alinhado à BNCC</strong> — banco real de habilidades, não inventadas pela IA</span></li>
           <li><span class="feat-check">✓</span><span><strong>Planos de aula completos</strong> com objetivos, metodologia e avaliação</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Atividades impressas</strong> prontas para distribuir</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Provas personalizadas</strong> — múltipla escolha, dissertativa, mista</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Slides profissionais</strong> com layouts e ilustrações automáticas</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Calendário escolar</strong> por turma — organiza todo o cronograma</span></li>
-          <li><span class="feat-check">✓</span><span>Funciona em <strong>segundo plano</strong> — gera enquanto você faz outra coisa</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Sequências didáticas</strong> com múltiplas aulas encadeadas</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Provas com gabarito</strong> — múltipla escolha, dissertativa, mista</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Slides profissionais</strong> com imagens e layouts automáticos</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Acervo pessoal</strong> — tudo que você gera fica salvo e pesquisável</span></li>
+          <li><span class="feat-check">✓</span><span>Gera em <strong>segundo plano</strong> e avisa quando termina</span></li>
         </ul>
         <div class="feat-meta">
           <div><strong>8+</strong>Tipos de saída</div>
           <div><strong>BNCC</strong>Alinhado</div>
-          <div><strong>4s</strong>Tempo médio</div>
+          <div><strong>~4s</strong>Tempo médio</div>
         </div>
       </div>
 
-      <!-- ILLUSTRATION #04 -->
-      <div class="illu tall animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
+      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
         <img src="illu-04.png" alt="Planejador Inteligente" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:24px;display:block;">
       </div>
     </div>
 
-    <!-- Chat com IA (reversed) -->
+    <!-- Jogos com IA -->
     <div class="feat-row reverse">
       <div class="feat-content animate-in">
         <div class="feat-num">ii.</div>
-        <span class="pill">💬 Chat com IA</span>
+        <span class="pill pill-pink">🎮 Jogos com IA</span>
         <h3 class="feat-title">
-          Um colega,<br>
-          <em>não um robô.</em>
+          Qualquer conteúdo<br>
+          <em>vira jogo.</em>
         </h3>
         <p class="feat-desc">
-          Assistente especializado em educação que responde como alguém da área,
-          não como uma máquina genérica.
-        </p>
-        <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span>Tira dúvidas e sugere abordagens pedagógicas</span></li>
-          <li><span class="feat-check">✓</span><span>Dá feedback sobre suas atividades e provas</span></li>
-          <li><span class="feat-check">✓</span><span>Aceita arquivos e imagens para análise</span></li>
-          <li><span class="feat-check">✓</span><span>Responde como colega de profissão</span></li>
-        </ul>
-      </div>
-
-      <!-- ILLUSTRATION #05 -->
-      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
-        <img src="illu-05.png?v=3" alt="Chat com IA" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-    </div>
-
-    <!-- Gamificação + Escape Room (Diferencial) -->
-    <div class="feat-row reverse">
-      <div class="feat-content animate-in">
-        <div class="feat-num">iii.</div>
-        <span class="pill pill-pink">🎮 Gamificação · Diferencial</span>
-        <h3 class="feat-title">
-          Nenhum outro app<br>
-          <em>faz isso.</em>
-        </h3>
-        <p class="feat-desc">
-          Qualquer conteúdo vira jogo. Atividades gamificadas geradas
-          automaticamente a partir do tema — é o que faz o aluno
-          pedir pra repetir na semana seguinte.
+          9 tipos de jogos educativos gerados automaticamente a partir do tema
+          da aula — pra imprimir ou projetar. É o que faz o aluno pedir
+          pra repetir na semana seguinte.
         </p>
         <ul class="feat-list">
           <li><span class="feat-check">✓</span><span><strong>Geração automática</strong> a partir do tema da aula</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Imprima ou use na tela</strong> — pronto pra projetar ou distribuir</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Escape Room com 4 temas</strong> — Medieval, Laboratório, Detetive e Espaço</span></li>
           <li><span class="feat-check">✓</span><span><strong>Personalização total</strong> — nível, faixa etária e disciplina</span></li>
         </ul>
         <div class="gami-grid" style="margin-top:24px">
-          <!-- Escape Room — leve destaque acima dos demais -->
-          <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room</div>
+          <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room · 4 temas</div>
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
           <div class="gami-pill"><span class="gp-em">🔤</span>Caça-palavras</div>
           <div class="gami-pill"><span class="gp-em">✏️</span>Cruzadas</div>
           <div class="gami-pill"><span class="gp-em">🎯</span>Bingo</div>
           <div class="gami-pill"><span class="gp-em">🃏</span>Memória</div>
+          <div class="gami-pill"><span class="gp-em">🗂️</span>Flashcards</div>
+          <div class="gami-pill"><span class="gp-em">🔢</span>Sequência</div>
+          <div class="gami-pill"><span class="gp-em">⚔️</span>Batalha</div>
         </div>
       </div>
 
-      <!-- ILLUSTRATION #06 — Slideshow automático -->
+      <!-- Slideshow -->
       <div class="slide06 animate-in" style="transition-delay:.1s">
         <img src="illu-06a.jpg" class="slide06-img active" alt="Gamificação 1">
         <img src="illu-06b.jpg" class="slide06-img" alt="Gamificação 2">
@@ -1388,29 +1472,288 @@
       </div>
     </div>
 
+    <!-- Gamificação de turma -->
+    <div class="feat-row">
+      <div class="feat-content animate-in">
+        <div class="feat-num">iii.</div>
+        <span class="pill pill-green">🏆 Turma Gamificada</span>
+        <h3 class="feat-title">
+          Sua turma vira um time —<br>
+          <em>e o comportamento vira pontos.</em>
+        </h3>
+        <p class="feat-desc">
+          Um sistema completo de gamificação de turma: XP, moedas, equipes,
+          missões semanais e loja de recompensas. O aluno participa porque
+          quer subir no pódio.
+        </p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span><span><strong>XP e moedas</strong> por participação e comportamento</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Equipes personalizadas</strong> com nome, emoji e cor</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Missões semanais</strong> com meta e recompensa configurável</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Loja de recompensas</strong> — alunos trocam moedas por prêmios</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Hall da Fama</strong> com pódio por temporada</span></li>
+        </ul>
+        <p class="feat-desc" style="margin-top:22px;margin-bottom:12px">
+          <strong style="color:var(--ink)">E na hora da aula</strong>, 8 ferramentas ao vivo pra usar no projetor:
+        </p>
+        <div class="gami-grid">
+          <div class="gami-pill"><span class="gp-em">🎟️</span>Sorteador</div>
+          <div class="gami-pill"><span class="gp-em">⏱️</span>Timer</div>
+          <div class="gami-pill"><span class="gp-em">👥</span>Grupos</div>
+          <div class="gami-pill"><span class="gp-em">🔊</span>Medidor de Barulho</div>
+          <div class="gami-pill"><span class="gp-em">🚦</span>Semáforo</div>
+          <div class="gami-pill"><span class="gp-em">🎲</span>Dado</div>
+          <div class="gami-pill"><span class="gp-em">🏅</span>Placar</div>
+          <div class="gami-pill gami-top"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
+        </div>
+      </div>
+
+      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
+        <img src="illu-05.png?v=3" alt="Turma Gamificada" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+    </div>
+
+    <!-- Agenda + Diário -->
+    <div class="feat-row reverse">
+      <div class="feat-content animate-in">
+        <div class="feat-num">iv.</div>
+        <span class="pill">🗓️ Agenda & Diário de Bordo</span>
+        <h3 class="feat-title">
+          O ano letivo inteiro organizado<br>
+          <em>a partir de um PDF.</em>
+        </h3>
+        <p class="feat-desc">
+          Envie o calendário letivo da escola em PDF e a IA extrai feriados,
+          recessos, reuniões e eventos. Envie a ementa e ela distribui as aulas
+          nos dias de cada turma. Sério.
+        </p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span><span><strong>Importação de calendário letivo por PDF</strong> — a IA lê e preenche tudo</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Importação de ementa por PDF</strong> — módulos viram aulas distribuídas no ano</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Turmas com horários reais</strong> por dia da semana e cores</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Lembretes de aula</strong> — notificação antes de cada aula, direto no celular</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Diário de bordo</strong> — chamada, anotações e conceitos por aluno</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Sincronizado em tempo real</strong> — celular e computador sempre iguais</span></li>
+        </ul>
+      </div>
+
+      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
+        <img src="illu-03.png" alt="Agenda Inteligente" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
+      </div>
+    </div>
+
+    <!-- Chat com IA -->
+    <div class="feat-row">
+      <div class="feat-content animate-in">
+        <div class="feat-num">v.</div>
+        <span class="pill">💬 Chat com IA</span>
+        <h3 class="feat-title">
+          Um colega,<br>
+          <em>não um robô.</em>
+        </h3>
+        <p class="feat-desc">
+          Assistente especializado em educação que responde como alguém da área,
+          não como uma máquina genérica. E ainda navega no app por você.
+        </p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span><span>Tira dúvidas e sugere abordagens pedagógicas</span></li>
+          <li><span class="feat-check">✓</span><span>Dá feedback sobre suas atividades e provas</span></li>
+          <li><span class="feat-check">✓</span><span>Aceita arquivos e imagens para análise</span></li>
+          <li><span class="feat-check">✓</span><span>Histórico salvo e sincronizado entre dispositivos</span></li>
+        </ul>
+      </div>
+
+      <div class="phone-wrap animate-in" style="transition-delay:.1s;max-width:320px">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="phone-topbar">
+              <div class="phone-icon">🦉</div>
+              <div>
+                <div class="phone-title">Chat Corujão</div>
+                <div class="phone-sub">seu colega de IA</div>
+              </div>
+            </div>
+            <div class="p-output">
+              <div class="p-row" style="opacity:1">
+                <span class="emoji">👩‍🏫</span>
+                <span>Como explico fração pra uma turma agitada de 6º ano?</span>
+              </div>
+              <div class="p-row" style="opacity:1;background:var(--brand-soft)">
+                <span class="emoji">🦉</span>
+                <span>Começa com pizza de verdade (ou de papel). Divide na frente deles e deixa a turma "comprar" fatias com moedas da gamificação. Quer que eu monte a atividade?</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════
-     SECTION 04 — TCC
+     SECTION 04 — BATALHA DE REVISÃO
+══════════════════════════════════════ -->
+<section id="batalha">
+  <div class="container batalha-inner">
+
+    <div class="batalha-head">
+      <div class="eyebrow-row animate-in" style="display:flex;align-items:center;gap:18px">
+        <span class="section-num" style="color:rgba(255,255,255,.4)">— 04 / 08 —</span>
+        <div class="eyebrow light">A Grande Novidade</div>
+      </div>
+      <span class="pill pill-new animate-in" style="transition-delay:.05s">⚔️ Novo · Batalha de Revisão</span>
+      <h2 class="batalha-title animate-in" style="transition-delay:.1s">
+        A revisão da prova virou <em>o momento mais esperado da semana.</em>
+      </h2>
+      <p class="batalha-sub animate-in" style="transition-delay:.18s">
+        Duas equipes. Uma arena. A IA gera perguntas do seu conteúdo e cada
+        acerto vira um ataque no estilo dos jogos de batalha em turnos.
+        Sua turma vai revisar a matéria inteira — gritando de torcida.
+      </p>
+    </div>
+
+    <div class="batalha-grid">
+
+      <!-- LEFT — banner + duel -->
+      <div class="animate-in">
+        <div class="batalha-banner">
+          <img src="illu-batalha.jpg" alt="QuaqueMagia — Arena do Conhecimento">
+        </div>
+        <div class="duel-strip" aria-hidden="true">
+          <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="">
+          <span class="duel-vs">VS</span>
+          <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="">
+        </div>
+      </div>
+
+      <!-- RIGHT — rules -->
+      <div class="animate-in" style="transition-delay:.12s">
+        <div class="rule-cards">
+          <div class="rule-card">
+            <span class="rc-em">✅</span>
+            <div class="rc-name">Acertou = ataque</div>
+            <div class="rc-desc">A equipe responde certo e o mago da equipe lança o feitiço no rival.</div>
+          </div>
+          <div class="rule-card">
+            <span class="rc-em">❌</span>
+            <div class="rc-name">Errou = contra-ataque</div>
+            <div class="rc-desc">Resposta errada abre a guarda — o rival contra-ataca na hora.</div>
+          </div>
+          <div class="rule-card gold">
+            <span class="rc-em">⚡</span>
+            <div class="rc-name">Crítico em 3 segundos</div>
+            <div class="rc-desc">Respondeu rápido? Dano crítico. A turma inteira estuda pra responder primeiro.</div>
+          </div>
+          <div class="rule-card">
+            <span class="rc-em">💚</span>
+            <div class="rc-name">Sequência cura</div>
+            <div class="rc-desc">Acertos seguidos recuperam HP da equipe. Consistência vale ouro.</div>
+          </div>
+          <div class="rule-card gold">
+            <span class="rc-em">🔥</span>
+            <div class="rc-name">Modo Fúria</div>
+            <div class="rc-desc">Abaixo de metade do HP a equipe entra em Fúria e bate mais forte. Virada é possível até o fim.</div>
+          </div>
+          <div class="rule-card">
+            <span class="rc-em">🏆</span>
+            <div class="rc-name">Vitória vira XP</div>
+            <div class="rc-desc">O resultado alimenta a gamificação da turma: pontos, pódio e Hall da Fama.</div>
+          </div>
+        </div>
+
+        <p class="batalha-cta-note">
+          <span>🎮</span> Integrada às suas equipes da Turma Gamificada — ou jogue com equipes avulsas. Funciona no projetor.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 05 — KIT DO PROFESSOR
+══════════════════════════════════════ -->
+<section id="kit">
+  <div class="container">
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">— 05 / 08 —</span>
+        <div class="eyebrow">Kit do Professor</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        A burocracia que roubava seu domingo, <em class="ink-accent">resolvida.</em>
+      </h2>
+      <p class="lead animate-in" style="transition-delay:.16s">
+        Sete ferramentas de IA para o trabalho invisível que ninguém vê —
+        mas que todo professor carrega.
+      </p>
+    </div>
+
+    <div class="kit-grid">
+      <div class="kit-card wide animate-in">
+        <div class="kit-icon" style="background:#eef2ff">🎓</div>
+        <div class="kit-name">Parecer Descritivo</div>
+        <div class="kit-desc">Comentários de boletim e pareceres individuais por aluno — o pesadelo do fim de bimestre, pronto em minutos.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.05s">
+        <div class="kit-icon" style="background:#d1fae5">♿</div>
+        <div class="kit-name">Adaptação Inclusiva</div>
+        <div class="kit-desc">Adapta qualquer atividade para TEA, TDAH, dislexia e outras necessidades.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.1s">
+        <div class="kit-icon" style="background:#fef3c7">📊</div>
+        <div class="kit-name">Rubrica de Avaliação</div>
+        <div class="kit-desc">Critérios e níveis prontos para qualquer trabalho ou projeto.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.15s">
+        <div class="kit-icon" style="background:#dbeafe">📖</div>
+        <div class="kit-name">Nivelador de Texto</div>
+        <div class="kit-desc">Reescreve qualquer texto no nível de leitura da sua turma.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.2s">
+        <div class="kit-icon" style="background:#fce7f3">💌</div>
+        <div class="kit-name">Comunicação c/ Famílias</div>
+        <div class="kit-desc">Bilhetes, comunicados e mensagens de WhatsApp prontas para enviar.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.25s">
+        <div class="kit-icon" style="background:#fee2e2">▶️</div>
+        <div class="kit-name">Material de Vídeo</div>
+        <div class="kit-desc">Cole o link de um vídeo do YouTube e ele vira aula com atividades.</div>
+      </div>
+      <div class="kit-card animate-in" style="transition-delay:.3s">
+        <div class="kit-icon" style="background:#ede9fe">📄</div>
+        <div class="kit-name">Material do meu PDF</div>
+        <div class="kit-desc">Gere materiais a partir do seu livro didático ou apostila.</div>
+      </div>
+      <div class="kit-card wide dark animate-in" style="transition-delay:.35s">
+        <div class="kit-icon" style="background:rgba(255,255,255,.12)">🦉</div>
+        <div class="kit-name">Tudo salvo no seu Acervo</div>
+        <div class="kit-desc">Cada material gerado fica na sua biblioteca pessoal — com busca, filtros e download quando quiser. Nada se perde.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 06 — TCC / HISTÓRIA
 ══════════════════════════════════════ -->
 <section id="tcc">
   <div class="container">
 
     <div class="tcc-grid">
 
-      <!-- LEFT — Illustration #08 -->
       <div class="animate-in">
-        <!-- ILLUSTRATION #08 -->
-        <div class="illu tall" style="background:transparent;border:none;padding:0;overflow:hidden;">
+        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
           <img src="illu-08.png" alt="O Criador" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;">
         </div>
       </div>
 
-      <!-- RIGHT — Story -->
       <div class="animate-in" style="transition-delay:.1s">
         <div class="eyebrow-row" style="margin-bottom:20px;display:flex;align-items:center;gap:18px">
-          <span class="section-num">— 04 / 07 —</span>
+          <span class="section-num">— 06 / 08 —</span>
           <div class="eyebrow">A História por Trás</div>
         </div>
 
@@ -1449,14 +1792,14 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     SECTION 05 — PLANOS
+     SECTION 07 — PLANOS
 ══════════════════════════════════════ -->
 <section id="planos">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 05 / 07 —</span>
+        <span class="section-num">— 07 / 08 —</span>
         <div class="eyebrow">Planos</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1481,13 +1824,15 @@
           <div class="plan-label">Gratuito</div>
         </div>
         <div class="plan-price">R$&nbsp;0</div>
-        <div class="plan-period">para sempre gratuito</div>
+        <div class="plan-period">para sempre gratuito · sem cartão</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> Planejador <em style="color:var(--muted)">(limite de gerações)</em></li>
-          <li><span class="pf-check">✓</span> Chat com IA</li>
-          <li><span class="pf-check">✓</span> Estúdio básico de gamificação</li>
-          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Escape Room limitado</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Execução em segundo plano</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>10 gerações de IA</strong> pra testar tudo</span></li>
+          <li><span class="pf-check">✓</span> <span>Planejador com BNCC</span></li>
+          <li><span class="pf-check">✓</span> <span>Chat com IA pedagógica</span></li>
+          <li><span class="pf-check">✓</span> <span>Jogos e gamificação básicos</span></li>
+          <li><span class="pf-check">✓</span> <span>Agenda, turmas e diário de bordo</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Gerações ilimitadas</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Escape Room completo · 4 temas</span></li>
           <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Acesso antecipado a novidades</span></li>
         </ul>
         <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-outline plan-btn">
@@ -1504,12 +1849,14 @@
         <div class="plan-price"><sup>R$</sup>&nbsp;59,90<span class="per">&nbsp;/mês</span></div>
         <div class="plan-period">acesso completo e ilimitado</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> <strong>Gerações ilimitadas</strong> em tudo</li>
-          <li><span class="pf-check">✓</span> <strong>Escape Room completo</strong> · todos os 4 temas</li>
-          <li><span class="pf-check">✓</span> <strong>Execução em segundo plano</strong></li>
-          <li><span class="pf-check">✓</span> <strong>Acesso antecipado</strong> a novidades</li>
-          <li><span class="pf-check">✓</span> Nome na lista de Apoiadores do app</li>
-          <li><span class="pf-check">✓</span> <strong>Suporte direto</strong> com o criador</li>
+          <li><span class="pf-check">✓</span> <span><strong>Gerações ilimitadas</strong> em tudo — planos, provas, slides, jogos</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Batalha de Revisão</strong> e gamificação completa</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Escape Room completo</strong> · todos os 4 temas</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong> — pareceres, inclusão, rubricas e mais</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong> — calendário letivo e ementa</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Acesso antecipado</strong> a novidades</span></li>
+          <li><span class="pf-check">✓</span> <span>Nome na lista de Apoiadores do app</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Suporte direto</strong> com o criador</span></li>
         </ul>
         <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
            target="_blank" rel="noopener" class="btn btn-primary plan-btn" style="text-align:center;justify-content:center">
@@ -1518,6 +1865,10 @@
         <p class="plan-sub-note">
           Você ajuda um estudante a concluir o TCC e ainda leva
           o app que vai mudar sua rotina de planejamento.
+        </p>
+        <p class="plan-anchor">
+          <strong>Menos de R$ 2 por dia</strong> — o preço de um café — pra recuperar
+          horas de planejamento toda semana.
         </p>
       </div>
 
@@ -1532,14 +1883,14 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     SECTION 06 — FAQ
+     SECTION 08 — FAQ
 ══════════════════════════════════════ -->
 <section id="faq">
   <div class="container-tight">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 06 / 07 —</span>
+        <span class="section-num">— 08 / 08 —</span>
         <div class="eyebrow">Dúvidas Frequentes</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1550,6 +1901,30 @@
     <div class="faq-list">
       <div class="faq-item animate-in">
         <button class="faq-btn" onclick="toggleFaq(this)">
+          Preciso saber usar IA pra usar o app?
+          <span class="faq-plus">+</span>
+        </button>
+        <div class="faq-ans">
+          Não. Você digita o tema da aula como digitaria uma mensagem de WhatsApp,
+          e o app faz o resto. Não tem "prompt", não tem configuração complicada —
+          foi desenhado pra professor, não pra programador.
+        </div>
+      </div>
+      <div class="faq-item animate-in" style="transition-delay:.05s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          Como funciona a Batalha de Revisão na prática?
+          <span class="faq-plus">+</span>
+        </button>
+        <div class="faq-ans">
+          Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe duas equipes
+          e projeta a arena na TV ou no projetor. A IA gera as perguntas na hora e cada
+          equipe responde na sua vez: acerto ataca, erro sofre contra-ataque, resposta
+          rápida dá dano crítico. Vence quem zerar o HP do rival — e os pontos podem ir
+          direto pra gamificação da turma.
+        </div>
+      </div>
+      <div class="faq-item animate-in" style="transition-delay:.1s">
+        <button class="faq-btn" onclick="toggleFaq(this)">
           Precisa de internet para funcionar?
           <span class="faq-plus">+</span>
         </button>
@@ -1559,7 +1934,7 @@
           com experiência fluida e responsiva.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.05s">
+      <div class="faq-item animate-in" style="transition-delay:.15s">
         <button class="faq-btn" onclick="toggleFaq(this)">
           Funciona no iPhone?
           <span class="faq-plus">+</span>
@@ -1569,7 +1944,7 @@
           É instalável no Android como app nativo. No iPhone, funciona perfeitamente pelo Safari.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.1s">
+      <div class="faq-item animate-in" style="transition-delay:.2s">
         <button class="faq-btn" onclick="toggleFaq(this)">
           Os materiais gerados são meus?
           <span class="faq-plus">+</span>
@@ -1577,9 +1952,10 @@
         <div class="faq-ans">
           Sim, 100%. Tudo que você gera no Prof. Corujão pertence a você.
           Pode editar, imprimir, compartilhar e usar como quiser — sem restrições.
+          E tudo fica salvo no seu Acervo pessoal.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.15s">
+      <div class="faq-item animate-in" style="transition-delay:.25s">
         <button class="faq-btn" onclick="toggleFaq(this)">
           É seguro? Meus dados ficam protegidos?
           <span class="faq-plus">+</span>
@@ -1589,7 +1965,7 @@
           Nenhuma informação sensível é compartilhada com terceiros.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.2s">
+      <div class="faq-item animate-in" style="transition-delay:.3s">
         <button class="faq-btn" onclick="toggleFaq(this)">
           Por que "Apoiador" e não cliente?
           <span class="faq-plus">+</span>
@@ -1600,7 +1976,7 @@
           Cada Apoiador ajuda a garantir que o app continue crescendo e melhorando.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.25s">
+      <div class="faq-item animate-in" style="transition-delay:.35s">
         <button class="faq-btn" onclick="toggleFaq(this)">
           Por que o Prof. Corujão é pago?
           <span class="faq-plus">+</span>
@@ -1632,19 +2008,17 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     SECTION 07 — CTA FINAL
+     CTA FINAL
 ══════════════════════════════════════ -->
 <section id="cta-final">
   <div class="container">
     <div class="cta-final-inner">
 
-      <!-- ILLUSTRATION #09 -->
       <div class="animate-in" style="width:100%;max-width:520px;margin:0 auto 28px;aspect-ratio:16/9;overflow:hidden;border-radius:20px;">
         <img src="illu-09.png?v=2" alt="Coruja Final" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
       </div>
 
       <div class="eyebrow-row animate-in" style="margin-bottom:8px;display:flex;justify-content:center;align-items:center;gap:18px">
-        <span class="section-num" style="color:rgba(255,255,255,.4)">— 07 / 07 —</span>
         <div class="eyebrow light">Sua próxima aula</div>
       </div>
 
@@ -1654,14 +2028,17 @@
       </h2>
 
       <p class="cta-final-sub animate-in" style="transition-delay:.16s">
-        Seja um Apoiador do Prof. Corujão. Acesse tudo. Ilimitado.
-        E transforme o tempo que você perde planejando em tempo dentro da sala de aula.
+        Teste grátis agora — são 10 gerações por conta da casa, sem cartão.
+        Se o Corujão te devolver uma noite de sono, você já sabe o que fazer.
       </p>
 
       <div class="animate-in" style="transition-delay:.24s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary lg">
+          Testar grátis agora →
+        </a>
         <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
-           target="_blank" rel="noopener" class="btn btn-primary lg">
-          🦉 Quero ser Apoiador agora
+           target="_blank" rel="noopener" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3)">
+          🦉 Quero ser Apoiador
         </a>
       </div>
 
@@ -1685,7 +2062,7 @@
       </p>
     </div>
     <div class="footer-meta">
-      Versão 1.0<br>
+      Versão 2.0<br>
       Lançamento 2026<br>
       <br>
       <a href="https://wa.me/5598981796309" target="_blank" style="color:rgba(70,89,255,.7);text-decoration:none">WhatsApp →</a>
@@ -1696,6 +2073,13 @@
   </div>
 </footer>
 
+<!-- ══ STICKY MOBILE CTA ══ -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Testar grátis</a>
+  <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
+     target="_blank" rel="noopener" class="btn btn-outline">🦉 Apoiar</a>
+</div>
+
 <script>
   /* ── Scroll-triggered animations ── */
   const io = new IntersectionObserver((entries) => {
@@ -1703,10 +2087,12 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  /* ── Nav shadow on scroll ── */
+  /* ── Nav shadow on scroll + sticky mobile CTA ── */
   const nav = document.getElementById('main-nav');
+  const stickyCta = document.getElementById('sticky-cta');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
+    stickyCta.classList.toggle('show', window.scrollY > window.innerHeight * 0.9);
   }, { passive: true });
 
   /* ── FAQ accordion ── */
@@ -1785,7 +2171,7 @@
   observer.observe(output);
 })();
 
-/* ── Slideshow cena 06 ── */
+/* ── Slideshow jogos ── */
 (function () {
   const imgs = document.querySelectorAll('.slide06-img');
   const dots = document.querySelectorAll('.slide06-dot');
@@ -1800,16 +2186,36 @@
   }, 3000);
 })();
 
+/* ── Pixel duel: idle frame loop ── */
+(function () {
+  const red  = document.getElementById('duck-red');
+  const blue = document.getElementById('duck-blue');
+  if (!red || !blue) return;
+
+  const FRAMES = 5;
+  // pré-carrega os quadros pra troca não piscar
+  ['red','blue'].forEach(team => {
+    for (let i = 1; i <= FRAMES; i++) {
+      const img = new Image();
+      img.src = `duck-${team}-${i}.png`;
+    }
+  });
+
+  let f = 0;
+  setInterval(() => {
+    f = (f + 1) % FRAMES;
+    red.src  = `duck-red-${f + 1}.png`;
+    blue.src = `duck-blue-${f + 1}.png`;
+  }, 220);
+})();
+
 /* ── Owl flying easter egg ── */
 (function () {
-  // Cria o elemento
   const wrap = document.createElement('div');
   wrap.className = 'owl-fly';
   wrap.setAttribute('aria-hidden', 'true');
   wrap.innerHTML = '<img src="owl-fly.png" alt="">';
   document.body.appendChild(wrap);
-
-  const img = wrap.querySelector('img');
 
   let raf;
 
@@ -1824,7 +2230,7 @@
     wrap.style.height = size + 'px';
     wrap.style.opacity = '1';
     wrap.style.transition = 'none';
-    wrap.style.transform  = 'none'; // reseta
+    wrap.style.transform  = 'none';
 
     const startX  = -size - 10;
     const endX    = window.innerWidth + size + 10;
@@ -1837,7 +2243,6 @@
       const progress = Math.min(elapsed / duration, 1);
 
       const x = startX + totalDist * progress;
-      // Caminho ondulado: seno suave
       const y = baseY + Math.sin(progress * Math.PI * 2 * waves) * amplitude;
 
       wrap.style.left = '0';
@@ -1856,7 +2261,6 @@
     raf = requestAnimationFrame(step);
   }
 
-  // Primeira passagem após 4 segundos
   setTimeout(fly, 4000);
 })();
 </script>
