@@ -32,9 +32,9 @@
       --line: #e7e9f7;
       --night: #0d1043;
       --night-2: #1a1f6e;
+      --pit: #12060f;
       --emerald: #10b981;
       --amber: #f59e0b;
-      --crimson: #9f1239;
       --shadow-sm: 0 1px 3px rgba(12,16,21,.04), 0 1px 2px rgba(12,16,21,.06);
       --shadow:    0 4px 24px rgba(70,89,255,.07);
       --shadow-lg: 0 18px 60px rgba(70,89,255,.16);
@@ -54,20 +54,23 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    section, header#hero { scroll-margin-top: 76px; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 9999px;
+    }
+
     /* ── Owl flying easter egg ── */
     .owl-fly {
-      position: fixed;
-      left: 0;
-      width: 130px;
-      height: 130px;
-      z-index: 9999;
-      pointer-events: none;
+      position: fixed; left: 0;
+      width: 130px; height: 130px;
+      z-index: 9999; pointer-events: none;
       will-change: transform;
     }
     .owl-fly img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 100%; height: 100%; object-fit: contain;
       transform: scaleX(-1);
       filter: drop-shadow(0 8px 24px rgba(70,89,255,.35));
     }
@@ -79,7 +82,11 @@
     }
     @keyframes float {
       0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-10px); }
+      50%     { transform: translateY(-12px); }
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+      50%     { transform: translateY(-9px) rotate(var(--rot, 0deg)); }
     }
     @keyframes blink {
       0%,100% { opacity: 1; } 50% { opacity: 0; }
@@ -88,9 +95,16 @@
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
+    @keyframes drift {
+      from { transform: translateX(-40px); }
+      to   { transform: translateX(60px); }
+    }
     @keyframes shine {
       from { background-position: -200% center; }
       to   { background-position: 200% center; }
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .9; } 50% { opacity: .25; }
     }
     .animate-in {
       opacity: 0; transform: translateY(28px);
@@ -99,11 +113,21 @@
     }
     .animate-in.visible { opacity: 1; transform: translateY(0); }
 
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .animate-in { opacity: 1; transform: none; }
+      .owl-fly { display: none; }
+    }
+
     /* ── Utility ── */
     .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
     .container-tight { max-width: 880px; margin: 0 auto; padding: 0 28px; }
 
-    /* ── Typography helpers ── */
     .eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 12px; font-weight: 700;
@@ -113,8 +137,7 @@
     .eyebrow::before {
       content: ''; width: 28px; height: 1.5px; background: var(--brand);
     }
-    .eyebrow.center { justify-content: center; }
-    .eyebrow.light { color: rgba(255,255,255,.7); }
+    .eyebrow.light { color: rgba(255,255,255,.75); }
     .eyebrow.light::before { background: rgba(255,255,255,.6); }
 
     .section-num {
@@ -127,11 +150,6 @@
       font-size: clamp(34px, 5vw, 56px);
       font-weight: 900; letter-spacing: -.03em;
       line-height: 1.08;
-    }
-    .h2 {
-      font-size: clamp(26px, 3.6vw, 40px);
-      font-weight: 800; letter-spacing: -.02em;
-      line-height: 1.18;
     }
     .lead {
       font-size: 19px; color: var(--muted);
@@ -154,7 +172,6 @@
     .pill-amber { background: #fef3c7; color: #92400e; }
     .pill-green { background: #d1fae5; color: #065f46; }
     .pill-pink  { background: #fce7f3; color: #9d174d; }
-    .pill-red   { background: #fee2e2; color: #991b1b; }
     .pill-new {
       background: linear-gradient(120deg, #f43f5e, #e11d48 40%, #fb7185 50%, #e11d48 60%);
       background-size: 200% auto;
@@ -170,6 +187,7 @@
       transition: transform .2s, box-shadow .2s, background-color .2s;
       border-radius: 9999px; border: none;
     }
+    .btn:active { transform: scale(.97); }
     .btn-primary {
       background: var(--brand); color: #fff;
       padding: 17px 34px; font-size: 16px;
@@ -186,78 +204,19 @@
       border: 1.5px solid var(--line);
     }
     .btn-outline:hover { border-color: var(--brand); color: var(--brand); transform: scale(1.02); }
-    .btn-note {
-      display: block; font-size: 11px; font-weight: 500;
-      opacity: .75; margin-top: -2px;
-    }
     .btn-logo {
       width: 22px; height: 22px; object-fit: contain;
       border-radius: 6px; flex-shrink: 0;
     }
 
-    /* ── Leaderboard mockup (Turma Gamificada) ── */
-    .board-card {
-      background: var(--night); border-radius: 28px;
-      padding: 30px 26px; color: #fff;
-      box-shadow: 0 30px 80px rgba(13,16,67,.35);
-      position: relative; overflow: hidden;
-    }
-    .board-card::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 400px 300px at 80% 0%, rgba(70,89,255,.35) 0%, transparent 65%);
-    }
-    .board-head {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 22px; position: relative;
-    }
-    .board-head img { width: 40px; height: 40px; border-radius: 12px; }
-    .board-head .bh-title { font-size: 15px; font-weight: 800; }
-    .board-head .bh-sub { font-size: 11.5px; color: rgba(255,255,255,.55); }
-    .board-row {
-      display: flex; align-items: center; gap: 12px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 16px; padding: 13px 16px;
-      margin-bottom: 10px; position: relative;
-    }
-    .board-row .br-rank {
-      font-family: var(--serif); font-style: italic;
-      font-size: 20px; color: rgba(255,255,255,.5); width: 22px;
-      flex-shrink: 0; text-align: center;
-    }
-    .board-row .br-em { font-size: 22px; flex-shrink: 0; }
-    .board-row .br-info { flex: 1; min-width: 0; }
-    .board-row .br-name { font-size: 13.5px; font-weight: 800; margin-bottom: 5px; }
-    .board-row .br-bar {
-      height: 7px; border-radius: 9999px;
-      background: rgba(255,255,255,.12); overflow: hidden;
-    }
-    .board-row .br-fill {
-      height: 100%; border-radius: 9999px;
-      background: linear-gradient(90deg, #4659ff, #8b9aff);
-    }
-    .board-row .br-xp {
-      font-size: 12px; font-weight: 800; color: #b3c0ff;
-      white-space: nowrap; flex-shrink: 0;
-    }
-    .board-row.gold {
-      border-color: rgba(251,191,36,.4);
-      background: rgba(251,191,36,.09);
-    }
-    .board-row.gold .br-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-    .board-row.gold .br-xp { color: #fbbf24; }
-    .board-foot {
-      display: flex; gap: 10px; margin-top: 18px; position: relative;
-    }
-    .board-chip {
-      flex: 1; text-align: center;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 14px; padding: 12px 8px;
-      font-size: 11px; color: rgba(255,255,255,.6);
-    }
-    .board-chip strong {
-      display: block; font-size: 16px; color: #fff; margin-bottom: 2px;
+    /* ── Section separators (organic world transitions) ── */
+    .sep { line-height: 0; position: relative; z-index: 2; }
+    .sep svg { display: block; width: 100%; height: 72px; }
+    .sep.short svg { height: 52px; }
+    .sep.pixel svg { height: 38px; }
+    @media (max-width: 700px) {
+      .sep svg { height: 44px; }
+      .sep.pixel svg { height: 26px; }
     }
 
     /* ── Sticky mobile CTA ── */
@@ -279,7 +238,7 @@
        NAV
     ══════════════════════════════════════ */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 400;
       padding: 14px 28px;
       background: rgba(248,249,254,.86);
       backdrop-filter: blur(14px);
@@ -316,39 +275,81 @@
       background: #e11d48; color: #fff; border-radius: 6px;
       padding: 1px 5px; vertical-align: super; letter-spacing: .05em;
     }
+    .nav-burger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 42px; height: 42px; border-radius: 12px;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 5px;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 2.5px; border-radius: 2px;
+      background: var(--ink); transition: transform .3s, opacity .3s;
+    }
+    .nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
     @media (max-width: 900px) {
-      .nav-menu { display: none; }
+      .nav-menu {
+        display: none;
+        position: absolute; top: 100%; left: 12px; right: 12px;
+        background: #fff; border: 1px solid var(--line);
+        border-radius: 20px; padding: 10px;
+        flex-direction: column; align-items: stretch;
+        box-shadow: var(--shadow-lg);
+      }
+      .nav-menu.open { display: flex; }
+      .nav-link { padding: 13px 16px; font-size: 15px; }
+      .nav-burger { display: flex; }
+      .nav-cta-top { display: none; }
     }
 
     /* ══════════════════════════════════════
-       HERO
+       HERO — cena de céu índigo
     ══════════════════════════════════════ */
     #hero {
-      padding: 130px 0 110px;
       position: relative; overflow: hidden;
+      padding: 150px 0 0;
+      background:
+        radial-gradient(ellipse 900px 480px at 78% 8%, rgba(255,231,150,.5) 0%, transparent 60%),
+        linear-gradient(180deg, #dfe4ff 0%, #e9ecff 34%, #f4f5ff 68%, #f8f9fe 100%);
     }
-    #hero::before {
-      content: ''; position: absolute;
-      top: -20%; left: 50%; transform: translateX(-50%);
-      width: 1100px; height: 700px;
-      background: radial-gradient(ellipse, rgba(70,89,255,.07) 0%, transparent 65%);
-      pointer-events: none; z-index: 0;
+    /* nuvens de cenário */
+    .cloud {
+      position: absolute; background: #fff;
+      border-radius: 9999px; opacity: .85;
+      animation: drift 26s ease-in-out infinite alternate;
+      pointer-events: none;
     }
+    .cloud::before, .cloud::after {
+      content: ''; position: absolute; background: #fff; border-radius: 50%;
+    }
+    .cloud.c1 { width: 190px; height: 56px; top: 110px; left: 6%; }
+    .cloud.c1::before { width: 84px; height: 84px; top: -38px; left: 30px; }
+    .cloud.c1::after  { width: 60px; height: 60px; top: -24px; left: 98px; }
+    .cloud.c2 { width: 150px; height: 44px; top: 220px; right: 4%; opacity: .7; animation-duration: 34s; animation-delay: -8s; }
+    .cloud.c2::before { width: 66px; height: 66px; top: -30px; left: 26px; }
+    .cloud.c2::after  { width: 46px; height: 46px; top: -18px; left: 80px; }
+    .cloud.c3 { width: 120px; height: 36px; top: 58%; left: 42%; opacity: .55; animation-duration: 40s; animation-delay: -16s; }
+    .cloud.c3::before { width: 52px; height: 52px; top: -24px; left: 20px; }
+    .cloud.c3::after  { width: 38px; height: 38px; top: -14px; left: 62px; }
+
     .hero-inner {
       position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px;
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px;
       align-items: center;
+      padding-bottom: 40px;
     }
     @media (max-width: 960px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .hero-inner { grid-template-columns: 1fr; gap: 26px; text-align: center; }
       .hero-actions { justify-content: center; }
       .eyebrow { justify-content: center; }
       .hero-badges { justify-content: center; }
+      .hero-stats { justify-content: center; }
     }
     .hero-text { max-width: 580px; }
     .hero-text .eyebrow { margin-bottom: 22px; }
     .hero-title {
-      font-size: clamp(40px, 6vw, 72px);
+      font-size: clamp(38px, 5.6vw, 68px);
       font-weight: 900; letter-spacing: -.035em;
       line-height: 1.02; margin-bottom: 24px;
       color: var(--ink);
@@ -360,12 +361,12 @@
     .hero-sub {
       font-size: 19px; color: var(--muted);
       max-width: 520px; line-height: 1.65;
-      margin-bottom: 36px;
+      margin-bottom: 34px;
     }
     .hero-sub strong { color: var(--ink); font-weight: 700; }
     .hero-actions {
       display: flex; flex-wrap: wrap; gap: 14px;
-      align-items: center; margin-bottom: 28px;
+      align-items: center; margin-bottom: 24px;
     }
     .hero-trust {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -376,44 +377,28 @@
       background: var(--emerald); animation: blink 2.2s infinite;
     }
 
-    /* Hero badges row (BNCC + Novidade) */
-    .hero-badges {
-      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;
-    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
     .bncc-badge {
       display: inline-flex; align-items: stretch;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
+      border-radius: 12px; background: #fff;
       box-shadow: var(--shadow-sm);
-      overflow: hidden;
-      max-width: fit-content;
+      overflow: hidden; max-width: fit-content;
     }
     .bncc-badge .bncc-tag {
-      background: var(--brand);
-      color: #fff;
-      padding: 10px 14px;
-      font-weight: 900;
-      font-size: 13px;
-      letter-spacing: .04em;
-      display: flex; align-items: center; gap: 6px;
+      background: var(--brand); color: #fff;
+      padding: 10px 14px; font-weight: 900; font-size: 13px;
+      letter-spacing: .04em; display: flex; align-items: center; gap: 6px;
     }
     .bncc-badge .bncc-tag::before {
-      content: "✓";
-      font-size: 11px;
-      background: #fff;
-      color: var(--brand);
-      width: 16px; height: 16px;
-      border-radius: 50%;
+      content: "✓"; font-size: 11px; background: #fff; color: var(--brand);
+      width: 16px; height: 16px; border-radius: 50%;
       display: inline-flex; align-items: center; justify-content: center;
       font-weight: 900;
     }
     .bncc-badge .bncc-text {
-      padding: 10px 16px;
-      font-size: 12.5px;
-      color: var(--ink-2);
-      display: flex; align-items: center;
-      line-height: 1.35;
+      padding: 10px 16px; font-size: 12.5px; color: var(--ink-2);
+      display: flex; align-items: center; line-height: 1.35;
     }
     .bncc-badge .bncc-text strong { color: var(--ink); font-weight: 700; }
     .bncc-badge .bncc-text small {
@@ -422,118 +407,100 @@
     .bncc-badge.new-badge .bncc-tag { background: #e11d48; }
     .bncc-badge.new-badge .bncc-tag::before { color: #e11d48; content: "★"; }
 
-    /* Hero stats */
     .hero-stats {
-      display: flex; gap: 36px; padding-top: 28px;
-      border-top: 1px solid var(--line);
-      margin-top: 26px;
+      display: flex; gap: 36px; padding-top: 26px;
+      border-top: 1px solid rgba(70,89,255,.14);
+      margin-top: 24px;
     }
     .hero-stat-num {
       font-family: var(--serif); font-size: 34px;
       color: var(--brand); line-height: 1; margin-bottom: 4px;
     }
-    .hero-stat-lbl {
-      font-size: 12px; color: var(--muted);
-      letter-spacing: .04em;
-    }
-    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 24px; justify-content: center; } }
+    .hero-stat-lbl { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 22px; } }
 
-    .hero-visual {
+    /* mascote dentro da cena */
+    .hero-scene {
       position: relative;
-      display: grid; gap: 16px;
-      grid-template-columns: 1fr;
+      display: flex; align-items: flex-end; justify-content: center;
+      min-height: 460px;
+    }
+    .hero-scene .owl-hero {
+      width: min(430px, 88%);
+      display: block;
+      filter: drop-shadow(0 30px 40px rgba(13,16,67,.18));
+      animation: float 7s ease-in-out infinite;
+    }
+    /* itens escolares flutuando ao redor do mascote */
+    .float-chip {
+      position: absolute;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(13,16,67,.12);
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      animation: bob 5.5s ease-in-out infinite;
+      will-change: transform;
+    }
+    .float-chip.f1 { top: 6%;  left: 4%;  --rot: -8deg; animation-delay: -1s; }
+    .float-chip.f2 { top: 0;   right: 10%; --rot: 6deg;  animation-delay: -2.6s; }
+    .float-chip.f3 { top: 44%; left: -2%; --rot: 5deg;  animation-delay: -4s; }
+    .float-chip.f4 { top: 36%; right: -1%; --rot: -6deg; animation-delay: -.5s; width: 60px; height: 60px; }
+    @media (max-width: 960px) {
+      .hero-scene { min-height: 380px; }
+      .float-chip.f3 { left: 4%; }
+      .float-chip.f4 { right: 4%; }
     }
 
-    /* Phone mockup */
-    .phone-wrap {
-      max-width: 360px; margin: 0 auto;
-      animation: float 6s ease-in-out infinite;
-      position: relative;
-    }
-    .phone-frame {
-      background: #16141f; border-radius: 44px; padding: 14px;
-      box-shadow: 0 50px 120px rgba(13,16,67,.25),
-                  0 0 0 1px rgba(255,255,255,.08) inset;
-    }
-    .phone-screen {
-      background: var(--bg); border-radius: 32px;
-      overflow: hidden; padding: 22px;
-    }
-    .phone-topbar {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 18px; padding-bottom: 14px;
-      border-bottom: 1px dashed rgba(70,89,255,.18);
-    }
-    .phone-icon {
-      width: 34px; height: 34px; background: var(--brand);
-      border-radius: 9px; display: flex; align-items: center;
-      justify-content: center; font-size: 17px; flex-shrink: 0;
-    }
-    .phone-title { font-size: 13px; font-weight: 700; }
-    .phone-sub   { font-size: 11px; color: var(--muted); }
-    .p-label {
-      font-size: 10px; font-weight: 700; color: var(--brand);
-      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px;
-    }
-    .p-input {
-      background: #fff; border: 2px solid var(--brand-soft);
-      border-radius: 10px; padding: 9px 13px;
-      font-size: 13px; font-family: 'Inter', sans-serif;
-      color: var(--ink); margin-bottom: 14px; width: 100%;
-    }
-    .demo-cursor {
-      display: inline-block; width: 2px; height: 13px;
-      background: var(--brand); animation: blink 1s infinite;
-      vertical-align: middle; margin-left: 1px;
-    }
-    .p-output { display: flex; flex-direction: column; gap: 7px; }
-    .p-row {
-      display: flex; gap: 8px; align-items: flex-start;
-      background: #fff; border-radius: 10px;
-      padding: 9px 12px; box-shadow: var(--shadow);
-      font-size: 12px; line-height: 1.5; opacity: 0;
-    }
+    /* colina de saída do hero */
+    #hero .sep { position: relative; z-index: 1; }
 
-    /* ── Marquee bar between hero & dor ── */
-    .marquee {
-      background: var(--ink); color: #fff;
-      padding: 18px 0; overflow: hidden;
-      border-top: 1px solid var(--line);
+    /* ── Fita marquee inclinada ── */
+    .ribbon-wrap {
+      position: relative; z-index: 3;
+      margin: -34px 0 -14px;
+      transform: rotate(-1.6deg);
+      pointer-events: none;
+    }
+    .ribbon {
+      background: var(--night); color: #fff;
+      padding: 15px 0; overflow: hidden;
+      box-shadow: 0 14px 40px rgba(13,16,67,.28);
+      width: 104%; margin-left: -2%;
+      border-radius: 4px;
     }
     .marquee-track {
-      display: flex; gap: 60px;
-      animation: marquee 34s linear infinite;
+      display: flex; gap: 56px;
+      animation: marquee 36s linear infinite;
       white-space: nowrap;
     }
     .marquee-track span {
       display: inline-flex; align-items: center; gap: 14px;
-      font-size: 14px; font-weight: 600;
-      letter-spacing: .06em; text-transform: uppercase;
+      font-size: 13.5px; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
     }
     .marquee-track span::after {
       content: ''; width: 18px; height: 18px;
       background: url('logo.png') center/contain no-repeat;
-      opacity: .75;
+      opacity: .8;
     }
 
     /* ══════════════════════════════════════
        SECTION BASE
     ══════════════════════════════════════ */
-    section { padding: 120px 0; position: relative; }
+    section { padding: 110px 0; position: relative; }
     .sec-header {
       display: flex; flex-direction: column;
       align-items: center; text-align: center;
       gap: 16px; max-width: 720px;
       margin: 0 auto 70px;
     }
-    .sec-header .eyebrow-row {
-      display: flex; align-items: center; gap: 18px;
-    }
+    .sec-header .eyebrow-row { display: flex; align-items: center; gap: 18px; }
 
     /* ══════════════════════════════════════
-       SECTION 01 — DOR
+       01 — DOR
     ══════════════════════════════════════ */
-    #dor { background: #fff; }
+    #dor { background: #fff; padding-top: 90px; }
     .dor-feature {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 60px; align-items: center;
@@ -541,9 +508,7 @@
     }
     @media (max-width: 860px) { .dor-feature { grid-template-columns: 1fr; gap: 36px; } }
 
-    .dor-quote-block {
-      position: relative; padding-left: 36px;
-    }
+    .dor-quote-block { position: relative; padding-left: 36px; }
     .dor-quote-block::before {
       content: '"';
       position: absolute; top: -36px; left: -10px;
@@ -586,16 +551,33 @@
     .dor-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 
     /* ══════════════════════════════════════
-       SECTION 02 — VIRADA
+       02 — VIRADA (cena noturna)
     ══════════════════════════════════════ */
     #virada {
       background: var(--night); color: #fff;
       position: relative; overflow: hidden;
+      padding-top: 90px;
     }
     #virada::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background: radial-gradient(ellipse 800px 600px at 50% 0%, rgba(70,89,255,.22) 0%, transparent 65%);
     }
+    /* estrelas */
+    .stars, .stars::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.9) 50%, transparent 51%),
+        radial-gradient(1px 1px at 28% 64%, rgba(255,255,255,.7) 50%, transparent 51%),
+        radial-gradient(2px 2px at 44% 14%, rgba(255,255,255,.8) 50%, transparent 51%),
+        radial-gradient(1px 1px at 58% 42%, rgba(255,255,255,.6) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 71% 18%, rgba(255,255,255,.9) 50%, transparent 51%),
+        radial-gradient(1px 1px at 84% 56%, rgba(255,255,255,.7) 50%, transparent 51%),
+        radial-gradient(2px 2px at 93% 30%, rgba(255,255,255,.75) 50%, transparent 51%),
+        radial-gradient(1px 1px at 6% 78%, rgba(255,255,255,.5) 50%, transparent 51%);
+      animation: twinkle 4.5s ease-in-out infinite;
+    }
+    .stars::after { animation-delay: -2.2s; transform: translate(30px, 40px); opacity: .6; }
+
     .virada-inner {
       position: relative; z-index: 1;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -648,17 +630,30 @@
       background: rgba(255,255,255,.7); border-radius: 2px;
       animation: blink .8s infinite; vertical-align: middle; margin-left: 4px;
     }
-    .t-text  { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
+    .t-text { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
 
     /* ══════════════════════════════════════
-       SECTION 03 — FEATURES
+       03 — FEATURES
     ══════════════════════════════════════ */
-    #features { background: var(--bg); padding-bottom: 140px; }
+    #features {
+      background: var(--bg);
+      padding-top: 90px; padding-bottom: 130px;
+      position: relative; overflow: hidden;
+    }
+    /* bolhas suaves de cenário */
+    #features::before, #features::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(70,89,255,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #features::before { width: 640px; height: 640px; top: 6%; left: -220px; }
+    #features::after  { width: 720px; height: 720px; bottom: 4%; right: -260px; }
 
     .feat-row {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 60px; align-items: center;
       margin-bottom: 100px;
+      position: relative; z-index: 1;
     }
     .feat-row.reverse { direction: rtl; }
     .feat-row.reverse > * { direction: ltr; }
@@ -669,7 +664,7 @@
 
     .feat-content .feat-num {
       font-family: var(--serif); font-style: italic;
-      font-size: 56px; color: var(--brand-soft);
+      font-size: 56px; color: rgba(70,89,255,.16);
       line-height: 1; margin-bottom: 8px;
     }
     .feat-content .pill { margin-bottom: 14px; }
@@ -727,12 +722,27 @@
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
     .gami-pill.gami-top { grid-column: 1 / -1; }
 
-    /* ── Slideshow gamificação ── */
+    /* imagens de feature em "cartão de cena" */
+    .scene-frame {
+      border-radius: 26px; overflow: hidden;
+      box-shadow: 0 26px 70px rgba(13,16,67,.16);
+      transform: rotate(1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .feat-row.reverse .scene-frame { transform: rotate(-1.2deg); }
+    .scene-frame:hover { transform: rotate(0) scale(1.015); }
+    .scene-frame img, .scene-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Slideshow jogos ── */
     .slide06 {
-      position: relative; border-radius: 24px;
+      position: relative; border-radius: 26px;
       overflow: hidden; aspect-ratio: 4/3;
       background: var(--brand-soft);
+      box-shadow: 0 26px 70px rgba(13,16,67,.16);
+      transform: rotate(-1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
     }
+    .slide06:hover { transform: rotate(0) scale(1.015); }
     .slide06-img {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -750,18 +760,90 @@
       background: rgba(255,255,255,.45);
       transition: background .3s, transform .3s;
     }
-    .slide06-dot.active {
-      background: #fff;
-      transform: scale(1.3);
+    .slide06-dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ── Placar de equipes (Turma Gamificada) ── */
+    .board-card {
+      background: var(--night); border-radius: 28px;
+      padding: 30px 26px; color: #fff;
+      box-shadow: 0 30px 80px rgba(13,16,67,.35);
+      position: relative; overflow: hidden;
+      transform: rotate(1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
     }
+    .board-card:hover { transform: rotate(0) scale(1.01); }
+    .board-card::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 400px 300px at 80% 0%, rgba(70,89,255,.35) 0%, transparent 65%);
+    }
+    .board-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 22px; position: relative;
+    }
+    .board-head img { width: 40px; height: 40px; border-radius: 12px; }
+    .board-head .bh-title { font-size: 15px; font-weight: 800; }
+    .board-head .bh-sub { font-size: 11.5px; color: rgba(255,255,255,.55); }
+    .board-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px; padding: 13px 16px;
+      margin-bottom: 10px; position: relative;
+    }
+    .board-row .br-rank {
+      font-family: var(--serif); font-style: italic;
+      font-size: 20px; color: rgba(255,255,255,.5); width: 22px;
+      flex-shrink: 0; text-align: center;
+    }
+    .board-row .br-em { font-size: 22px; flex-shrink: 0; }
+    .board-row .br-info { flex: 1; min-width: 0; }
+    .board-row .br-name { font-size: 13.5px; font-weight: 800; margin-bottom: 5px; }
+    .board-row .br-bar {
+      height: 7px; border-radius: 9999px;
+      background: rgba(255,255,255,.12); overflow: hidden;
+    }
+    .board-row .br-fill {
+      height: 100%; border-radius: 9999px;
+      background: linear-gradient(90deg, #4659ff, #8b9aff);
+    }
+    .board-row .br-xp {
+      font-size: 12px; font-weight: 800; color: #b3c0ff;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .board-row.gold {
+      border-color: rgba(251,191,36,.4);
+      background: rgba(251,191,36,.09);
+    }
+    .board-row.gold .br-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .board-row.gold .br-xp { color: #fbbf24; }
+    .board-foot { display: flex; gap: 10px; margin-top: 18px; position: relative; }
+    .board-chip {
+      flex: 1; text-align: center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px; padding: 12px 8px;
+      font-size: 11px; color: rgba(255,255,255,.6);
+    }
+    .board-chip strong { display: block; font-size: 16px; color: #fff; margin-bottom: 2px; }
+
+    /* painel escuro da Agenda */
+    .night-panel {
+      background: var(--night); border-radius: 26px; padding: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(13,16,67,.35);
+      transform: rotate(-1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .night-panel:hover { transform: rotate(0) scale(1.01); }
+    .night-panel img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
     /* ══════════════════════════════════════
-       SECTION 03B — BATALHA (destaque)
+       04 — BATALHA (fase de jogo)
     ══════════════════════════════════════ */
     #batalha {
-      background: #12060f;
+      background: var(--pit);
       color: #fff; position: relative; overflow: hidden;
-      padding: 130px 0;
+      padding: 110px 0 120px;
     }
     #batalha::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -773,6 +855,11 @@
     .batalha-head {
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 18px; margin-bottom: 56px;
+    }
+    .press-start {
+      font-family: var(--pixel); font-size: 10px;
+      color: #fbbf24; letter-spacing: .1em;
+      animation: blink 1.4s steps(2) infinite;
     }
     .batalha-title {
       font-size: clamp(30px, 4.6vw, 54px); font-weight: 900;
@@ -800,7 +887,6 @@
     }
     .batalha-banner img { width: 100%; display: block; }
 
-    /* pixel duel strip */
     .duel-strip {
       display: flex; align-items: flex-end; justify-content: center;
       gap: clamp(20px, 6vw, 60px);
@@ -819,15 +905,15 @@
       animation: blink 1.6s infinite;
     }
 
-    .rule-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
+    .rule-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .rule-cards { grid-template-columns: 1fr; } }
     .rule-card {
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 16px; padding: 18px;
+      transition: transform .2s, border-color .2s;
     }
+    .rule-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.3); }
     .rule-card .rc-em { font-size: 24px; display: block; margin-bottom: 8px; }
     .rule-card .rc-name {
       font-size: 13px; font-weight: 800; margin-bottom: 4px;
@@ -843,13 +929,10 @@
     }
 
     /* ══════════════════════════════════════
-       SECTION — KIT DO PROFESSOR (bento)
+       05 — KIT DO PROFESSOR (bento)
     ══════════════════════════════════════ */
-    #kit { background: #fff; }
-    .kit-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
+    #kit { background: #fff; padding-top: 90px; }
+    .kit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     @media (max-width: 980px) { .kit-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px) { .kit-grid { grid-template-columns: 1fr; } }
     .kit-card {
@@ -872,19 +955,17 @@
     .kit-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
     .kit-card.wide { grid-column: span 2; }
     @media (max-width: 520px) { .kit-card.wide { grid-column: span 1; } }
-    .kit-card.dark {
-      background: var(--night); border-color: var(--night-2);
-      color: #fff;
-    }
+    .kit-card.dark { background: var(--night); border-color: var(--night-2); color: #fff; }
     .kit-card.dark .kit-name { color: #fff; }
     .kit-card.dark .kit-desc { color: rgba(255,255,255,.65); }
     .kit-card.dark:hover { border-color: var(--brand); }
 
     /* ══════════════════════════════════════
-       SECTION 04 — TCC
+       06 — TCC (balão de história)
     ══════════════════════════════════════ */
     #tcc {
       background: var(--paper); position: relative; overflow: hidden;
+      padding-top: 90px;
     }
     #tcc::before {
       content: '"';
@@ -899,8 +980,24 @@
     }
     @media (max-width: 880px) { .tcc-grid { grid-template-columns: 1fr; gap: 40px; } }
 
+    .tcc-bubble {
+      background: #fff; border-radius: 32px;
+      padding: 40px 38px;
+      box-shadow: 0 24px 70px rgba(13,16,67,.1);
+      position: relative;
+    }
+    .tcc-bubble::after {
+      content: ''; position: absolute;
+      bottom: -18px; left: 64px;
+      width: 40px; height: 40px;
+      background: #fff; border-radius: 8px;
+      transform: rotate(45deg);
+      box-shadow: 18px 18px 40px rgba(13,16,67,.06);
+    }
+    @media (max-width: 880px) { .tcc-bubble::after { left: 40px; } }
+
     .tcc-body {
-      font-size: 21px; line-height: 1.7; color: var(--ink);
+      font-size: 20px; line-height: 1.7; color: var(--ink);
       font-family: var(--serif); font-style: italic;
       font-weight: 400;
     }
@@ -912,7 +1009,7 @@
     .tcc-body p:last-child { margin-bottom: 0; }
 
     .tcc-sign-block {
-      margin-top: 36px; padding-top: 28px;
+      margin-top: 30px; padding-top: 24px;
       border-top: 1px solid var(--line);
       display: flex; align-items: center; gap: 18px;
     }
@@ -927,9 +1024,9 @@
     }
 
     /* ══════════════════════════════════════
-       SECTION 05 — PLANOS
+       07 — PLANOS
     ══════════════════════════════════════ */
-    #planos { background: var(--bg); }
+    #planos { background: var(--brand-50); padding-top: 90px; }
 
     .urgency-strip {
       background: var(--brand); color: #fff;
@@ -960,10 +1057,7 @@
       transition: transform .25s;
     }
     .plan-card:hover { transform: translateY(-4px); }
-    .plan-card.pro {
-      border-color: var(--brand);
-      box-shadow: var(--shadow-lg);
-    }
+    .plan-card.pro { border-color: var(--brand); box-shadow: var(--shadow-lg); }
     .pro-tag {
       position: absolute; top: -15px; left: 50%;
       transform: translateX(-50%);
@@ -973,9 +1067,7 @@
       padding: 7px 20px; border-radius: 9999px;
       white-space: nowrap;
     }
-    .plan-head {
-      display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;
-    }
+    .plan-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
     .plan-label {
       font-size: 13px; font-weight: 800; text-transform: uppercase;
       letter-spacing: .1em; color: var(--ink);
@@ -994,9 +1086,7 @@
       font-size: 16px; font-weight: 600; color: var(--muted);
       font-family: 'Inter', sans-serif;
     }
-    .plan-period {
-      font-size: 13px; color: var(--muted); margin-bottom: 28px;
-    }
+    .plan-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
     .plan-feats {
       list-style: none; display: flex; flex-direction: column;
       gap: 12px; margin-bottom: 28px; flex: 1;
@@ -1005,10 +1095,7 @@
       display: flex; gap: 11px; font-size: 14px;
       align-items: flex-start; line-height: 1.5;
     }
-    .pf-check {
-      color: var(--brand); font-size: 16px;
-      font-weight: 900; line-height: 1.4;
-    }
+    .pf-check { color: var(--brand); font-size: 16px; font-weight: 900; line-height: 1.4; }
     .pf-check.dim { color: #d1d5db; }
     .plan-btn { width: 100%; }
     .plan-sub-note {
@@ -1027,9 +1114,9 @@
     .plan-anchor strong { color: var(--brand); }
 
     /* ══════════════════════════════════════
-       SECTION 06 — FAQ
+       08 — FAQ
     ══════════════════════════════════════ */
-    #faq { background: #fff; }
+    #faq { background: #fff; padding-top: 90px; }
     .faq-list {
       max-width: 760px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 12px;
@@ -1047,6 +1134,7 @@
       color: var(--ink); cursor: pointer; text-align: left; gap: 16px;
       letter-spacing: -.005em;
     }
+    .faq-btn:focus-visible { outline-offset: -3px; border-radius: 18px; }
     .faq-plus {
       width: 30px; height: 30px; min-width: 30px;
       background: var(--brand-soft); border-radius: 50%;
@@ -1065,11 +1153,11 @@
     .faq-item.open .faq-ans { max-height: 600px; padding-bottom: 24px; }
 
     /* ══════════════════════════════════════
-       SECTION 07 — CTA FINAL
+       CTA FINAL (cena noturna)
     ══════════════════════════════════════ */
     #cta-final {
       background: var(--night); color: #fff;
-      text-align: center; padding: 140px 0;
+      text-align: center; padding: 110px 0 140px;
       position: relative; overflow: hidden;
     }
     #cta-final::before {
@@ -1078,6 +1166,12 @@
       pointer-events: none;
     }
     .cta-final-inner { position: relative; z-index: 1; }
+    .cta-frame {
+      width: 100%; max-width: 520px; margin: 0 auto 28px;
+      aspect-ratio: 16/9; overflow: hidden; border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+    .cta-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
     .cta-final-title {
       font-size: clamp(32px, 5vw, 60px); font-weight: 900;
       color: #fff; max-width: 760px; margin: 28px auto 22px;
@@ -1111,7 +1205,7 @@
       color: #fff; font-weight: 800; font-size: 16px;
       margin-bottom: 14px;
     }
-    .footer-brand .owl-chip { width: 34px; height: 34px; font-size: 17px; }
+    .footer-brand .owl-chip { width: 34px; height: 34px; }
     .footer-body { max-width: 460px; line-height: 1.65; }
     .footer-body strong { color: rgba(255,255,255,.85); }
     .footer-meta {
@@ -1127,17 +1221,16 @@
       letter-spacing: .08em; color: rgba(255,255,255,.3);
     }
 
-    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(70,89,255,.3); border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(70,89,255,.5); }
 
-    /* ── Section padding mobile ── */
     @media (max-width: 700px) {
-      section { padding: 80px 0; }
+      section { padding: 78px 0; }
       .sec-header { margin-bottom: 50px; }
-      #batalha { padding: 90px 0; }
+      #hero { padding-top: 120px; }
+      .ribbon-wrap { margin: -22px 0 -10px; }
     }
   </style>
 </head>
@@ -1146,26 +1239,35 @@
 <!-- ══ NAV ══ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
+    <a href="#" class="nav-logo" aria-label="Prof. Corujão — início">
+      <div class="owl-chip"><img src="logo.png" alt=""></div>
       Prof. Corujão
     </a>
-    <div class="nav-menu">
+    <div class="nav-menu" id="nav-menu">
       <a href="#features" class="nav-link">Funcionalidades</a>
       <a href="#batalha" class="nav-link">Batalha <span class="mini-new">NOVO</span></a>
       <a href="#kit" class="nav-link">Kit do Professor</a>
       <a href="#planos" class="nav-link">Planos</a>
       <a href="#faq" class="nav-link">FAQ</a>
     </div>
-    <a href="https://profcorujao.vercel.app/"
-       target="_blank" rel="noopener" class="btn btn-primary sm">Testar grátis</a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener"
+         class="btn btn-primary sm nav-cta-top">Testar grátis</a>
+      <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
 <!-- ══════════════════════════════════════
-     HERO
+     HERO — o mundo do Corujão
 ══════════════════════════════════════ -->
-<section id="hero">
+<header id="hero">
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+
   <div class="container">
     <div class="hero-inner">
 
@@ -1241,81 +1343,59 @@
         </div>
       </div>
 
-      <!-- RIGHT — visual -->
-      <div class="hero-visual animate-in" style="transition-delay:.3s">
-
-        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
-          <img src="illu-01.png" alt="Prof. Corujão — Mascote" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
-        </div>
-
-        <!-- Phone mockup -->
-        <div class="phone-wrap">
-          <div class="phone-frame">
-            <div class="phone-screen">
-              <div class="phone-topbar">
-                <div class="phone-icon"><img src="logo.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div>
-                <div>
-                  <div class="phone-title">Prof. Corujão</div>
-                  <div class="phone-sub">Planejador Inteligente</div>
-                </div>
-              </div>
-              <div class="p-label">Tema da aula</div>
-              <div class="p-input">Fotossíntese, 8º ano<span class="demo-cursor"></span></div>
-              <div class="p-label">Gerando materiais…</div>
-              <div class="p-output">
-                <div class="p-row" id="pr1">
-                  <span class="emoji">📋</span>
-                  <span><strong>Plano BNCC:</strong> objetivos, metodologia e avaliação</span>
-                </div>
-                <div class="p-row" id="pr2">
-                  <span class="emoji">🖥️</span>
-                  <span><strong>Slides prontos:</strong> com imagens e design automático</span>
-                </div>
-                <div class="p-row" id="pr3">
-                  <span class="emoji">⚔️</span>
-                  <span><strong>Batalha de Revisão:</strong> a turma disputa o conteúdo</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- RIGHT — mascote dentro da cena -->
+      <div class="hero-scene animate-in" style="transition-delay:.3s">
+        <span class="float-chip f1" data-para="0.06" aria-hidden="true">📚</span>
+        <span class="float-chip f2" data-para="0.1" aria-hidden="true">✏️</span>
+        <span class="float-chip f3" data-para="0.14" aria-hidden="true">🧪</span>
+        <span class="float-chip f4" data-para="0.08" aria-hidden="true">📐</span>
+        <img src="illu-01.png" alt="Prof. Corujão mostrando o app no celular" class="owl-hero" data-para="0.03">
       </div>
 
     </div>
   </div>
-</section>
 
-<!-- ══ MARQUEE STRIP ══ -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>Alinhado à BNCC</span>
-    <span>Planos de aula em segundos</span>
-    <span>Batalha de Revisão</span>
-    <span>Provas com gabarito</span>
-    <span>Escape Rooms imprimíveis</span>
-    <span>Gamificação de turma</span>
-    <span>Slides automáticos</span>
-    <span>Diário de bordo</span>
-    <span>Agenda com importação por PDF</span>
-    <span>Adaptação inclusiva</span>
-    <span>Chat com IA pedagógica</span>
-    <!-- duplicado para loop -->
-    <span>Alinhado à BNCC</span>
-    <span>Planos de aula em segundos</span>
-    <span>Batalha de Revisão</span>
-    <span>Provas com gabarito</span>
-    <span>Escape Rooms imprimíveis</span>
-    <span>Gamificação de turma</span>
-    <span>Slides automáticos</span>
-    <span>Diário de bordo</span>
-    <span>Agenda com importação por PDF</span>
-    <span>Adaptação inclusiva</span>
-    <span>Chat com IA pedagógica</span>
+  <!-- colina de saída -->
+  <div class="sep" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,80 L0,52 C180,88 360,14 540,44 C720,74 900,16 1080,46 C1260,74 1380,32 1440,50 L1440,80 Z"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ══ FITA MARQUEE ══ -->
+<div class="ribbon-wrap" aria-hidden="true">
+  <div class="ribbon">
+    <div class="marquee-track">
+      <span>Alinhado à BNCC</span>
+      <span>Planos de aula em segundos</span>
+      <span>Batalha de Revisão</span>
+      <span>Provas com gabarito</span>
+      <span>Escape Rooms imprimíveis</span>
+      <span>Gamificação de turma</span>
+      <span>Slides automáticos</span>
+      <span>Diário de bordo</span>
+      <span>Agenda com importação por PDF</span>
+      <span>Adaptação inclusiva</span>
+      <span>Chat com IA pedagógica</span>
+      <!-- duplicado para loop -->
+      <span>Alinhado à BNCC</span>
+      <span>Planos de aula em segundos</span>
+      <span>Batalha de Revisão</span>
+      <span>Provas com gabarito</span>
+      <span>Escape Rooms imprimíveis</span>
+      <span>Gamificação de turma</span>
+      <span>Slides automáticos</span>
+      <span>Diário de bordo</span>
+      <span>Agenda com importação por PDF</span>
+      <span>Adaptação inclusiva</span>
+      <span>Chat com IA pedagógica</span>
+    </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════
-     SECTION 01 — DOR
+     01 — DOR
 ══════════════════════════════════════ -->
 <section id="dor">
   <div class="container">
@@ -1330,7 +1410,6 @@
       </h2>
     </div>
 
-    <!-- Quote + Illustration -->
     <div class="dor-feature">
       <div class="dor-quote-block animate-in">
         <p>
@@ -1344,12 +1423,11 @@
         <div class="quote-sig">— Todo professor brasileiro, em algum momento</div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-02.png" alt="Cena de Empatia" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
+      <div class="animate-in" style="transition-delay:.1s;overflow:hidden;">
+        <img src="illu-02.png" alt="Professora exausta corrigindo provas à noite" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;" loading="lazy">
       </div>
     </div>
 
-    <!-- Cards -->
     <div class="dor-grid">
       <div class="dor-card animate-in">
         <span class="dor-card-num">i.</span>
@@ -1384,16 +1462,24 @@
     </div>
 
   </div>
+
 </section>
 
+<!-- nuvens: dia → noite -->
+<div class="sep" style="background:#fff" aria-hidden="true">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+    <path fill="#0d1043" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 02 — VIRADA
+     02 — VIRADA (noite)
 ══════════════════════════════════════ -->
 <section id="virada">
+  <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="virada-inner">
 
-      <!-- LEFT — Question + terminal -->
       <div>
         <div class="eyebrow-row animate-in" style="margin-bottom:24px;display:flex;align-items:center;gap:18px">
           <span class="section-num" style="color:rgba(255,255,255,.4)">— 02 / 08 —</span>
@@ -1430,9 +1516,8 @@
         </div>
       </div>
 
-      <!-- RIGHT — vídeo -->
-      <div class="animate-in" style="transition-delay:.16s;aspect-ratio:1/1;overflow:hidden;border-radius:24px;background:#000;">
-        <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+      <div class="scene-frame animate-in" style="transition-delay:.16s;aspect-ratio:1/1;background:#000;">
+        <video autoplay loop muted playsinline aria-label="Demonstração animada do Prof. Corujão">
           <source src="illu-03.mp4" type="video/mp4">
         </video>
       </div>
@@ -1441,8 +1526,15 @@
   </div>
 </section>
 
+<!-- nuvens: noite → dia -->
+<div class="sep" style="background:#0d1043" aria-hidden="true">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+    <path fill="#f8f9fe" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 03 — FEATURES
+     03 — FEATURES
 ══════════════════════════════════════ -->
 <section id="features">
   <div class="container">
@@ -1461,7 +1553,7 @@
       </p>
     </div>
 
-    <!-- ★ Planejador (carro-chefe) -->
+    <!-- ★ Planejador -->
     <div class="feat-row">
       <div class="feat-content animate-in">
         <div class="feat-num">i.</div>
@@ -1490,8 +1582,8 @@
         </div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-04.png" alt="Planejador Inteligente" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:24px;display:block;">
+      <div class="scene-frame animate-in" style="transition-delay:.1s;">
+        <img src="illu-04.png" alt="Planejador Inteligente do Prof. Corujão" loading="lazy">
       </div>
     </div>
 
@@ -1528,12 +1620,11 @@
         </div>
       </div>
 
-      <!-- Slideshow -->
       <div class="slide06 animate-in" style="transition-delay:.1s">
-        <img src="illu-06a.jpg" class="slide06-img active" alt="Gamificação 1">
-        <img src="illu-06b.jpg" class="slide06-img" alt="Gamificação 2">
-        <img src="illu-06c.jpg" class="slide06-img" alt="Gamificação 3">
-        <img src="illu-06d.jpg" class="slide06-img" alt="Gamificação 4">
+        <img src="illu-06a.jpg" class="slide06-img active" alt="Escape Room impresso gerado pelo app" loading="lazy">
+        <img src="illu-06b.jpg" class="slide06-img" alt="Material de jogo educativo" loading="lazy">
+        <img src="illu-06c.jpg" class="slide06-img" alt="Alunos jogando atividades gamificadas" loading="lazy">
+        <img src="illu-06d.jpg" class="slide06-img" alt="Atividade gamificada em sala" loading="lazy">
         <div class="slide06-dots">
           <span class="slide06-dot active"></span>
           <span class="slide06-dot"></span>
@@ -1543,7 +1634,7 @@
       </div>
     </div>
 
-    <!-- Gamificação de turma -->
+    <!-- Turma Gamificada -->
     <div class="feat-row">
       <div class="feat-content animate-in">
         <div class="feat-num">iii.</div>
@@ -1647,8 +1738,8 @@
         </ul>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:var(--night);border-radius:24px;padding:28px;overflow:hidden;box-shadow:0 30px 80px rgba(13,16,67,.35);">
-        <img src="illu-03.png" alt="Agenda Inteligente" style="width:100%;height:100%;object-fit:contain;display:block;">
+      <div class="night-panel animate-in" style="transition-delay:.1s;">
+        <img src="illu-03.png" alt="Corujão organizando o ano letivo em telas holográficas" loading="lazy">
       </div>
     </div>
 
@@ -1673,16 +1764,23 @@
         </ul>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
-        <img src="illu-05.png?v=3" alt="Chat com IA" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <div class="scene-frame animate-in" style="transition-delay:.1s;aspect-ratio:16/9;">
+        <img src="illu-05.png?v=3" alt="Corujão conversando com uma professora" loading="lazy">
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- dissolve pixelado: dia → arena -->
+<div class="sep pixel" style="background:#f8f9fe" aria-hidden="true">
+  <svg viewBox="0 0 1440 36" preserveAspectRatio="none">
+    <path fill="#12060f" d="M0,36 L0,12 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 L1440,36 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 04 — BATALHA DE REVISÃO
+     04 — BATALHA DE REVISÃO (fase de jogo)
 ══════════════════════════════════════ -->
 <section id="batalha">
   <div class="container batalha-inner">
@@ -1692,6 +1790,7 @@
         <span class="section-num" style="color:rgba(255,255,255,.4)">— 04 / 08 —</span>
         <div class="eyebrow light">A Grande Novidade</div>
       </div>
+      <span class="press-start animate-in" style="transition-delay:.04s">▶ PRESS START</span>
       <span class="pill pill-new animate-in" style="transition-delay:.05s">⚔️ Novo · Batalha de Revisão</span>
       <h2 class="batalha-title animate-in" style="transition-delay:.1s">
         A revisão da prova virou <em>o momento mais esperado da semana.</em>
@@ -1705,19 +1804,17 @@
 
     <div class="batalha-grid">
 
-      <!-- LEFT — banner + duel -->
       <div class="animate-in">
         <div class="batalha-banner">
-          <img src="illu-batalha.jpg" alt="QuaqueMagia — Arena do Conhecimento">
+          <img src="illu-batalha.jpg" alt="QuaqueMagia — Arena do Conhecimento" loading="lazy">
         </div>
         <div class="duel-strip" aria-hidden="true">
-          <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="">
+          <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="" loading="lazy">
           <span class="duel-vs">VS</span>
-          <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="">
+          <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="" loading="lazy">
         </div>
       </div>
 
-      <!-- RIGHT — rules -->
       <div class="animate-in" style="transition-delay:.12s">
         <div class="rule-cards">
           <div class="rule-card">
@@ -1761,8 +1858,15 @@
   </div>
 </section>
 
+<!-- dissolve pixelado: arena → dia -->
+<div class="sep pixel" style="background:#ffffff" aria-hidden="true">
+  <svg viewBox="0 0 1440 36" preserveAspectRatio="none" style="transform:scaleY(-1)">
+    <path fill="#12060f" d="M0,36 L0,12 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 L1440,36 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 05 — KIT DO PROFESSOR
+     05 — KIT DO PROFESSOR
 ══════════════════════════════════════ -->
 <section id="kit">
   <div class="container">
@@ -1827,8 +1931,15 @@
   </div>
 </section>
 
+<!-- colina: branco → papel -->
+<div class="sep short" style="background:#fff" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#faf8f4" d="M0,60 L0,34 C240,62 480,8 720,28 C960,48 1200,10 1440,34 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 06 — TCC / HISTÓRIA
+     06 — TCC / HISTÓRIA
 ══════════════════════════════════════ -->
 <section id="tcc">
   <div class="container">
@@ -1836,9 +1947,7 @@
     <div class="tcc-grid">
 
       <div class="animate-in">
-        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
-          <img src="illu-08.png" alt="O Criador" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;">
-        </div>
+        <img src="illu-08.png" alt="Lyelson Martins, criador do Prof. Corujão" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;" loading="lazy">
       </div>
 
       <div class="animate-in" style="transition-delay:.1s">
@@ -1852,27 +1961,29 @@
           <em class="ink-accent">Sou um estudante.</em>
         </h2>
 
-        <div class="tcc-body">
-          <p>
-            Estou construindo o app que eu queria que existisse, para os professores
-            que eu vi trabalhando até tarde, improvisando com o que tinham, sem apoio
-            de tecnologia de verdade.
-          </p>
-          <p>
-            <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
-            isso vai facilitar a vida de alguém amanhã?
-          </p>
-          <p>
-            Se você se tornar Apoiador, não está só pagando por um app.
-            Está dizendo que acredita que professores merecem ferramentas melhores.
-            E me ajudando a provar isso.
-          </p>
-        </div>
+        <div class="tcc-bubble">
+          <div class="tcc-body">
+            <p>
+              Estou construindo o app que eu queria que existisse, para os professores
+              que eu vi trabalhando até tarde, improvisando com o que tinham, sem apoio
+              de tecnologia de verdade.
+            </p>
+            <p>
+              <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
+              isso vai facilitar a vida de alguém amanhã?
+            </p>
+            <p>
+              Se você se tornar Apoiador, não está só pagando por um app.
+              Está dizendo que acredita que professores merecem ferramentas melhores.
+              E me ajudando a provar isso.
+            </p>
+          </div>
 
-        <div class="tcc-sign-block">
-          <div>
-            <div class="tcc-sig-name">Lyelson Martins</div>
-            <div class="tcc-sig-role">Criador do Prof. Corujão · Estudante de TCC</div>
+          <div class="tcc-sign-block">
+            <div>
+              <div class="tcc-sig-name">Lyelson Martins</div>
+              <div class="tcc-sig-role">Criador do Prof. Corujão · Estudante de TCC</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1881,8 +1992,15 @@
   </div>
 </section>
 
+<!-- colina: papel → lilás -->
+<div class="sep short" style="background:#faf8f4" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#f5f6ff" d="M0,60 L0,30 C240,58 480,6 720,26 C960,46 1200,8 1440,32 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 07 — PLANOS
+     07 — PLANOS
 ══════════════════════════════════════ -->
 <section id="planos">
   <div class="container">
@@ -1972,8 +2090,15 @@
   </div>
 </section>
 
+<!-- colina: lilás → branco -->
+<div class="sep short" style="background:#f5f6ff" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#ffffff" d="M0,60 L0,32 C240,60 480,10 720,30 C960,50 1200,8 1440,32 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 08 — FAQ
+     08 — FAQ
 ══════════════════════════════════════ -->
 <section id="faq">
   <div class="container-tight">
@@ -1990,9 +2115,9 @@
 
     <div class="faq-list">
       <div class="faq-item animate-in">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Preciso saber usar IA pra usar o app?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Não. Você digita o tema da aula como digitaria uma mensagem de WhatsApp,
@@ -2001,9 +2126,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.05s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Como funciona a Batalha de Revisão na prática?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe duas equipes
@@ -2014,9 +2139,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.1s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Precisa de internet para funcionar?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim, para gerar conteúdo com IA é necessária conexão.
@@ -2025,9 +2150,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.15s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Funciona no iPhone?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Funciona em qualquer navegador — Safari, Chrome, Firefox.
@@ -2035,9 +2160,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.2s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Os materiais gerados são meus?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim, 100%. Tudo que você gera no Prof. Corujão pertence a você.
@@ -2046,9 +2171,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.25s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           É seguro? Meus dados ficam protegidos?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim. Login com Google ou e-mail, dados armazenados e protegidos pelo Firebase (Google).
@@ -2056,9 +2181,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.3s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Por que "Apoiador" e não cliente?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Porque você está ajudando um projeto real a crescer:
@@ -2067,9 +2192,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.35s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Por que o Prof. Corujão é pago?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           <p style="margin-bottom:14px">Cada geração consome créditos reais de IA — isso tem custo. O valor mensal cobre:</p>
@@ -2097,15 +2222,23 @@
   </div>
 </section>
 
+<!-- nuvens: dia → noite final -->
+<div class="sep" style="background:#fff" aria-hidden="true">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+    <path fill="#0d1043" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     CTA FINAL
+     CTA FINAL (noite)
 ══════════════════════════════════════ -->
 <section id="cta-final">
+  <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="cta-final-inner">
 
-      <div class="animate-in" style="width:100%;max-width:520px;margin:0 auto 28px;aspect-ratio:16/9;overflow:hidden;border-radius:20px;">
-        <img src="illu-09.png?v=2" alt="Coruja Final" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+      <div class="cta-frame animate-in">
+        <img src="illu-09.png?v=2" alt="Corujão atravessando mundos de matérias" loading="lazy">
       </div>
 
       <div class="eyebrow-row animate-in" style="margin-bottom:8px;display:flex;justify-content:center;align-items:center;gap:18px">
@@ -2143,7 +2276,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand">
-        <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
+        <div class="owl-chip"><img src="logo.png" alt=""></div>
         Prof. Corujão
       </div>
       <p class="footer-body">
@@ -2171,13 +2304,15 @@
 </div>
 
 <script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   /* ── Scroll-triggered animations ── */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  /* ── Nav shadow on scroll + sticky mobile CTA ── */
+  /* ── Nav shadow + sticky mobile CTA ── */
   const nav = document.getElementById('main-nav');
   const stickyCta = document.getElementById('sticky-cta');
   window.addEventListener('scroll', () => {
@@ -2185,40 +2320,51 @@
     stickyCta.classList.toggle('show', window.scrollY > window.innerHeight * 0.9);
   }, { passive: true });
 
+  /* ── Mobile menu ── */
+  const burger = document.getElementById('nav-burger');
+  const menu = document.getElementById('nav-menu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  });
+  menu.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* ── Parallax suave no hero ── */
+  if (!reducedMotion) {
+    const paraEls = document.querySelectorAll('[data-para]');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < window.innerHeight * 1.4) {
+          paraEls.forEach(el => {
+            el.style.translate = `0 ${y * parseFloat(el.dataset.para)}px`;
+          });
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
   /* ── FAQ accordion ── */
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  }
-
-  /* ── Phone demo animation loop ── */
-  const rows = ['pr1','pr2','pr3'];
-  function resetRows() {
-    rows.forEach(id => {
-      const el = document.getElementById(id);
-      el.style.transition = 'none';
-      el.style.opacity = '0';
-      el.style.transform = 'translateX(-10px)';
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
     });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
   }
-  function showRows() {
-    rows.forEach((id, i) => {
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        el.style.transition = 'opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1)';
-        el.style.opacity = '1';
-        el.style.transform = 'translateX(0)';
-      }, 700 + i * 550);
-    });
-    setTimeout(() => {
-      resetRows();
-      setTimeout(showRows, 600);
-    }, 5200);
-  }
-  resetRows();
-  setTimeout(showRows, 1400);
 </script>
 
 <script>
@@ -2283,7 +2429,6 @@
   if (!red || !blue) return;
 
   const FRAMES = 5;
-  // pré-carrega os quadros pra troca não piscar
   ['red','blue'].forEach(team => {
     for (let i = 1; i <= FRAMES; i++) {
       const img = new Image();
@@ -2310,11 +2455,11 @@
   let raf;
 
   function fly() {
-    const size     = 60 + Math.random() * 50;            // tamanho aleatório (60–110px)
-    const duration = 4000 + Math.random() * 1500;        // 4s–5.5s para cruzar
-    const baseY    = (0.10 + Math.random() * 0.62) * window.innerHeight; // Y base aleatório
-    const amplitude = 15 + Math.random() * 25;           // amplitude da onda (px)
-    const waves     = 1.5 + Math.random() * 2;           // quantos "altos e baixos"
+    const size     = 60 + Math.random() * 50;
+    const duration = 4000 + Math.random() * 1500;
+    const baseY    = (0.10 + Math.random() * 0.62) * window.innerHeight;
+    const amplitude = 15 + Math.random() * 25;
+    const waves     = 1.5 + Math.random() * 2;
 
     wrap.style.width  = size + 'px';
     wrap.style.height = size + 'px';
