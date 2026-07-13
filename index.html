@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prof. Corujão — O assistente de IA completo para professores</title>
-  <meta name="description" content="Feito por professor, para professor. Planos de aula BNCC, provas, slides, 9 jogos com IA, Batalha de Revisão, gamificação de turma, diário de bordo e agenda inteligente — tudo em um só app.">
-  <meta property="og:title" content="Prof. Corujão — IA Educacional para Professores">
+  <title>Prof. Corujão: o assistente de IA completo para professores</title>
+  <meta name="description" content="Feito por professor, para professor. Planos de aula BNCC, provas, slides, 9 jogos com IA, Batalha de Revisão, gamificação de turma, diário de bordo e agenda inteligente. Tudo em um só app.">
+  <meta property="og:title" content="Prof. Corujão: IA Educacional para Professores">
   <meta property="og:description" content="Planos de aula, provas, slides, jogos, Batalha de Revisão e gamificação de turma. 30+ recursos em um só app. Teste grátis, sem cartão.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="illu-01.png">
@@ -32,9 +32,9 @@
       --line: #e7e9f7;
       --night: #0d1043;
       --night-2: #1a1f6e;
+      --pit: #12060f;
       --emerald: #10b981;
       --amber: #f59e0b;
-      --crimson: #9f1239;
       --shadow-sm: 0 1px 3px rgba(12,16,21,.04), 0 1px 2px rgba(12,16,21,.06);
       --shadow:    0 4px 24px rgba(70,89,255,.07);
       --shadow-lg: 0 18px 60px rgba(70,89,255,.16);
@@ -54,20 +54,23 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    section, header#hero { scroll-margin-top: 76px; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 9999px;
+    }
+
     /* ── Owl flying easter egg ── */
     .owl-fly {
-      position: fixed;
-      left: 0;
-      width: 130px;
-      height: 130px;
-      z-index: 9999;
-      pointer-events: none;
+      position: fixed; left: 0;
+      width: 130px; height: 130px;
+      z-index: 9999; pointer-events: none;
       will-change: transform;
     }
     .owl-fly img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 100%; height: 100%; object-fit: contain;
       transform: scaleX(-1);
       filter: drop-shadow(0 8px 24px rgba(70,89,255,.35));
     }
@@ -79,7 +82,11 @@
     }
     @keyframes float {
       0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-10px); }
+      50%     { transform: translateY(-12px); }
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+      50%     { transform: translateY(-9px) rotate(var(--rot, 0deg)); }
     }
     @keyframes blink {
       0%,100% { opacity: 1; } 50% { opacity: 0; }
@@ -88,22 +95,70 @@
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
+    @keyframes drift {
+      from { transform: translateX(-40px); }
+      to   { transform: translateX(60px); }
+    }
     @keyframes shine {
       from { background-position: -200% center; }
       to   { background-position: 200% center; }
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .9; } 50% { opacity: .25; }
     }
     .animate-in {
       opacity: 0; transform: translateY(28px);
       transition: opacity .7s cubic-bezier(.16,1,.3,1),
                   transform .7s cubic-bezier(.16,1,.3,1);
     }
-    .animate-in.visible { opacity: 1; transform: translateY(0); }
+    .animate-in.from-left  { transform: translateX(-44px); }
+    .animate-in.from-right { transform: translateX(44px); }
+    .animate-in.zoom       { transform: scale(.92); }
+    .animate-in.visible { opacity: 1; transform: none; }
+
+    /* grades com entrada em cascata (pílulas de jogos/ferramentas) */
+    .gami-grid.animate-in { opacity: 1; transform: none; }
+    .gami-grid.animate-in .gami-pill {
+      opacity: 0; transform: translateY(16px) scale(.93);
+      transition: opacity .5s cubic-bezier(.16,1,.3,1),
+                  transform .5s cubic-bezier(.16,1,.3,1),
+                  border-color .2s;
+    }
+    .gami-grid.animate-in.visible .gami-pill { opacity: 1; transform: none; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(2)  { transition-delay: .05s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(3)  { transition-delay: .1s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(4)  { transition-delay: .15s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(5)  { transition-delay: .2s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(6)  { transition-delay: .25s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(7)  { transition-delay: .3s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(8)  { transition-delay: .35s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(9)  { transition-delay: .4s; }
+    .gami-grid.animate-in.visible .gami-pill:nth-child(10) { transition-delay: .45s; }
+
+    /* barra de progresso de leitura */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 500;
+      height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--brand), #8b9aff);
+      border-radius: 0 3px 3px 0;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .animate-in { opacity: 1; transform: none; }
+      .owl-fly { display: none; }
+    }
 
     /* ── Utility ── */
     .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
     .container-tight { max-width: 880px; margin: 0 auto; padding: 0 28px; }
 
-    /* ── Typography helpers ── */
     .eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 12px; font-weight: 700;
@@ -113,8 +168,7 @@
     .eyebrow::before {
       content: ''; width: 28px; height: 1.5px; background: var(--brand);
     }
-    .eyebrow.center { justify-content: center; }
-    .eyebrow.light { color: rgba(255,255,255,.7); }
+    .eyebrow.light { color: rgba(255,255,255,.75); }
     .eyebrow.light::before { background: rgba(255,255,255,.6); }
 
     .section-num {
@@ -127,11 +181,6 @@
       font-size: clamp(34px, 5vw, 56px);
       font-weight: 900; letter-spacing: -.03em;
       line-height: 1.08;
-    }
-    .h2 {
-      font-size: clamp(26px, 3.6vw, 40px);
-      font-weight: 800; letter-spacing: -.02em;
-      line-height: 1.18;
     }
     .lead {
       font-size: 19px; color: var(--muted);
@@ -154,12 +203,47 @@
     .pill-amber { background: #fef3c7; color: #92400e; }
     .pill-green { background: #d1fae5; color: #065f46; }
     .pill-pink  { background: #fce7f3; color: #9d174d; }
-    .pill-red   { background: #fee2e2; color: #991b1b; }
     .pill-new {
       background: linear-gradient(120deg, #f43f5e, #e11d48 40%, #fb7185 50%, #e11d48 60%);
       background-size: 200% auto;
       color: #fff;
       animation: shine 3s linear infinite;
+    }
+
+    /* ── Estilo dos posts: caixa adesiva amarela ── */
+    .hl-box {
+      --tilt: -1.2deg;
+      display: inline-block;
+      background: #f5c842; color: #180e4e;
+      border: 3px solid #180e4e;
+      border-radius: 14px;
+      padding: .02em .34em .08em;
+      box-shadow: 6px 7px 0 #180e4e;
+      transform: rotate(var(--tilt));
+      line-height: 1.12;
+    }
+    .hl-box.tr { --tilt: 1.3deg; }
+    /* sombra navy vira azul-noite profunda em fundos escuros */
+    .hl-box.on-dark { box-shadow: 6px 7px 0 rgba(0,0,0,.55); border-color: #180e4e; }
+    @keyframes sticker-pop {
+      0%   { transform: rotate(var(--tilt)) scale(.55); }
+      70%  { transform: rotate(var(--tilt)) scale(1.08); }
+      100% { transform: rotate(var(--tilt)) scale(1); }
+    }
+    .animate-in.visible .hl-box {
+      animation: sticker-pop .6s cubic-bezier(.34,1.56,.64,1) both .18s;
+    }
+    /* selo verde estilo "acesso gratuito" dos posts */
+    .sticker-green {
+      display: inline-block;
+      background: #10b981; color: #063a28;
+      border: 2.5px solid #063a28;
+      border-radius: 10px;
+      padding: 3px 12px 4px;
+      font-size: 12px; font-weight: 900;
+      letter-spacing: .08em; text-transform: uppercase;
+      box-shadow: 4px 4px 0 #063a28;
+      transform: rotate(-1deg);
     }
 
     /* ── Buttons ── */
@@ -170,12 +254,23 @@
       transition: transform .2s, box-shadow .2s, background-color .2s;
       border-radius: 9999px; border: none;
     }
+    .btn:active { transform: scale(.97); }
     .btn-primary {
       background: var(--brand); color: #fff;
       padding: 17px 34px; font-size: 16px;
       box-shadow: 0 6px 26px rgba(70,89,255,.34);
       animation: pulse-ring 2.6s infinite;
+      position: relative; overflow: hidden;
     }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -70%;
+      width: 45%; height: 100%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,.4), transparent);
+      transform: skewX(-20deg);
+      transition: left .55s ease;
+      pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 130%; }
     .btn-primary:hover { transform: scale(1.03); background: var(--brand-dark); }
     .btn-primary.lg { padding: 22px 44px; font-size: 18px; }
     .btn-primary.sm { padding: 11px 22px; font-size: 14px; animation: none; }
@@ -186,9 +281,27 @@
       border: 1.5px solid var(--line);
     }
     .btn-outline:hover { border-color: var(--brand); color: var(--brand); transform: scale(1.02); }
-    .btn-note {
-      display: block; font-size: 11px; font-weight: 500;
-      opacity: .75; margin-top: -2px;
+    .btn-logo {
+      width: 22px; height: 22px; object-fit: contain;
+      border-radius: 6px; flex-shrink: 0;
+    }
+
+    /* ── Section separators (organic world transitions) ── */
+    .sep { line-height: 0; position: relative; z-index: 2; }
+    .sep svg { display: block; width: 100%; height: 72px; }
+    .sep.short svg { height: 52px; }
+    .sep.pixel svg { height: 38px; }
+    /* borda de nuvem DENTRO da seção escura: a cor da seção anterior
+       desce por cima do fundo (com gradiente) da seção — emenda invisível */
+    .cloud-top {
+      position: absolute; top: -1px; left: 0; right: 0;
+      line-height: 0; z-index: 1; pointer-events: none;
+    }
+    .cloud-top svg { display: block; width: 100%; height: 72px; }
+    @media (max-width: 700px) {
+      .sep svg { height: 44px; }
+      .sep.pixel svg { height: 26px; }
+      .cloud-top svg { height: 44px; }
     }
 
     /* ── Sticky mobile CTA ── */
@@ -210,7 +323,7 @@
        NAV
     ══════════════════════════════════════ */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 400;
       padding: 14px 28px;
       background: rgba(248,249,254,.86);
       backdrop-filter: blur(14px);
@@ -247,39 +360,81 @@
       background: #e11d48; color: #fff; border-radius: 6px;
       padding: 1px 5px; vertical-align: super; letter-spacing: .05em;
     }
+    .nav-burger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 42px; height: 42px; border-radius: 12px;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 5px;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 2.5px; border-radius: 2px;
+      background: var(--ink); transition: transform .3s, opacity .3s;
+    }
+    .nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
     @media (max-width: 900px) {
-      .nav-menu { display: none; }
+      .nav-menu {
+        display: none;
+        position: absolute; top: 100%; left: 12px; right: 12px;
+        background: #fff; border: 1px solid var(--line);
+        border-radius: 20px; padding: 10px;
+        flex-direction: column; align-items: stretch;
+        box-shadow: var(--shadow-lg);
+      }
+      .nav-menu.open { display: flex; }
+      .nav-link { padding: 13px 16px; font-size: 15px; }
+      .nav-burger { display: flex; }
+      .nav-cta-top { display: none; }
     }
 
     /* ══════════════════════════════════════
-       HERO
+       HERO — cena de céu índigo
     ══════════════════════════════════════ */
     #hero {
-      padding: 130px 0 110px;
       position: relative; overflow: hidden;
+      padding: 150px 0 0;
+      background:
+        radial-gradient(ellipse 900px 480px at 78% 8%, rgba(255,231,150,.5) 0%, transparent 60%),
+        linear-gradient(180deg, #dfe4ff 0%, #e9ecff 34%, #f4f5ff 68%, #f8f9fe 100%);
     }
-    #hero::before {
-      content: ''; position: absolute;
-      top: -20%; left: 50%; transform: translateX(-50%);
-      width: 1100px; height: 700px;
-      background: radial-gradient(ellipse, rgba(70,89,255,.07) 0%, transparent 65%);
-      pointer-events: none; z-index: 0;
+    /* nuvens de cenário */
+    .cloud {
+      position: absolute; background: #fff;
+      border-radius: 9999px; opacity: .85;
+      animation: drift 26s ease-in-out infinite alternate;
+      pointer-events: none;
     }
+    .cloud::before, .cloud::after {
+      content: ''; position: absolute; background: #fff; border-radius: 50%;
+    }
+    .cloud.c1 { width: 190px; height: 56px; top: 110px; left: 6%; }
+    .cloud.c1::before { width: 84px; height: 84px; top: -38px; left: 30px; }
+    .cloud.c1::after  { width: 60px; height: 60px; top: -24px; left: 98px; }
+    .cloud.c2 { width: 150px; height: 44px; top: 220px; right: 4%; opacity: .7; animation-duration: 34s; animation-delay: -8s; }
+    .cloud.c2::before { width: 66px; height: 66px; top: -30px; left: 26px; }
+    .cloud.c2::after  { width: 46px; height: 46px; top: -18px; left: 80px; }
+    .cloud.c3 { width: 120px; height: 36px; top: 58%; left: 42%; opacity: .55; animation-duration: 40s; animation-delay: -16s; }
+    .cloud.c3::before { width: 52px; height: 52px; top: -24px; left: 20px; }
+    .cloud.c3::after  { width: 38px; height: 38px; top: -14px; left: 62px; }
+
     .hero-inner {
       position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px;
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px;
       align-items: center;
+      padding-bottom: 40px;
     }
     @media (max-width: 960px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .hero-inner { grid-template-columns: 1fr; gap: 26px; text-align: center; }
       .hero-actions { justify-content: center; }
       .eyebrow { justify-content: center; }
       .hero-badges { justify-content: center; }
+      .hero-stats { justify-content: center; }
     }
     .hero-text { max-width: 580px; }
     .hero-text .eyebrow { margin-bottom: 22px; }
     .hero-title {
-      font-size: clamp(40px, 6vw, 72px);
+      font-size: clamp(38px, 5.6vw, 68px);
       font-weight: 900; letter-spacing: -.035em;
       line-height: 1.02; margin-bottom: 24px;
       color: var(--ink);
@@ -291,12 +446,12 @@
     .hero-sub {
       font-size: 19px; color: var(--muted);
       max-width: 520px; line-height: 1.65;
-      margin-bottom: 36px;
+      margin-bottom: 34px;
     }
     .hero-sub strong { color: var(--ink); font-weight: 700; }
     .hero-actions {
       display: flex; flex-wrap: wrap; gap: 14px;
-      align-items: center; margin-bottom: 28px;
+      align-items: center; margin-bottom: 24px;
     }
     .hero-trust {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -307,44 +462,30 @@
       background: var(--emerald); animation: blink 2.2s infinite;
     }
 
-    /* Hero badges row (BNCC + Novidade) */
-    .hero-badges {
-      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;
-    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
     .bncc-badge {
       display: inline-flex; align-items: stretch;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-      max-width: fit-content;
+      border: 2.5px solid #180e4e;
+      border-radius: 12px; background: #fff;
+      box-shadow: 4px 4px 0 #180e4e;
+      overflow: hidden; max-width: fit-content;
+      transform: rotate(-.5deg);
     }
+    .bncc-badge.new-badge { transform: rotate(.6deg); }
     .bncc-badge .bncc-tag {
-      background: var(--brand);
-      color: #fff;
-      padding: 10px 14px;
-      font-weight: 900;
-      font-size: 13px;
-      letter-spacing: .04em;
-      display: flex; align-items: center; gap: 6px;
+      background: var(--brand); color: #fff;
+      padding: 10px 14px; font-weight: 900; font-size: 13px;
+      letter-spacing: .04em; display: flex; align-items: center; gap: 6px;
     }
     .bncc-badge .bncc-tag::before {
-      content: "✓";
-      font-size: 11px;
-      background: #fff;
-      color: var(--brand);
-      width: 16px; height: 16px;
-      border-radius: 50%;
+      content: "✓"; font-size: 11px; background: #fff; color: var(--brand);
+      width: 16px; height: 16px; border-radius: 50%;
       display: inline-flex; align-items: center; justify-content: center;
       font-weight: 900;
     }
     .bncc-badge .bncc-text {
-      padding: 10px 16px;
-      font-size: 12.5px;
-      color: var(--ink-2);
-      display: flex; align-items: center;
-      line-height: 1.35;
+      padding: 10px 16px; font-size: 12.5px; color: var(--ink-2);
+      display: flex; align-items: center; line-height: 1.35;
     }
     .bncc-badge .bncc-text strong { color: var(--ink); font-weight: 700; }
     .bncc-badge .bncc-text small {
@@ -353,116 +494,102 @@
     .bncc-badge.new-badge .bncc-tag { background: #e11d48; }
     .bncc-badge.new-badge .bncc-tag::before { color: #e11d48; content: "★"; }
 
-    /* Hero stats */
     .hero-stats {
-      display: flex; gap: 36px; padding-top: 28px;
-      border-top: 1px solid var(--line);
-      margin-top: 26px;
+      display: flex; gap: 36px; padding-top: 26px;
+      border-top: 1px solid rgba(70,89,255,.14);
+      margin-top: 24px;
     }
     .hero-stat-num {
       font-family: var(--serif); font-size: 34px;
       color: var(--brand); line-height: 1; margin-bottom: 4px;
     }
-    .hero-stat-lbl {
-      font-size: 12px; color: var(--muted);
-      letter-spacing: .04em;
-    }
-    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 24px; justify-content: center; } }
+    .hero-stat-lbl { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+    @media (max-width: 480px) { .hero-stats { flex-wrap: wrap; gap: 22px; } }
 
-    .hero-visual {
+    /* mascote dentro da cena */
+    .hero-scene {
       position: relative;
-      display: grid; gap: 16px;
-      grid-template-columns: 1fr;
+      display: flex; align-items: flex-end; justify-content: center;
+      min-height: 460px;
+    }
+    .hero-scene .owl-hero {
+      width: min(430px, 88%);
+      display: block;
+      filter: drop-shadow(0 30px 40px rgba(13,16,67,.18));
+      animation: float 7s ease-in-out infinite;
+    }
+    /* itens escolares flutuando ao redor do mascote */
+    .float-chip {
+      position: absolute;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(13,16,67,.12);
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      animation: bob 5.5s ease-in-out infinite;
+      will-change: transform;
+    }
+    .float-chip.f1 { top: 6%;  left: 4%;  --rot: -8deg; animation-delay: -1s; }
+    .float-chip.f2 { top: 0;   right: 10%; --rot: 6deg;  animation-delay: -2.6s; }
+    .float-chip.f3 { top: 44%; left: -2%; --rot: 5deg;  animation-delay: -4s; }
+    .float-chip.f4 { top: 36%; right: -1%; --rot: -6deg; animation-delay: -.5s; width: 60px; height: 60px; }
+    @media (max-width: 960px) {
+      .hero-scene { min-height: 380px; }
+      .float-chip.f3 { left: 4%; }
+      .float-chip.f4 { right: 4%; }
     }
 
-    /* Phone mockup */
-    .phone-wrap {
-      max-width: 360px; margin: 0 auto;
-      animation: float 6s ease-in-out infinite;
-      position: relative;
-    }
-    .phone-frame {
-      background: #16141f; border-radius: 44px; padding: 14px;
-      box-shadow: 0 50px 120px rgba(13,16,67,.25),
-                  0 0 0 1px rgba(255,255,255,.08) inset;
-    }
-    .phone-screen {
-      background: var(--bg); border-radius: 32px;
-      overflow: hidden; padding: 22px;
-    }
-    .phone-topbar {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 18px; padding-bottom: 14px;
-      border-bottom: 1px dashed rgba(70,89,255,.18);
-    }
-    .phone-icon {
-      width: 34px; height: 34px; background: var(--brand);
-      border-radius: 9px; display: flex; align-items: center;
-      justify-content: center; font-size: 17px; flex-shrink: 0;
-    }
-    .phone-title { font-size: 13px; font-weight: 700; }
-    .phone-sub   { font-size: 11px; color: var(--muted); }
-    .p-label {
-      font-size: 10px; font-weight: 700; color: var(--brand);
-      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px;
-    }
-    .p-input {
-      background: #fff; border: 2px solid var(--brand-soft);
-      border-radius: 10px; padding: 9px 13px;
-      font-size: 13px; font-family: 'Inter', sans-serif;
-      color: var(--ink); margin-bottom: 14px; width: 100%;
-    }
-    .demo-cursor {
-      display: inline-block; width: 2px; height: 13px;
-      background: var(--brand); animation: blink 1s infinite;
-      vertical-align: middle; margin-left: 1px;
-    }
-    .p-output { display: flex; flex-direction: column; gap: 7px; }
-    .p-row {
-      display: flex; gap: 8px; align-items: flex-start;
-      background: #fff; border-radius: 10px;
-      padding: 9px 12px; box-shadow: var(--shadow);
-      font-size: 12px; line-height: 1.5; opacity: 0;
-    }
+    /* colina de saída do hero */
+    #hero .sep { position: relative; z-index: 1; }
 
-    /* ── Marquee bar between hero & dor ── */
-    .marquee {
-      background: var(--ink); color: #fff;
-      padding: 18px 0; overflow: hidden;
-      border-top: 1px solid var(--line);
+    /* ── Fita marquee inclinada ── */
+    .ribbon-wrap {
+      position: relative; z-index: 3;
+      margin: -34px 0 -14px;
+      transform: rotate(-1.6deg);
+      pointer-events: none;
+    }
+    .ribbon {
+      background: #f5c842; color: #180e4e;
+      padding: 13px 0; overflow: hidden;
+      border-top: 3px solid #180e4e;
+      border-bottom: 3px solid #180e4e;
+      box-shadow: 0 14px 40px rgba(24,14,78,.25);
+      width: 104%; margin-left: -2%;
+      border-radius: 4px;
     }
     .marquee-track {
-      display: flex; gap: 60px;
-      animation: marquee 34s linear infinite;
+      display: flex; gap: 56px;
+      animation: marquee 36s linear infinite;
       white-space: nowrap;
     }
     .marquee-track span {
       display: inline-flex; align-items: center; gap: 14px;
-      font-size: 14px; font-weight: 600;
-      letter-spacing: .06em; text-transform: uppercase;
+      font-size: 13.5px; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
     }
     .marquee-track span::after {
-      content: '🦉'; font-size: 14px; opacity: .5;
+      content: ''; width: 18px; height: 18px;
+      background: url('logo.png') center/contain no-repeat;
+      opacity: .8;
     }
 
     /* ══════════════════════════════════════
        SECTION BASE
     ══════════════════════════════════════ */
-    section { padding: 120px 0; position: relative; }
+    section { padding: 110px 0; position: relative; }
     .sec-header {
       display: flex; flex-direction: column;
       align-items: center; text-align: center;
       gap: 16px; max-width: 720px;
       margin: 0 auto 70px;
     }
-    .sec-header .eyebrow-row {
-      display: flex; align-items: center; gap: 18px;
-    }
+    .sec-header .eyebrow-row { display: flex; align-items: center; gap: 18px; }
 
     /* ══════════════════════════════════════
-       SECTION 01 — DOR
+       01 — DOR
     ══════════════════════════════════════ */
-    #dor { background: #fff; }
+    #dor { background: #fff; padding-top: 90px; }
     .dor-feature {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 60px; align-items: center;
@@ -470,9 +597,7 @@
     }
     @media (max-width: 860px) { .dor-feature { grid-template-columns: 1fr; gap: 36px; } }
 
-    .dor-quote-block {
-      position: relative; padding-left: 36px;
-    }
+    .dor-quote-block { position: relative; padding-left: 36px; }
     .dor-quote-block::before {
       content: '"';
       position: absolute; top: -36px; left: -10px;
@@ -515,16 +640,33 @@
     .dor-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 
     /* ══════════════════════════════════════
-       SECTION 02 — VIRADA
+       02 — VIRADA (cena noturna)
     ══════════════════════════════════════ */
     #virada {
       background: var(--night); color: #fff;
       position: relative; overflow: hidden;
+      padding-top: 90px;
     }
     #virada::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background: radial-gradient(ellipse 800px 600px at 50% 0%, rgba(70,89,255,.22) 0%, transparent 65%);
     }
+    /* estrelas */
+    .stars, .stars::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.9) 50%, transparent 51%),
+        radial-gradient(1px 1px at 28% 64%, rgba(255,255,255,.7) 50%, transparent 51%),
+        radial-gradient(2px 2px at 44% 14%, rgba(255,255,255,.8) 50%, transparent 51%),
+        radial-gradient(1px 1px at 58% 42%, rgba(255,255,255,.6) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 71% 18%, rgba(255,255,255,.9) 50%, transparent 51%),
+        radial-gradient(1px 1px at 84% 56%, rgba(255,255,255,.7) 50%, transparent 51%),
+        radial-gradient(2px 2px at 93% 30%, rgba(255,255,255,.75) 50%, transparent 51%),
+        radial-gradient(1px 1px at 6% 78%, rgba(255,255,255,.5) 50%, transparent 51%);
+      animation: twinkle 4.5s ease-in-out infinite;
+    }
+    .stars::after { animation-delay: -2.2s; transform: translate(30px, 40px); opacity: .6; }
+
     .virada-inner {
       position: relative; z-index: 1;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -577,17 +719,30 @@
       background: rgba(255,255,255,.7); border-radius: 2px;
       animation: blink .8s infinite; vertical-align: middle; margin-left: 4px;
     }
-    .t-text  { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
+    .t-text { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
 
     /* ══════════════════════════════════════
-       SECTION 03 — FEATURES
+       03 — FEATURES
     ══════════════════════════════════════ */
-    #features { background: var(--bg); padding-bottom: 140px; }
+    #features {
+      background: var(--bg);
+      padding-top: 90px; padding-bottom: 130px;
+      position: relative; overflow: hidden;
+    }
+    /* bolhas suaves de cenário */
+    #features::before, #features::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(70,89,255,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #features::before { width: 640px; height: 640px; top: 6%; left: -220px; }
+    #features::after  { width: 720px; height: 720px; bottom: 4%; right: -260px; }
 
     .feat-row {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 60px; align-items: center;
       margin-bottom: 100px;
+      position: relative; z-index: 1;
     }
     .feat-row.reverse { direction: rtl; }
     .feat-row.reverse > * { direction: ltr; }
@@ -598,7 +753,7 @@
 
     .feat-content .feat-num {
       font-family: var(--serif); font-style: italic;
-      font-size: 56px; color: var(--brand-soft);
+      font-size: 56px; color: rgba(70,89,255,.16);
       line-height: 1; margin-bottom: 8px;
     }
     .feat-content .pill { margin-bottom: 14px; }
@@ -655,13 +810,29 @@
     .gami-pill:hover { border-color: var(--brand); transform: translateY(-2px); }
     .gami-pill .gp-em { display: block; font-size: 24px; margin-bottom: 5px; }
     .gami-pill.gami-top { grid-column: 1 / -1; }
+    .gami-pill.gami-wide { grid-column: span 2; }
 
-    /* ── Slideshow gamificação ── */
+    /* imagens de feature em "cartão de cena" */
+    .scene-frame {
+      border-radius: 26px; overflow: hidden;
+      box-shadow: 0 26px 70px rgba(13,16,67,.16);
+      transform: rotate(1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .feat-row.reverse .scene-frame { transform: rotate(-1.2deg); }
+    .scene-frame:hover { transform: rotate(0) scale(1.015); }
+    .scene-frame img, .scene-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Slideshow jogos ── */
     .slide06 {
-      position: relative; border-radius: 24px;
+      position: relative; border-radius: 26px;
       overflow: hidden; aspect-ratio: 4/3;
       background: var(--brand-soft);
+      box-shadow: 0 26px 70px rgba(13,16,67,.16);
+      transform: rotate(-1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
     }
+    .slide06:hover { transform: rotate(0) scale(1.015); }
     .slide06-img {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -679,18 +850,90 @@
       background: rgba(255,255,255,.45);
       transition: background .3s, transform .3s;
     }
-    .slide06-dot.active {
-      background: #fff;
-      transform: scale(1.3);
+    .slide06-dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ── Placar de equipes (Turma Gamificada) ── */
+    .board-card {
+      background: var(--night); border-radius: 28px;
+      padding: 30px 26px; color: #fff;
+      box-shadow: 0 30px 80px rgba(13,16,67,.35);
+      position: relative; overflow: hidden;
+      transform: rotate(1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
     }
+    .board-card:hover { transform: rotate(0) scale(1.01); }
+    .board-card::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 400px 300px at 80% 0%, rgba(70,89,255,.35) 0%, transparent 65%);
+    }
+    .board-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 22px; position: relative;
+    }
+    .board-head img { width: 40px; height: 40px; border-radius: 12px; }
+    .board-head .bh-title { font-size: 15px; font-weight: 800; }
+    .board-head .bh-sub { font-size: 11.5px; color: rgba(255,255,255,.55); }
+    .board-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px; padding: 13px 16px;
+      margin-bottom: 10px; position: relative;
+    }
+    .board-row .br-rank {
+      font-family: var(--serif); font-style: italic;
+      font-size: 20px; color: rgba(255,255,255,.5); width: 22px;
+      flex-shrink: 0; text-align: center;
+    }
+    .board-row .br-em { font-size: 22px; flex-shrink: 0; }
+    .board-row .br-info { flex: 1; min-width: 0; }
+    .board-row .br-name { font-size: 13.5px; font-weight: 800; margin-bottom: 5px; }
+    .board-row .br-bar {
+      height: 7px; border-radius: 9999px;
+      background: rgba(255,255,255,.12); overflow: hidden;
+    }
+    .board-row .br-fill {
+      height: 100%; border-radius: 9999px;
+      background: linear-gradient(90deg, #4659ff, #8b9aff);
+    }
+    .board-row .br-xp {
+      font-size: 12px; font-weight: 800; color: #b3c0ff;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .board-row.gold {
+      border-color: rgba(251,191,36,.4);
+      background: rgba(251,191,36,.09);
+    }
+    .board-row.gold .br-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .board-row.gold .br-xp { color: #fbbf24; }
+    .board-foot { display: flex; gap: 10px; margin-top: 18px; position: relative; }
+    .board-chip {
+      flex: 1; text-align: center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px; padding: 12px 8px;
+      font-size: 11px; color: rgba(255,255,255,.6);
+    }
+    .board-chip strong { display: block; font-size: 16px; color: #fff; margin-bottom: 2px; }
+
+    /* painel escuro da Agenda */
+    .night-panel {
+      background: var(--night); border-radius: 26px; padding: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(13,16,67,.35);
+      transform: rotate(-1.2deg);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .night-panel:hover { transform: rotate(0) scale(1.01); }
+    .night-panel img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
     /* ══════════════════════════════════════
-       SECTION 03B — BATALHA (destaque)
+       04 — BATALHA (fase de jogo)
     ══════════════════════════════════════ */
     #batalha {
-      background: #12060f;
+      background: var(--pit);
       color: #fff; position: relative; overflow: hidden;
-      padding: 130px 0;
+      padding: 110px 0 120px;
     }
     #batalha::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -702,6 +945,11 @@
     .batalha-head {
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 18px; margin-bottom: 56px;
+    }
+    .press-start {
+      font-family: var(--pixel); font-size: 10px;
+      color: #fbbf24; letter-spacing: .1em;
+      animation: blink 1.4s steps(2) infinite;
     }
     .batalha-title {
       font-size: clamp(30px, 4.6vw, 54px); font-weight: 900;
@@ -729,7 +977,6 @@
     }
     .batalha-banner img { width: 100%; display: block; }
 
-    /* pixel duel strip */
     .duel-strip {
       display: flex; align-items: flex-end; justify-content: center;
       gap: clamp(20px, 6vw, 60px);
@@ -748,15 +995,15 @@
       animation: blink 1.6s infinite;
     }
 
-    .rule-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
+    .rule-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .rule-cards { grid-template-columns: 1fr; } }
     .rule-card {
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 16px; padding: 18px;
+      transition: transform .2s, border-color .2s;
     }
+    .rule-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.3); }
     .rule-card .rc-em { font-size: 24px; display: block; margin-bottom: 8px; }
     .rule-card .rc-name {
       font-size: 13px; font-weight: 800; margin-bottom: 4px;
@@ -772,13 +1019,10 @@
     }
 
     /* ══════════════════════════════════════
-       SECTION — KIT DO PROFESSOR (bento)
+       05 — KIT DO PROFESSOR (bento)
     ══════════════════════════════════════ */
-    #kit { background: #fff; }
-    .kit-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
+    #kit { background: #fff; padding-top: 90px; }
+    .kit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     @media (max-width: 980px) { .kit-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px) { .kit-grid { grid-template-columns: 1fr; } }
     .kit-card {
@@ -801,19 +1045,17 @@
     .kit-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
     .kit-card.wide { grid-column: span 2; }
     @media (max-width: 520px) { .kit-card.wide { grid-column: span 1; } }
-    .kit-card.dark {
-      background: var(--night); border-color: var(--night-2);
-      color: #fff;
-    }
+    .kit-card.dark { background: var(--night); border-color: var(--night-2); color: #fff; }
     .kit-card.dark .kit-name { color: #fff; }
     .kit-card.dark .kit-desc { color: rgba(255,255,255,.65); }
     .kit-card.dark:hover { border-color: var(--brand); }
 
     /* ══════════════════════════════════════
-       SECTION 04 — TCC
+       06 — TCC (balão de história)
     ══════════════════════════════════════ */
     #tcc {
       background: var(--paper); position: relative; overflow: hidden;
+      padding-top: 90px;
     }
     #tcc::before {
       content: '"';
@@ -828,8 +1070,24 @@
     }
     @media (max-width: 880px) { .tcc-grid { grid-template-columns: 1fr; gap: 40px; } }
 
+    .tcc-bubble {
+      background: #fff; border-radius: 32px;
+      padding: 40px 38px;
+      box-shadow: 0 24px 70px rgba(13,16,67,.1);
+      position: relative;
+    }
+    .tcc-bubble::after {
+      content: ''; position: absolute;
+      bottom: -18px; left: 64px;
+      width: 40px; height: 40px;
+      background: #fff; border-radius: 8px;
+      transform: rotate(45deg);
+      box-shadow: 18px 18px 40px rgba(13,16,67,.06);
+    }
+    @media (max-width: 880px) { .tcc-bubble::after { left: 40px; } }
+
     .tcc-body {
-      font-size: 21px; line-height: 1.7; color: var(--ink);
+      font-size: 20px; line-height: 1.7; color: var(--ink);
       font-family: var(--serif); font-style: italic;
       font-weight: 400;
     }
@@ -841,7 +1099,7 @@
     .tcc-body p:last-child { margin-bottom: 0; }
 
     .tcc-sign-block {
-      margin-top: 36px; padding-top: 28px;
+      margin-top: 30px; padding-top: 24px;
       border-top: 1px solid var(--line);
       display: flex; align-items: center; gap: 18px;
     }
@@ -856,24 +1114,28 @@
     }
 
     /* ══════════════════════════════════════
-       SECTION 05 — PLANOS
+       07 — PLANOS
     ══════════════════════════════════════ */
-    #planos { background: var(--bg); }
+    #planos { background: var(--brand-50); padding-top: 90px; }
 
+    /* faixa de urgência no estilo adesivo dos posts */
     .urgency-strip {
-      background: var(--brand); color: #fff;
-      border-radius: 16px; padding: 16px 24px;
-      text-align: center; font-size: 14px; font-weight: 600;
+      background: #f5c842; color: #180e4e;
+      border: 3px solid #180e4e;
+      border-radius: 18px; padding: 15px 24px;
+      text-align: center; font-size: 14px; font-weight: 700;
       max-width: 720px; margin: 0 auto 52px;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      box-shadow: 7px 8px 0 #180e4e;
+      transform: rotate(-.6deg);
     }
     .urgency-strip .bolt {
       display: inline-flex; width: 28px; height: 28px;
-      background: rgba(255,255,255,.18); border-radius: 50%;
+      background: #180e4e; color: #f5c842; border-radius: 50%;
       align-items: center; justify-content: center; font-size: 13px;
       flex-shrink: 0;
     }
-    .urgency-strip span { opacity: .82; }
+    .urgency-strip span { opacity: 1; }
 
     .plans-wrap {
       display: grid; grid-template-columns: 1fr 1.05fr;
@@ -889,10 +1151,7 @@
       transition: transform .25s;
     }
     .plan-card:hover { transform: translateY(-4px); }
-    .plan-card.pro {
-      border-color: var(--brand);
-      box-shadow: var(--shadow-lg);
-    }
+    .plan-card.pro { border-color: var(--brand); box-shadow: var(--shadow-lg); }
     .pro-tag {
       position: absolute; top: -15px; left: 50%;
       transform: translateX(-50%);
@@ -902,9 +1161,7 @@
       padding: 7px 20px; border-radius: 9999px;
       white-space: nowrap;
     }
-    .plan-head {
-      display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;
-    }
+    .plan-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
     .plan-label {
       font-size: 13px; font-weight: 800; text-transform: uppercase;
       letter-spacing: .1em; color: var(--ink);
@@ -923,9 +1180,7 @@
       font-size: 16px; font-weight: 600; color: var(--muted);
       font-family: 'Inter', sans-serif;
     }
-    .plan-period {
-      font-size: 13px; color: var(--muted); margin-bottom: 28px;
-    }
+    .plan-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
     .plan-feats {
       list-style: none; display: flex; flex-direction: column;
       gap: 12px; margin-bottom: 28px; flex: 1;
@@ -934,10 +1189,7 @@
       display: flex; gap: 11px; font-size: 14px;
       align-items: flex-start; line-height: 1.5;
     }
-    .pf-check {
-      color: var(--brand); font-size: 16px;
-      font-weight: 900; line-height: 1.4;
-    }
+    .pf-check { color: var(--brand); font-size: 16px; font-weight: 900; line-height: 1.4; }
     .pf-check.dim { color: #d1d5db; }
     .plan-btn { width: 100%; }
     .plan-sub-note {
@@ -956,9 +1208,9 @@
     .plan-anchor strong { color: var(--brand); }
 
     /* ══════════════════════════════════════
-       SECTION 06 — FAQ
+       08 — FAQ
     ══════════════════════════════════════ */
-    #faq { background: #fff; }
+    #faq { background: #fff; padding-top: 90px; }
     .faq-list {
       max-width: 760px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 12px;
@@ -976,6 +1228,7 @@
       color: var(--ink); cursor: pointer; text-align: left; gap: 16px;
       letter-spacing: -.005em;
     }
+    .faq-btn:focus-visible { outline-offset: -3px; border-radius: 18px; }
     .faq-plus {
       width: 30px; height: 30px; min-width: 30px;
       background: var(--brand-soft); border-radius: 50%;
@@ -994,11 +1247,11 @@
     .faq-item.open .faq-ans { max-height: 600px; padding-bottom: 24px; }
 
     /* ══════════════════════════════════════
-       SECTION 07 — CTA FINAL
+       CTA FINAL (cena noturna)
     ══════════════════════════════════════ */
     #cta-final {
       background: var(--night); color: #fff;
-      text-align: center; padding: 140px 0;
+      text-align: center; padding: 110px 0 140px;
       position: relative; overflow: hidden;
     }
     #cta-final::before {
@@ -1007,6 +1260,12 @@
       pointer-events: none;
     }
     .cta-final-inner { position: relative; z-index: 1; }
+    .cta-frame {
+      width: 100%; max-width: 520px; margin: 0 auto 28px;
+      aspect-ratio: 16/9; overflow: hidden; border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+    .cta-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
     .cta-final-title {
       font-size: clamp(32px, 5vw, 60px); font-weight: 900;
       color: #fff; max-width: 760px; margin: 28px auto 22px;
@@ -1040,7 +1299,7 @@
       color: #fff; font-weight: 800; font-size: 16px;
       margin-bottom: 14px;
     }
-    .footer-brand .owl-chip { width: 34px; height: 34px; font-size: 17px; }
+    .footer-brand .owl-chip { width: 34px; height: 34px; }
     .footer-body { max-width: 460px; line-height: 1.65; }
     .footer-body strong { color: rgba(255,255,255,.85); }
     .footer-meta {
@@ -1056,45 +1315,55 @@
       letter-spacing: .08em; color: rgba(255,255,255,.3);
     }
 
-    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(70,89,255,.3); border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(70,89,255,.5); }
 
-    /* ── Section padding mobile ── */
     @media (max-width: 700px) {
-      section { padding: 80px 0; }
+      section { padding: 78px 0; }
       .sec-header { margin-bottom: 50px; }
-      #batalha { padding: 90px 0; }
+      #hero { padding-top: 120px; }
+      .ribbon-wrap { margin: -22px 0 -10px; }
     }
   </style>
 </head>
 <body>
 
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
 <!-- ══ NAV ══ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
+    <a href="#" class="nav-logo" aria-label="Prof. Corujão, página inicial">
+      <div class="owl-chip"><img src="logo.png" alt=""></div>
       Prof. Corujão
     </a>
-    <div class="nav-menu">
+    <div class="nav-menu" id="nav-menu">
       <a href="#features" class="nav-link">Funcionalidades</a>
       <a href="#batalha" class="nav-link">Batalha <span class="mini-new">NOVO</span></a>
       <a href="#kit" class="nav-link">Kit do Professor</a>
       <a href="#planos" class="nav-link">Planos</a>
       <a href="#faq" class="nav-link">FAQ</a>
     </div>
-    <a href="https://profcorujao.vercel.app/"
-       target="_blank" rel="noopener" class="btn btn-primary sm">Testar grátis</a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener"
+         class="btn btn-primary sm nav-cta-top">Testar grátis</a>
+      <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
 <!-- ══════════════════════════════════════
-     HERO
+     HERO — o mundo do Corujão
 ══════════════════════════════════════ -->
-<section id="hero">
+<header id="hero">
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+
   <div class="container">
     <div class="hero-inner">
 
@@ -1103,15 +1372,15 @@
         <div class="eyebrow animate-in">IA Educacional · 30+ recursos em um só app</div>
 
         <h1 class="hero-title animate-in" style="transition-delay:.08s">
-          Você planeja, corrige, improvisa —
-          <em>e ainda perde o fim de semana.</em>
+          Você planeja, corrige, improvisa. E ainda perde
+          <span class="hl-box">o fim de semana.</span>
         </h1>
 
         <p class="hero-sub animate-in" style="transition-delay:.16s">
           O Prof. Corujão é o assistente de IA feito por professor, para professor.
           Planos de aula, provas, slides, <strong>9 jogos educativos</strong>,
           <strong>batalhas de revisão</strong>, gamificação de turma, diário de bordo
-          e agenda inteligente. Tudo em segundos — enquanto você toma o café.
+          e agenda inteligente. Tudo em segundos, enquanto você toma o café.
         </p>
 
         <div class="hero-actions animate-in" style="transition-delay:.24s">
@@ -1120,7 +1389,7 @@
           </a>
           <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
              target="_blank" rel="noopener" class="btn btn-outline">
-            🦉 Quero ser Apoiador
+            <img src="logo.png" alt="" class="btn-logo"> Quero ser Apoiador
           </a>
         </div>
 
@@ -1135,7 +1404,7 @@
             <div class="bncc-text">
               <span>
                 <strong>Planos alinhados</strong> ao banco oficial
-                <small>Habilidades reais — não inventadas pela IA</small>
+                <small>Habilidades reais, não inventadas pela IA</small>
               </span>
             </div>
           </div>
@@ -1152,133 +1421,109 @@
 
         <div class="hero-stats animate-in" style="transition-delay:.4s">
           <div>
-            <div class="hero-stat-num">30+</div>
+            <div class="hero-stat-num" data-count="30" data-suffix="+">30+</div>
             <div class="hero-stat-lbl">Recursos no app</div>
           </div>
           <div>
-            <div class="hero-stat-num">9</div>
+            <div class="hero-stat-num" data-count="9">9</div>
             <div class="hero-stat-lbl">Jogos com IA</div>
           </div>
           <div>
-            <div class="hero-stat-num">8</div>
+            <div class="hero-stat-num" data-count="8">8</div>
             <div class="hero-stat-lbl">Ferramentas ao vivo</div>
           </div>
           <div>
-            <div class="hero-stat-num">7</div>
+            <div class="hero-stat-num" data-count="7">7</div>
             <div class="hero-stat-lbl">Kit do Professor</div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT — visual -->
-      <div class="hero-visual animate-in" style="transition-delay:.3s">
-
-        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
-          <img src="illu-01.png" alt="Prof. Corujão — Mascote" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
-        </div>
-
-        <!-- Phone mockup -->
-        <div class="phone-wrap">
-          <div class="phone-frame">
-            <div class="phone-screen">
-              <div class="phone-topbar">
-                <div class="phone-icon">🦉</div>
-                <div>
-                  <div class="phone-title">Prof. Corujão</div>
-                  <div class="phone-sub">Planejador Inteligente</div>
-                </div>
-              </div>
-              <div class="p-label">Tema da aula</div>
-              <div class="p-input">Fotossíntese, 8º ano<span class="demo-cursor"></span></div>
-              <div class="p-label">Gerando materiais…</div>
-              <div class="p-output">
-                <div class="p-row" id="pr1">
-                  <span class="emoji">📋</span>
-                  <span><strong>Plano BNCC:</strong> objetivos, metodologia e avaliação</span>
-                </div>
-                <div class="p-row" id="pr2">
-                  <span class="emoji">🖥️</span>
-                  <span><strong>Slides prontos:</strong> com imagens e design automático</span>
-                </div>
-                <div class="p-row" id="pr3">
-                  <span class="emoji">⚔️</span>
-                  <span><strong>Batalha de Revisão:</strong> a turma disputa o conteúdo</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- RIGHT — mascote dentro da cena -->
+      <div class="hero-scene animate-in" style="transition-delay:.3s">
+        <span class="float-chip f1" data-para="0.06" aria-hidden="true">📚</span>
+        <span class="float-chip f2" data-para="0.1" aria-hidden="true">✏️</span>
+        <span class="float-chip f3" data-para="0.14" aria-hidden="true">🧪</span>
+        <span class="float-chip f4" data-para="0.08" aria-hidden="true">📐</span>
+        <img src="illu-01.png" alt="Prof. Corujão mostrando o app no celular" class="owl-hero" data-para="0.03">
       </div>
 
     </div>
   </div>
-</section>
 
-<!-- ══ MARQUEE STRIP ══ -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>Alinhado à BNCC</span>
-    <span>Planos de aula em segundos</span>
-    <span>Batalha de Revisão</span>
-    <span>Provas com gabarito</span>
-    <span>Escape Rooms imprimíveis</span>
-    <span>Gamificação de turma</span>
-    <span>Slides automáticos</span>
-    <span>Diário de bordo</span>
-    <span>Agenda com importação por PDF</span>
-    <span>Adaptação inclusiva</span>
-    <span>Chat com IA pedagógica</span>
-    <!-- duplicado para loop -->
-    <span>Alinhado à BNCC</span>
-    <span>Planos de aula em segundos</span>
-    <span>Batalha de Revisão</span>
-    <span>Provas com gabarito</span>
-    <span>Escape Rooms imprimíveis</span>
-    <span>Gamificação de turma</span>
-    <span>Slides automáticos</span>
-    <span>Diário de bordo</span>
-    <span>Agenda com importação por PDF</span>
-    <span>Adaptação inclusiva</span>
-    <span>Chat com IA pedagógica</span>
+  <!-- colina de saída -->
+  <div class="sep" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,80 L0,52 C180,88 360,14 540,44 C720,74 900,16 1080,46 C1260,74 1380,32 1440,50 L1440,80 Z"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ══ FITA MARQUEE ══ -->
+<div class="ribbon-wrap" aria-hidden="true">
+  <div class="ribbon">
+    <div class="marquee-track">
+      <span>Alinhado à BNCC</span>
+      <span>Planos de aula em segundos</span>
+      <span>Batalha de Revisão</span>
+      <span>Provas com gabarito</span>
+      <span>Escape Rooms imprimíveis</span>
+      <span>Gamificação de turma</span>
+      <span>Slides automáticos</span>
+      <span>Diário de bordo</span>
+      <span>Agenda com importação por PDF</span>
+      <span>Adaptação inclusiva</span>
+      <span>Chat com IA pedagógica</span>
+      <!-- duplicado para loop -->
+      <span>Alinhado à BNCC</span>
+      <span>Planos de aula em segundos</span>
+      <span>Batalha de Revisão</span>
+      <span>Provas com gabarito</span>
+      <span>Escape Rooms imprimíveis</span>
+      <span>Gamificação de turma</span>
+      <span>Slides automáticos</span>
+      <span>Diário de bordo</span>
+      <span>Agenda com importação por PDF</span>
+      <span>Adaptação inclusiva</span>
+      <span>Chat com IA pedagógica</span>
+    </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════
-     SECTION 01 — DOR
+     01 — DOR
 ══════════════════════════════════════ -->
 <section id="dor">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 01 / 08 —</span>
+        <span class="section-num">01 / 08</span>
         <div class="eyebrow">A Realidade do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Isso soa <em class="ink-accent">familiar?</em>
+        Isso soa <span class="hl-box">familiar?</span>
       </h2>
     </div>
 
-    <!-- Quote + Illustration -->
     <div class="dor-feature">
       <div class="dor-quote-block animate-in">
         <p>
           Você entra na sala com 35 alunos, um conteúdo pra cumprir, e o celular deles
           competindo com você. Você passa horas montando uma atividade que eles fazem
-          em 10 minutos — ou não fazem.
+          em 10 minutos, ou não fazem.
         </p>
         <p style="font-size:24px;font-weight:600;font-style:normal;font-family:'Inter';color:var(--ink);line-height:1.45;">
           Você quer que a aula seja incrível. <span class="ink-accent">Mas o tempo não colabora.</span>
         </p>
-        <div class="quote-sig">— Todo professor brasileiro, em algum momento</div>
+        <div class="quote-sig">Todo professor brasileiro, em algum momento</div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-02.png" alt="Cena de Empatia" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
+      <div class="animate-in from-right" style="transition-delay:.1s;overflow:hidden;">
+        <img src="illu-02.png" alt="Professora exausta corrigindo provas à noite" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;" loading="lazy">
       </div>
     </div>
 
-    <!-- Cards -->
     <div class="dor-grid">
       <div class="dor-card animate-in">
         <span class="dor-card-num">i.</span>
@@ -1296,7 +1541,7 @@
         <span class="dor-card-num">iii.</span>
         <span class="dor-icon">📋</span>
         <div class="dor-name">Burocracia infinita</div>
-        <div class="dor-desc">Pareceres, chamada, provas, relatórios — pilha que rouba o fim de semana.</div>
+        <div class="dor-desc">Pareceres, chamada, provas, relatórios: uma pilha que rouba o fim de semana.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.18s">
         <span class="dor-card-num">iv.</span>
@@ -1313,55 +1558,61 @@
     </div>
 
   </div>
+
 </section>
 
 <!-- ══════════════════════════════════════
-     SECTION 02 — VIRADA
+     02 — VIRADA (noite)
 ══════════════════════════════════════ -->
-<section id="virada">
+<section id="virada" style="padding-top:160px">
+  <!-- nuvens: o branco da seção anterior desce sobre a noite -->
+  <div class="cloud-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,0 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,0 Z"/>
+    </svg>
+  </div>
+  <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="virada-inner">
 
-      <!-- LEFT — Question + terminal -->
       <div>
         <div class="eyebrow-row animate-in" style="margin-bottom:24px;display:flex;align-items:center;gap:18px">
-          <span class="section-num" style="color:rgba(255,255,255,.4)">— 02 / 08 —</span>
+          <span class="section-num" style="color:rgba(255,255,255,.4)">02 / 08</span>
           <div class="eyebrow light">A Virada</div>
         </div>
 
         <h2 class="virada-question animate-in" style="transition-delay:.08s">
-          E se a IA fizesse a parte chata —
+          E se a IA fizesse <span class="hl-box on-dark">a parte chata</span>
           <br><em>e você ficasse só com a parte boa de ensinar?</em>
         </h2>
 
         <p class="virada-desc animate-in" style="transition-delay:.16s">
           O Prof. Corujão trabalha com você em segundo plano. Você digita o tema,
-          ele pensa, estrutura, cria — e avisa quando termina. Da aula de amanhã
+          ele pensa, estrutura, cria e avisa quando termina. Da aula de amanhã
           à revisão gamificada da prova, tudo sai pronto pra usar.
         </p>
 
         <div class="terminal animate-in" style="transition-delay:.24s">
           <div class="t-row">
             <span class="t-role prof">Professor</span>
-            <span class="t-text">Fotossíntese, 8º ano — algo que engaje a turma</span>
+            <span class="t-text">Fotossíntese, 8º ano. Algo que engaje a turma</span>
           </div>
           <div class="t-row">
-            <span class="t-role owl">🦉 Corujão</span>
+            <span class="t-role owl"><img src="logo.png" alt="" style="width:14px;height:14px;object-fit:contain;border-radius:4px;vertical-align:-2px;margin-right:3px;"> Corujão</span>
             <div id="t-anim-output">
               <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula alinhado à BNCC</div>
               <div class="t-item" data-delay="900"><span class="t-em">✅</span> Atividade impressa pronta para distribuir</div>
               <div class="t-item" data-delay="1400"><span class="t-em">✅</span> Slides com imagens e design automático</div>
               <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Batalha de Revisão pra fechar a semana</div>
-              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>segundos</strong> — em segundo plano</div>
+              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>segundos</strong>, em segundo plano</div>
               <span class="t-cursor" id="t-cursor"></span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT — vídeo -->
-      <div class="animate-in" style="transition-delay:.16s;aspect-ratio:1/1;overflow:hidden;border-radius:24px;background:#000;">
-        <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+      <div class="scene-frame animate-in from-right" style="transition-delay:.16s;aspect-ratio:1/1;background:#000;">
+        <video autoplay loop muted playsinline aria-label="Demonstração animada do Prof. Corujão">
           <source src="illu-03.mp4" type="video/mp4">
         </video>
       </div>
@@ -1370,27 +1621,34 @@
   </div>
 </section>
 
+<!-- nuvens: noite → dia -->
+<div class="sep" style="background:#0d1043" aria-hidden="true">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+    <path fill="#f8f9fe" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 03 — FEATURES
+     03 — FEATURES
 ══════════════════════════════════════ -->
 <section id="features">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 03 / 08 —</span>
+        <span class="section-num">03 / 08</span>
         <div class="eyebrow">Funcionalidades</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Tudo isso num <em class="ink-accent">só lugar?</em>
+        Tudo isso num <span class="hl-box tr">só lugar?</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
         Cada ferramenta resolve uma dor real do professor.
-        Juntas, elas substituem meia dúzia de apps — e devolvem suas horas.
+        Juntas, elas substituem meia dúzia de apps e devolvem suas horas.
       </p>
     </div>
 
-    <!-- ★ Planejador (carro-chefe) -->
+    <!-- ★ Planejador -->
     <div class="feat-row">
       <div class="feat-content animate-in">
         <div class="feat-num">i.</div>
@@ -1400,16 +1658,16 @@
           <em>enquanto você toma café.</em>
         </h3>
         <p class="feat-desc">
-          Digite o tema e a turma. O Corujão gera o material completo —
-          e você só revisa, imprime ou projeta.
+          Digite o tema e a turma. O Corujão gera o material completo.
+          Você só revisa, imprime ou projeta.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>Alinhado à BNCC</strong> — banco real de habilidades, não inventadas pela IA</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Alinhado à BNCC</strong>: banco real de habilidades, não inventadas pela IA</span></li>
           <li><span class="feat-check">✓</span><span><strong>Planos de aula completos</strong> com objetivos, metodologia e avaliação</span></li>
           <li><span class="feat-check">✓</span><span><strong>Sequências didáticas</strong> com múltiplas aulas encadeadas</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Provas com gabarito</strong> — múltipla escolha, dissertativa, mista</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Provas com gabarito</strong>: múltipla escolha, dissertativa, mista</span></li>
           <li><span class="feat-check">✓</span><span><strong>Slides profissionais</strong> com imagens e layouts automáticos</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Acervo pessoal</strong> — tudo que você gera fica salvo e pesquisável</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Acervo pessoal</strong>: tudo que você gera fica salvo e pesquisável</span></li>
           <li><span class="feat-check">✓</span><span>Gera em <strong>segundo plano</strong> e avisa quando termina</span></li>
         </ul>
         <div class="feat-meta">
@@ -1419,8 +1677,8 @@
         </div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-04.png" alt="Planejador Inteligente" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:24px;display:block;">
+      <div class="scene-frame animate-in from-right" style="transition-delay:.1s;">
+        <img src="illu-04.png" alt="Planejador Inteligente do Prof. Corujão" loading="lazy">
       </div>
     </div>
 
@@ -1431,19 +1689,19 @@
         <span class="pill pill-pink">🎮 Jogos com IA</span>
         <h3 class="feat-title">
           Qualquer conteúdo<br>
-          <em>vira jogo.</em>
+          <span class="hl-box">vira jogo.</span>
         </h3>
         <p class="feat-desc">
           9 tipos de jogos educativos gerados automaticamente a partir do tema
-          da aula — pra imprimir ou projetar. É o que faz o aluno pedir
+          da aula, pra imprimir ou projetar. É o que faz o aluno pedir
           pra repetir na semana seguinte.
         </p>
         <ul class="feat-list">
           <li><span class="feat-check">✓</span><span><strong>Geração automática</strong> a partir do tema da aula</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Escape Room com 4 temas</strong> — Medieval, Laboratório, Detetive e Espaço</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Personalização total</strong> — nível, faixa etária e disciplina</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Escape Room com 4 temas</strong>: Medieval, Laboratório, Detetive e Espaço</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Personalização total</strong>: nível, faixa etária e disciplina</span></li>
         </ul>
-        <div class="gami-grid" style="margin-top:24px">
+        <div class="gami-grid animate-in" style="margin-top:24px">
           <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room · 4 temas</div>
           <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
@@ -1457,12 +1715,11 @@
         </div>
       </div>
 
-      <!-- Slideshow -->
-      <div class="slide06 animate-in" style="transition-delay:.1s">
-        <img src="illu-06a.jpg" class="slide06-img active" alt="Gamificação 1">
-        <img src="illu-06b.jpg" class="slide06-img" alt="Gamificação 2">
-        <img src="illu-06c.jpg" class="slide06-img" alt="Gamificação 3">
-        <img src="illu-06d.jpg" class="slide06-img" alt="Gamificação 4">
+      <div class="slide06 animate-in from-left" style="transition-delay:.1s">
+        <img src="illu-06a.jpg" class="slide06-img active" alt="Escape Room impresso gerado pelo app" loading="lazy">
+        <img src="illu-06b.jpg" class="slide06-img" alt="Material de jogo educativo" loading="lazy">
+        <img src="illu-06c.jpg" class="slide06-img" alt="Alunos jogando atividades gamificadas" loading="lazy">
+        <img src="illu-06d.jpg" class="slide06-img" alt="Atividade gamificada em sala" loading="lazy">
         <div class="slide06-dots">
           <span class="slide06-dot active"></span>
           <span class="slide06-dot"></span>
@@ -1472,14 +1729,14 @@
       </div>
     </div>
 
-    <!-- Gamificação de turma -->
+    <!-- Turma Gamificada -->
     <div class="feat-row">
       <div class="feat-content animate-in">
         <div class="feat-num">iii.</div>
         <span class="pill pill-green">🏆 Turma Gamificada</span>
         <h3 class="feat-title">
-          Sua turma vira um time —<br>
-          <em>e o comportamento vira pontos.</em>
+          Sua turma vira um time<br>
+          e o comportamento <span class="hl-box tr">vira pontos.</span>
         </h3>
         <p class="feat-desc">
           Um sistema completo de gamificação de turma: XP, moedas, equipes,
@@ -1490,13 +1747,13 @@
           <li><span class="feat-check">✓</span><span><strong>XP e moedas</strong> por participação e comportamento</span></li>
           <li><span class="feat-check">✓</span><span><strong>Equipes personalizadas</strong> com nome, emoji e cor</span></li>
           <li><span class="feat-check">✓</span><span><strong>Missões semanais</strong> com meta e recompensa configurável</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Loja de recompensas</strong> — alunos trocam moedas por prêmios</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Loja de recompensas</strong>: alunos trocam moedas por prêmios</span></li>
           <li><span class="feat-check">✓</span><span><strong>Hall da Fama</strong> com pódio por temporada</span></li>
         </ul>
         <p class="feat-desc" style="margin-top:22px;margin-bottom:12px">
           <strong style="color:var(--ink)">E na hora da aula</strong>, 8 ferramentas ao vivo pra usar no projetor:
         </p>
-        <div class="gami-grid">
+        <div class="gami-grid animate-in">
           <div class="gami-pill"><span class="gp-em">🎟️</span>Sorteador</div>
           <div class="gami-pill"><span class="gp-em">⏱️</span>Timer</div>
           <div class="gami-pill"><span class="gp-em">👥</span>Grupos</div>
@@ -1504,12 +1761,51 @@
           <div class="gami-pill"><span class="gp-em">🚦</span>Semáforo</div>
           <div class="gami-pill"><span class="gp-em">🎲</span>Dado</div>
           <div class="gami-pill"><span class="gp-em">🏅</span>Placar</div>
-          <div class="gami-pill gami-top"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
+          <div class="gami-pill gami-wide"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
         </div>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;aspect-ratio:16/9;overflow:hidden;border-radius:24px;">
-        <img src="illu-05.png?v=3" alt="Turma Gamificada" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <!-- Placar de equipes (mockup) -->
+      <div class="board-card animate-in from-right" style="transition-delay:.1s" aria-hidden="true">
+        <div class="board-head">
+          <img src="logo.png" alt="">
+          <div>
+            <div class="bh-title">Turma 8º B · Placar da Semana</div>
+            <div class="bh-sub">Missão: 500 XP até sexta · Recompensa: aula no pátio</div>
+          </div>
+        </div>
+        <div class="board-row gold">
+          <span class="br-rank">1.</span>
+          <span class="br-em">🐉</span>
+          <div class="br-info">
+            <div class="br-name">Dragões Vermelhos</div>
+            <div class="br-bar"><div class="br-fill" style="width:88%"></div></div>
+          </div>
+          <span class="br-xp">440 XP</span>
+        </div>
+        <div class="board-row">
+          <span class="br-rank">2.</span>
+          <span class="br-em">🦅</span>
+          <div class="br-info">
+            <div class="br-name">Águias Azuis</div>
+            <div class="br-bar"><div class="br-fill" style="width:74%"></div></div>
+          </div>
+          <span class="br-xp">370 XP</span>
+        </div>
+        <div class="board-row">
+          <span class="br-rank">3.</span>
+          <span class="br-em">🐺</span>
+          <div class="br-info">
+            <div class="br-name">Lobos da Noite</div>
+            <div class="br-bar"><div class="br-fill" style="width:61%"></div></div>
+          </div>
+          <span class="br-xp">305 XP</span>
+        </div>
+        <div class="board-foot">
+          <div class="board-chip"><strong>🪙 128</strong>moedas na loja</div>
+          <div class="board-chip"><strong>🏆 3</strong>no Hall da Fama</div>
+          <div class="board-chip"><strong>⚔️ 2</strong>batalhas na semana</div>
+        </div>
       </div>
     </div>
 
@@ -1528,17 +1824,17 @@
           nos dias de cada turma. Sério.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>Importação de calendário letivo por PDF</strong> — a IA lê e preenche tudo</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Importação de ementa por PDF</strong> — módulos viram aulas distribuídas no ano</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Importação de calendário letivo por PDF</strong>: a IA lê e preenche tudo</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Importação de ementa por PDF</strong>: módulos viram aulas distribuídas no ano</span></li>
           <li><span class="feat-check">✓</span><span><strong>Turmas com horários reais</strong> por dia da semana e cores</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Lembretes de aula</strong> — notificação antes de cada aula, direto no celular</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Diário de bordo</strong> — chamada, anotações e conceitos por aluno</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Sincronizado em tempo real</strong> — celular e computador sempre iguais</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Lembretes de aula</strong>: notificação antes de cada aula, direto no celular</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Diário de bordo</strong>: chamada, anotações e conceitos por aluno</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Sincronizado em tempo real</strong>: celular e computador sempre iguais</span></li>
         </ul>
       </div>
 
-      <div class="animate-in" style="transition-delay:.1s;background:transparent;border:none;padding:0;overflow:hidden;">
-        <img src="illu-03.png" alt="Agenda Inteligente" style="width:100%;height:100%;object-fit:contain;border-radius:24px;display:block;">
+      <div class="night-panel animate-in from-left" style="transition-delay:.1s;">
+        <img src="illu-03.png" alt="Corujão organizando o ano letivo em telas holográficas" loading="lazy">
       </div>
     </div>
 
@@ -1563,45 +1859,33 @@
         </ul>
       </div>
 
-      <div class="phone-wrap animate-in" style="transition-delay:.1s;max-width:320px">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <div class="phone-topbar">
-              <div class="phone-icon">🦉</div>
-              <div>
-                <div class="phone-title">Chat Corujão</div>
-                <div class="phone-sub">seu colega de IA</div>
-              </div>
-            </div>
-            <div class="p-output">
-              <div class="p-row" style="opacity:1">
-                <span class="emoji">👩‍🏫</span>
-                <span>Como explico fração pra uma turma agitada de 6º ano?</span>
-              </div>
-              <div class="p-row" style="opacity:1;background:var(--brand-soft)">
-                <span class="emoji">🦉</span>
-                <span>Começa com pizza de verdade (ou de papel). Divide na frente deles e deixa a turma "comprar" fatias com moedas da gamificação. Quer que eu monte a atividade?</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="scene-frame animate-in from-right" style="transition-delay:.1s;aspect-ratio:16/9;">
+        <img src="illu-05.png?v=3" alt="Corujão conversando com uma professora" loading="lazy">
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- dissolve pixelado: dia → arena -->
+<div class="sep pixel" style="background:#f8f9fe" aria-hidden="true">
+  <svg viewBox="0 0 1440 36" preserveAspectRatio="none">
+    <path fill="#12060f" d="M0,36 L0,12 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 L1440,36 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 04 — BATALHA DE REVISÃO
+     04 — BATALHA DE REVISÃO (fase de jogo)
 ══════════════════════════════════════ -->
 <section id="batalha">
   <div class="container batalha-inner">
 
     <div class="batalha-head">
       <div class="eyebrow-row animate-in" style="display:flex;align-items:center;gap:18px">
-        <span class="section-num" style="color:rgba(255,255,255,.4)">— 04 / 08 —</span>
+        <span class="section-num" style="color:rgba(255,255,255,.4)">04 / 08</span>
         <div class="eyebrow light">A Grande Novidade</div>
       </div>
+      <span class="press-start animate-in" style="transition-delay:.04s">▶ PRESS START</span>
       <span class="pill pill-new animate-in" style="transition-delay:.05s">⚔️ Novo · Batalha de Revisão</span>
       <h2 class="batalha-title animate-in" style="transition-delay:.1s">
         A revisão da prova virou <em>o momento mais esperado da semana.</em>
@@ -1609,26 +1893,24 @@
       <p class="batalha-sub animate-in" style="transition-delay:.18s">
         Duas equipes. Uma arena. A IA gera perguntas do seu conteúdo e cada
         acerto vira um ataque no estilo dos jogos de batalha em turnos.
-        Sua turma vai revisar a matéria inteira — gritando de torcida.
+        Sua turma vai revisar a matéria inteira gritando de torcida.
       </p>
     </div>
 
     <div class="batalha-grid">
 
-      <!-- LEFT — banner + duel -->
-      <div class="animate-in">
+      <div class="animate-in from-left">
         <div class="batalha-banner">
-          <img src="illu-batalha.jpg" alt="QuaqueMagia — Arena do Conhecimento">
+          <img src="illu-batalha.jpg" alt="QuaqueMagia, Arena do Conhecimento" loading="lazy">
         </div>
         <div class="duel-strip" aria-hidden="true">
-          <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="">
+          <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="" loading="lazy">
           <span class="duel-vs">VS</span>
-          <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="">
+          <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="" loading="lazy">
         </div>
       </div>
 
-      <!-- RIGHT — rules -->
-      <div class="animate-in" style="transition-delay:.12s">
+      <div class="animate-in from-right" style="transition-delay:.12s">
         <div class="rule-cards">
           <div class="rule-card">
             <span class="rc-em">✅</span>
@@ -1638,7 +1920,7 @@
           <div class="rule-card">
             <span class="rc-em">❌</span>
             <div class="rc-name">Errou = contra-ataque</div>
-            <div class="rc-desc">Resposta errada abre a guarda — o rival contra-ataca na hora.</div>
+            <div class="rc-desc">Resposta errada abre a guarda e o rival contra-ataca na hora.</div>
           </div>
           <div class="rule-card gold">
             <span class="rc-em">⚡</span>
@@ -1663,7 +1945,7 @@
         </div>
 
         <p class="batalha-cta-note">
-          <span>🎮</span> Integrada às suas equipes da Turma Gamificada — ou jogue com equipes avulsas. Funciona no projetor.
+          <span>🎮</span> Integrada às suas equipes da Turma Gamificada, ou jogue com equipes avulsas. Funciona no projetor.
         </p>
       </div>
 
@@ -1671,22 +1953,29 @@
   </div>
 </section>
 
+<!-- dissolve pixelado: arena → dia -->
+<div class="sep pixel" style="background:#ffffff" aria-hidden="true">
+  <svg viewBox="0 0 1440 36" preserveAspectRatio="none" style="transform:scaleY(-1)">
+    <path fill="#12060f" d="M0,36 L0,12 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 h24 v-12 h24 v12 h24 v12 h24 v-12 h48 v-12 h24 v24 h24 v-12 h24 v-12 h48 v12 h24 L1440,36 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 05 — KIT DO PROFESSOR
+     05 — KIT DO PROFESSOR
 ══════════════════════════════════════ -->
 <section id="kit">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 05 / 08 —</span>
+        <span class="section-num">05 / 08</span>
         <div class="eyebrow">Kit do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        A burocracia que roubava seu domingo, <em class="ink-accent">resolvida.</em>
+        A burocracia que roubava seu domingo, <span class="hl-box">resolvida.</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
-        Sete ferramentas de IA para o trabalho invisível que ninguém vê —
+        Sete ferramentas de IA para o trabalho invisível que ninguém vê,
         mas que todo professor carrega.
       </p>
     </div>
@@ -1695,7 +1984,7 @@
       <div class="kit-card wide animate-in">
         <div class="kit-icon" style="background:#eef2ff">🎓</div>
         <div class="kit-name">Parecer Descritivo</div>
-        <div class="kit-desc">Comentários de boletim e pareceres individuais por aluno — o pesadelo do fim de bimestre, pronto em minutos.</div>
+        <div class="kit-desc">Comentários de boletim e pareceres individuais por aluno. O pesadelo do fim de bimestre, pronto em minutos.</div>
       </div>
       <div class="kit-card animate-in" style="transition-delay:.05s">
         <div class="kit-icon" style="background:#d1fae5">♿</div>
@@ -1728,61 +2017,68 @@
         <div class="kit-desc">Gere materiais a partir do seu livro didático ou apostila.</div>
       </div>
       <div class="kit-card wide dark animate-in" style="transition-delay:.35s">
-        <div class="kit-icon" style="background:rgba(255,255,255,.12)">🦉</div>
+        <div class="kit-icon" style="background:rgba(255,255,255,.12)"><img src="logo.png" alt="" style="width:28px;height:28px;object-fit:contain;"></div>
         <div class="kit-name">Tudo salvo no seu Acervo</div>
-        <div class="kit-desc">Cada material gerado fica na sua biblioteca pessoal — com busca, filtros e download quando quiser. Nada se perde.</div>
+        <div class="kit-desc">Cada material gerado fica na sua biblioteca pessoal, com busca, filtros e download quando quiser. Nada se perde.</div>
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- colina: branco → papel -->
+<div class="sep short" style="background:#fff" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#faf8f4" d="M0,60 L0,34 C240,62 480,8 720,28 C960,48 1200,10 1440,34 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 06 — TCC / HISTÓRIA
+     06 — TCC / HISTÓRIA
 ══════════════════════════════════════ -->
 <section id="tcc">
   <div class="container">
 
     <div class="tcc-grid">
 
-      <div class="animate-in">
-        <div style="background:transparent;border:none;padding:0;overflow:hidden;">
-          <img src="illu-08.png" alt="O Criador" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;">
-        </div>
+      <div class="animate-in from-left">
+        <img src="illu-08.png" alt="Lyelson Martins, criador do Prof. Corujão" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:24px;display:block;" loading="lazy">
       </div>
 
       <div class="animate-in" style="transition-delay:.1s">
         <div class="eyebrow-row" style="margin-bottom:20px;display:flex;align-items:center;gap:18px">
-          <span class="section-num">— 06 / 08 —</span>
+          <span class="section-num">06 / 08</span>
           <div class="eyebrow">A História por Trás</div>
         </div>
 
         <h2 class="h1" style="margin-bottom:30px">
           Eu não sou uma empresa.<br>
-          <em class="ink-accent">Sou um estudante.</em>
+          <span class="hl-box">Sou um estudante.</span>
         </h2>
 
-        <div class="tcc-body">
-          <p>
-            Estou construindo o app que eu queria que existisse, para os professores
-            que eu vi trabalhando até tarde, improvisando com o que tinham, sem apoio
-            de tecnologia de verdade.
-          </p>
-          <p>
-            <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
-            isso vai facilitar a vida de alguém amanhã?
-          </p>
-          <p>
-            Se você se tornar Apoiador, não está só pagando por um app.
-            Está dizendo que acredita que professores merecem ferramentas melhores.
-            E me ajudando a provar isso.
-          </p>
-        </div>
+        <div class="tcc-bubble">
+          <div class="tcc-body">
+            <p>
+              Estou construindo o app que eu queria que existisse, para os professores
+              que eu vi trabalhando até tarde, improvisando com o que tinham, sem apoio
+              de tecnologia de verdade.
+            </p>
+            <p>
+              <strong>Esse é o meu TCC.</strong> Cada linha de código foi escrita com uma pergunta em mente:
+              isso vai facilitar a vida de alguém amanhã?
+            </p>
+            <p>
+              Se você se tornar Apoiador, não está só pagando por um app.
+              Está dizendo que acredita que professores merecem ferramentas melhores.
+              E me ajudando a provar isso.
+            </p>
+          </div>
 
-        <div class="tcc-sign-block">
-          <div>
-            <div class="tcc-sig-name">Lyelson Martins</div>
-            <div class="tcc-sig-role">Criador do Prof. Corujão · Estudante de TCC</div>
+          <div class="tcc-sign-block">
+            <div>
+              <div class="tcc-sig-name">Lyelson Martins</div>
+              <div class="tcc-sig-role">Criador do Prof. Corujão · Estudante de TCC</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1791,22 +2087,29 @@
   </div>
 </section>
 
+<!-- colina: papel → lilás -->
+<div class="sep short" style="background:#faf8f4" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#f5f6ff" d="M0,60 L0,30 C240,58 480,6 720,26 C960,46 1200,8 1440,32 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 07 — PLANOS
+     07 — PLANOS
 ══════════════════════════════════════ -->
 <section id="planos">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 07 / 08 —</span>
+        <span class="section-num">07 / 08</span>
         <div class="eyebrow">Planos</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Escolha como <em class="ink-accent">fazer parte.</em>
+        Escolha como <span class="hl-box">fazer parte.</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
-        Estamos convidando professores a se tornarem Apoiadores —
+        Estamos convidando professores a se tornarem Apoiadores:
         pessoas que acreditam que a educação merece tecnologia de verdade.
       </p>
     </div>
@@ -1821,7 +2124,7 @@
       <!-- Gratuito -->
       <div class="plan-card animate-in">
         <div class="plan-head">
-          <div class="plan-label">Gratuito</div>
+          <span class="sticker-green">Acesso Gratuito</span>
         </div>
         <div class="plan-price">R$&nbsp;0</div>
         <div class="plan-period">para sempre gratuito · sem cartão</div>
@@ -1849,11 +2152,11 @@
         <div class="plan-price"><sup>R$</sup>&nbsp;59,90<span class="per">&nbsp;/mês</span></div>
         <div class="plan-period">acesso completo e ilimitado</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> <span><strong>Gerações ilimitadas</strong> em tudo — planos, provas, slides, jogos</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Gerações ilimitadas</strong> em tudo: planos, provas, slides, jogos</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Batalha de Revisão</strong> e gamificação completa</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Escape Room completo</strong> · todos os 4 temas</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong> — pareceres, inclusão, rubricas e mais</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong> — calendário letivo e ementa</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong>: pareceres, inclusão, rubricas e mais</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong>: calendário letivo e ementa</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Acesso antecipado</strong> a novidades</span></li>
           <li><span class="pf-check">✓</span> <span>Nome na lista de Apoiadores do app</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Suporte direto</strong> com o criador</span></li>
@@ -1867,7 +2170,7 @@
           o app que vai mudar sua rotina de planejamento.
         </p>
         <p class="plan-anchor">
-          <strong>Menos de R$ 2 por dia</strong> — o preço de um café — pra recuperar
+          <strong>Menos de R$ 2 por dia</strong>, o preço de um café, pra recuperar
           horas de planejamento toda semana.
         </p>
       </div>
@@ -1882,51 +2185,58 @@
   </div>
 </section>
 
+<!-- colina: lilás → branco -->
+<div class="sep short" style="background:#f5f6ff" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#ffffff" d="M0,60 L0,32 C240,60 480,10 720,30 C960,50 1200,8 1440,32 L1440,60 Z"/>
+  </svg>
+</div>
+
 <!-- ══════════════════════════════════════
-     SECTION 08 — FAQ
+     08 — FAQ
 ══════════════════════════════════════ -->
 <section id="faq">
   <div class="container-tight">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">— 08 / 08 —</span>
+        <span class="section-num">08 / 08</span>
         <div class="eyebrow">Dúvidas Frequentes</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Respostas <em class="ink-accent">rápidas.</em>
+        Respostas <span class="hl-box">rápidas.</span>
       </h2>
     </div>
 
     <div class="faq-list">
       <div class="faq-item animate-in">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Preciso saber usar IA pra usar o app?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Não. Você digita o tema da aula como digitaria uma mensagem de WhatsApp,
-          e o app faz o resto. Não tem "prompt", não tem configuração complicada —
-          foi desenhado pra professor, não pra programador.
+          e o app faz o resto. Não tem "prompt", não tem configuração complicada.
+          Foi desenhado pra professor, não pra programador.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.05s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Como funciona a Batalha de Revisão na prática?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe duas equipes
           e projeta a arena na TV ou no projetor. A IA gera as perguntas na hora e cada
           equipe responde na sua vez: acerto ataca, erro sofre contra-ataque, resposta
-          rápida dá dano crítico. Vence quem zerar o HP do rival — e os pontos podem ir
+          rápida dá dano crítico. Vence quem zerar o HP do rival, e os pontos podem ir
           direto pra gamificação da turma.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.1s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Precisa de internet para funcionar?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim, para gerar conteúdo com IA é necessária conexão.
@@ -1935,30 +2245,30 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.15s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Funciona no iPhone?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Funciona em qualquer navegador — Safari, Chrome, Firefox.
+          Funciona em qualquer navegador: Safari, Chrome, Firefox.
           É instalável no Android como app nativo. No iPhone, funciona perfeitamente pelo Safari.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.2s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Os materiais gerados são meus?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim, 100%. Tudo que você gera no Prof. Corujão pertence a você.
-          Pode editar, imprimir, compartilhar e usar como quiser — sem restrições.
+          Pode editar, imprimir, compartilhar e usar como quiser, sem restrições.
           E tudo fica salvo no seu Acervo pessoal.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.25s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           É seguro? Meus dados ficam protegidos?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Sim. Login com Google ou e-mail, dados armazenados e protegidos pelo Firebase (Google).
@@ -1966,9 +2276,9 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.3s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Por que "Apoiador" e não cliente?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
           Porque você está ajudando um projeto real a crescer:
@@ -1977,28 +2287,28 @@
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.35s">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Por que o Prof. Corujão é pago?
-          <span class="faq-plus">+</span>
+          <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          <p style="margin-bottom:14px">Cada geração consome créditos reais de IA — isso tem custo. O valor mensal cobre:</p>
+          <p style="margin-bottom:14px">Cada geração consome créditos reais de IA, e isso tem custo. O valor mensal cobre:</p>
           <ul style="list-style:none;padding:0;display:grid;gap:10px">
             <li style="display:flex;gap:10px;align-items:flex-start">
               <span style="font-size:18px;line-height:1.2">🤖</span>
-              <span><strong>Google Gemini</strong> — a IA que gera todo o conteúdo. Cada plano, atividade e jogo consome créditos da API.</span>
+              <span><strong>Google Gemini</strong>: a IA que gera todo o conteúdo. Cada plano, atividade e jogo consome créditos da API.</span>
             </li>
             <li style="display:flex;gap:10px;align-items:flex-start">
               <span style="font-size:18px;line-height:1.2">☁️</span>
-              <span><strong>Firebase e hospedagem</strong> — banco de dados, autenticação e infraestrutura para manter o app no ar 24h.</span>
+              <span><strong>Firebase e hospedagem</strong>: banco de dados, autenticação e infraestrutura para manter o app no ar 24h.</span>
             </li>
             <li style="display:flex;gap:10px;align-items:flex-start">
               <span style="font-size:18px;line-height:1.2">🛠️</span>
-              <span><strong>Desenvolvimento contínuo</strong> — novas funcionalidades, melhorias e suporte saem do mesmo lugar.</span>
+              <span><strong>Desenvolvimento contínuo</strong>: novas funcionalidades, melhorias e suporte saem do mesmo lugar.</span>
             </li>
           </ul>
           <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px">
-            R$ 59,90/mês não é lucro — é o que mantém o app funcionando e evoluindo para professores como você.
+            R$ 59,90/mês não é lucro: é o que mantém o app funcionando e evoluindo para professores como você.
           </p>
         </div>
       </div>
@@ -2008,14 +2318,21 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     CTA FINAL
+     CTA FINAL (noite)
 ══════════════════════════════════════ -->
-<section id="cta-final">
+<section id="cta-final" style="padding-top:180px">
+  <!-- nuvens: o branco da seção anterior desce sobre a noite -->
+  <div class="cloud-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path fill="#ffffff" d="M0,0 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,0 Z"/>
+    </svg>
+  </div>
+  <div class="stars" aria-hidden="true"></div>
   <div class="container">
     <div class="cta-final-inner">
 
-      <div class="animate-in" style="width:100%;max-width:520px;margin:0 auto 28px;aspect-ratio:16/9;overflow:hidden;border-radius:20px;">
-        <img src="illu-09.png?v=2" alt="Coruja Final" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+      <div class="cta-frame animate-in">
+        <img src="illu-09.png?v=2" alt="Corujão atravessando mundos de matérias" loading="lazy">
       </div>
 
       <div class="eyebrow-row animate-in" style="margin-bottom:8px;display:flex;justify-content:center;align-items:center;gap:18px">
@@ -2024,11 +2341,11 @@
 
       <h2 class="cta-final-title animate-in" style="transition-delay:.08s">
         A aula que você sempre quis dar<br>
-        <em>começa com a ferramenta certa.</em>
+        começa com <span class="hl-box on-dark">a ferramenta certa.</span>
       </h2>
 
       <p class="cta-final-sub animate-in" style="transition-delay:.16s">
-        Teste grátis agora — são 10 gerações por conta da casa, sem cartão.
+        Teste grátis agora: são 10 gerações por conta da casa, sem cartão.
         Se o Corujão te devolver uma noite de sono, você já sabe o que fazer.
       </p>
 
@@ -2038,7 +2355,7 @@
         </a>
         <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
            target="_blank" rel="noopener" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3)">
-          🦉 Quero ser Apoiador
+          <img src="logo.png" alt="" class="btn-logo"> Quero ser Apoiador
         </a>
       </div>
 
@@ -2053,7 +2370,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand">
-        <div class="owl-chip"><img src="logo.png" alt="Prof. Corujão"></div>
+        <div class="owl-chip"><img src="logo.png" alt=""></div>
         Prof. Corujão
       </div>
       <p class="footer-body">
@@ -2077,58 +2394,94 @@
 <div class="sticky-cta" id="sticky-cta">
   <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Testar grátis</a>
   <a href="https://wa.me/5598981796309?text=Ol%C3%A1%21+Quero+ser+Apoiador+do+Prof.+Coruj%C3%A3o+%F0%9F%A6%89"
-     target="_blank" rel="noopener" class="btn btn-outline">🦉 Apoiar</a>
+     target="_blank" rel="noopener" class="btn btn-outline"><img src="logo.png" alt="" class="btn-logo"> Apoiar</a>
 </div>
 
 <script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   /* ── Scroll-triggered animations ── */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.animate-in').forEach(el => io.observe(el));
 
-  /* ── Nav shadow on scroll + sticky mobile CTA ── */
+  /* ── Nav shadow + sticky mobile CTA ── */
   const nav = document.getElementById('main-nav');
   const stickyCta = document.getElementById('sticky-cta');
+  const progress = document.getElementById('scroll-progress');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
     stickyCta.classList.toggle('show', window.scrollY > window.innerHeight * 0.9);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
   }, { passive: true });
+
+  /* ── Contador dos números do hero ── */
+  const statEls = document.querySelectorAll('.hero-stat-num[data-count]');
+  const statIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      statIO.unobserve(e.target);
+      const el = e.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      if (reducedMotion) { el.textContent = target + suffix; return; }
+      const t0 = performance.now(), dur = 1100;
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: .6 });
+  statEls.forEach(el => statIO.observe(el));
+
+  /* ── Mobile menu ── */
+  const burger = document.getElementById('nav-burger');
+  const menu = document.getElementById('nav-menu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  });
+  menu.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* ── Parallax suave no hero ── */
+  if (!reducedMotion) {
+    const paraEls = document.querySelectorAll('[data-para]');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < window.innerHeight * 1.4) {
+          paraEls.forEach(el => {
+            el.style.translate = `0 ${y * parseFloat(el.dataset.para)}px`;
+          });
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+  }
 
   /* ── FAQ accordion ── */
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  }
-
-  /* ── Phone demo animation loop ── */
-  const rows = ['pr1','pr2','pr3'];
-  function resetRows() {
-    rows.forEach(id => {
-      const el = document.getElementById(id);
-      el.style.transition = 'none';
-      el.style.opacity = '0';
-      el.style.transform = 'translateX(-10px)';
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
     });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
   }
-  function showRows() {
-    rows.forEach((id, i) => {
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        el.style.transition = 'opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1)';
-        el.style.opacity = '1';
-        el.style.transform = 'translateX(0)';
-      }, 700 + i * 550);
-    });
-    setTimeout(() => {
-      resetRows();
-      setTimeout(showRows, 600);
-    }, 5200);
-  }
-  resetRows();
-  setTimeout(showRows, 1400);
 </script>
 
 <script>
@@ -2193,7 +2546,6 @@
   if (!red || !blue) return;
 
   const FRAMES = 5;
-  // pré-carrega os quadros pra troca não piscar
   ['red','blue'].forEach(team => {
     for (let i = 1; i <= FRAMES; i++) {
       const img = new Image();
@@ -2220,11 +2572,11 @@
   let raf;
 
   function fly() {
-    const size     = 60 + Math.random() * 50;            // tamanho aleatório (60–110px)
-    const duration = 4000 + Math.random() * 1500;        // 4s–5.5s para cruzar
-    const baseY    = (0.10 + Math.random() * 0.62) * window.innerHeight; // Y base aleatório
-    const amplitude = 15 + Math.random() * 25;           // amplitude da onda (px)
-    const waves     = 1.5 + Math.random() * 2;           // quantos "altos e baixos"
+    const size     = 60 + Math.random() * 50;
+    const duration = 4000 + Math.random() * 1500;
+    const baseY    = (0.10 + Math.random() * 0.62) * window.innerHeight;
+    const amplitude = 15 + Math.random() * 25;
+    const waves     = 1.5 + Math.random() * 2;
 
     wrap.style.width  = size + 'px';
     wrap.style.height = size + 'px';
