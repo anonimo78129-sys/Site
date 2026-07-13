@@ -212,19 +212,23 @@
 
     /* ── Estilo dos posts: caixa adesiva amarela ── */
     .hl-box {
+      --tilt: -1.2deg;
       display: inline-block;
       background: #f5c842; color: #180e4e;
       border: 3px solid #180e4e;
       border-radius: 14px;
       padding: .02em .34em .08em;
       box-shadow: 6px 7px 0 #180e4e;
-      transform: rotate(-1.2deg);
+      transform: rotate(var(--tilt));
       line-height: 1.12;
     }
+    .hl-box.tr { --tilt: 1.3deg; }
+    /* sombra navy vira azul-noite profunda em fundos escuros */
+    .hl-box.on-dark { box-shadow: 6px 7px 0 rgba(0,0,0,.55); border-color: #180e4e; }
     @keyframes sticker-pop {
-      0%   { transform: rotate(-1.2deg) scale(.55); }
-      70%  { transform: rotate(-1.2deg) scale(1.08); }
-      100% { transform: rotate(-1.2deg) scale(1); }
+      0%   { transform: rotate(var(--tilt)) scale(.55); }
+      70%  { transform: rotate(var(--tilt)) scale(1.08); }
+      100% { transform: rotate(var(--tilt)) scale(1); }
     }
     .animate-in.visible .hl-box {
       animation: sticker-pop .6s cubic-bezier(.34,1.56,.64,1) both .18s;
@@ -461,11 +465,13 @@
     .hero-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
     .bncc-badge {
       display: inline-flex; align-items: stretch;
-      border: 1px solid var(--line);
+      border: 2.5px solid #180e4e;
       border-radius: 12px; background: #fff;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 4px 4px 0 #180e4e;
       overflow: hidden; max-width: fit-content;
+      transform: rotate(-.5deg);
     }
+    .bncc-badge.new-badge { transform: rotate(.6deg); }
     .bncc-badge .bncc-tag {
       background: var(--brand); color: #fff;
       padding: 10px 14px; font-weight: 900; font-size: 13px;
@@ -544,9 +550,11 @@
       pointer-events: none;
     }
     .ribbon {
-      background: var(--night); color: #fff;
-      padding: 15px 0; overflow: hidden;
-      box-shadow: 0 14px 40px rgba(13,16,67,.28);
+      background: #f5c842; color: #180e4e;
+      padding: 13px 0; overflow: hidden;
+      border-top: 3px solid #180e4e;
+      border-bottom: 3px solid #180e4e;
+      box-shadow: 0 14px 40px rgba(24,14,78,.25);
       width: 104%; margin-left: -2%;
       border-radius: 4px;
     }
@@ -1364,8 +1372,8 @@
         <div class="eyebrow animate-in">IA Educacional · 30+ recursos em um só app</div>
 
         <h1 class="hero-title animate-in" style="transition-delay:.08s">
-          Você planeja, corrige, improvisa —
-          <em>e ainda perde o fim de semana.</em>
+          Você planeja, corrige, improvisa — e ainda perde
+          <span class="hl-box">o fim de semana.</span>
         </h1>
 
         <p class="hero-sub animate-in" style="transition-delay:.16s">
@@ -1574,7 +1582,7 @@
         </div>
 
         <h2 class="virada-question animate-in" style="transition-delay:.08s">
-          E se a IA fizesse a parte chata —
+          E se a IA fizesse <span class="hl-box on-dark">a parte chata</span> —
           <br><em>e você ficasse só com a parte boa de ensinar?</em>
         </h2>
 
@@ -1632,7 +1640,7 @@
         <div class="eyebrow">Funcionalidades</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Tudo isso num <em class="ink-accent">só lugar?</em>
+        Tudo isso num <span class="hl-box tr">só lugar?</span>
       </h2>
       <p class="lead animate-in" style="transition-delay:.16s">
         Cada ferramenta resolve uma dor real do professor.
@@ -1681,7 +1689,7 @@
         <span class="pill pill-pink">🎮 Jogos com IA</span>
         <h3 class="feat-title">
           Qualquer conteúdo<br>
-          <em>vira jogo.</em>
+          <span class="hl-box">vira jogo.</span>
         </h3>
         <p class="feat-desc">
           9 tipos de jogos educativos gerados automaticamente a partir do tema
@@ -1728,7 +1736,7 @@
         <span class="pill pill-green">🏆 Turma Gamificada</span>
         <h3 class="feat-title">
           Sua turma vira um time —<br>
-          <em>e o comportamento vira pontos.</em>
+          e o comportamento <span class="hl-box tr">vira pontos.</span>
         </h3>
         <p class="feat-desc">
           Um sistema completo de gamificação de turma: XP, moedas, equipes,
@@ -2045,7 +2053,7 @@
 
         <h2 class="h1" style="margin-bottom:30px">
           Eu não sou uma empresa.<br>
-          <em class="ink-accent">Sou um estudante.</em>
+          <span class="hl-box">Sou um estudante.</span>
         </h2>
 
         <div class="tcc-bubble">
@@ -2196,7 +2204,7 @@
         <div class="eyebrow">Dúvidas Frequentes</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
-        Respostas <em class="ink-accent">rápidas.</em>
+        Respostas <span class="hl-box">rápidas.</span>
       </h2>
     </div>
 
@@ -2333,7 +2341,7 @@
 
       <h2 class="cta-final-title animate-in" style="transition-delay:.08s">
         A aula que você sempre quis dar<br>
-        <em>começa com a ferramenta certa.</em>
+        começa com <span class="hl-box on-dark">a ferramenta certa.</span>
       </h2>
 
       <p class="cta-final-sub animate-in" style="transition-delay:.16s">
