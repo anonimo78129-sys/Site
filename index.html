@@ -1003,6 +1003,9 @@
     .duel-duck-btn:hover { transform: scale(1.1) translateY(-3px); }
     .duel-duck-btn:active { transform: scale(.94); }
     .duel-duck { width: clamp(64px, 11vw, 96px); image-rendering: pixelated; display: block; }
+    /* Sprites nativos: vermelho olha pra esquerda, azul olha pra direita.
+       Espelha os dois pra ficarem de frente um pro outro na arena. */
+    .duel-duck.red  { transform: scaleX(-1); }
     .duel-duck.blue { transform: scaleX(-1); }
     .duel-hint {
       text-align: center; font-size: 11px; color: rgba(255,255,255,.4);
