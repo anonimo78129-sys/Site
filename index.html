@@ -1388,7 +1388,7 @@
       font-size: 14.5px; color: var(--muted); line-height: 1.75;
       transition: max-height .35s cubic-bezier(.16,1,.3,1), padding .3s;
     }
-    .faq-item.open .faq-ans { max-height: 600px; padding-bottom: 24px; }
+    .faq-item.open .faq-ans { max-height: 1600px; padding-bottom: 24px; }
 
     /* ══════════════════════════════════════
        CTA FINAL (cena noturna)
@@ -2513,6 +2513,42 @@
     <div class="faq-list">
       <div class="faq-item animate-in">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          Por que o Prof. Corujão é pago?
+          <span class="faq-plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-ans">
+          <p style="margin-bottom:14px">
+            Você testa <strong>7 dias sem pagar nada e sem cadastrar cartão</strong>.
+            Depois disso o app custa <strong>R$ 59,90 por mês</strong>, e a razão é
+            simples: cada plano, prova, slide ou jogo que você cria consome créditos
+            reais de inteligência artificial. Toda vez que um professor gera um
+            material, alguém paga essa conta. Hoje quem paga sou eu.
+          </p>
+          <p style="margin-bottom:14px">Esse valor cobre três coisas:</p>
+          <ul style="list-style:none;padding:0;display:grid;gap:10px">
+            <li style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-size:18px;line-height:1.2">🤖</span>
+              <span><strong>Google Gemini</strong>: a IA que escreve todo o conteúdo. É cobrada por uso, não por assinatura fixa.</span>
+            </li>
+            <li style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-size:18px;line-height:1.2">☁️</span>
+              <span><strong>Firebase e hospedagem</strong>: banco de dados, contas e infraestrutura para o app ficar no ar 24 horas, com seus materiais e suas turmas salvos.</span>
+            </li>
+            <li style="display:flex;gap:10px;align-items:flex-start">
+              <span style="font-size:18px;line-height:1.2">🛠️</span>
+              <span><strong>Desenvolvimento contínuo</strong>: as novidades que chegaram este ano, como o Mundo Perdido, as competições em turma e a conferência das habilidades da BNCC, saíram daqui.</span>
+            </li>
+          </ul>
+          <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+            <strong>Menos de R$ 2 por dia.</strong> Se o app te devolver uma noite de
+            sono por semana, já se pagou. E se não te servir, é só não continuar:
+            não tem fidelidade, não tem multa, e todo material que você criou
+            continua seu.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item animate-in" style="transition-delay:.05s">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Preciso saber usar IA pra usar o app?
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
@@ -2522,7 +2558,7 @@
           Foi desenhado pra professor, não pra programador.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.03s">
+      <div class="faq-item animate-in" style="transition-delay:.10s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           O que acontece quando terminam os 7 dias?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2534,7 +2570,7 @@
           para começar.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.05s">
+      <div class="faq-item animate-in" style="transition-delay:.15s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Como funcionam os jogos de competição na prática?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2548,7 +2584,7 @@
           rápidas com cenário animado. Os pontos viram experiência na gamificação.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.1s">
+      <div class="faq-item animate-in" style="transition-delay:.20s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Precisa de internet para funcionar?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2559,7 +2595,7 @@
           celular e no computador e funciona como aplicativo nativo.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.15s">
+      <div class="faq-item animate-in" style="transition-delay:.25s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Funciona no iPhone?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2569,7 +2605,7 @@
           aplicativo no Android, iPhone, Windows e Mac.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.2s">
+      <div class="faq-item animate-in" style="transition-delay:.30s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Os materiais gerados são meus?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2580,7 +2616,7 @@
           de 7 dias termina, todo o material que você já criou continua acessível.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.25s">
+      <div class="faq-item animate-in" style="transition-delay:.35s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           É seguro? Meus dados ficam protegidos?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2590,7 +2626,7 @@
           Nenhuma informação sensível é compartilhada com terceiros.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.3s">
+      <div class="faq-item animate-in" style="transition-delay:.40s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
           Por que "Apoiador" e não cliente?
           <span class="faq-plus" aria-hidden="true">+</span>
@@ -2599,32 +2635,6 @@
           Porque você está ajudando um projeto real a crescer:
           não comprando um produto de prateleira.
           Cada Apoiador ajuda a garantir que o app continue crescendo e melhorando.
-        </div>
-      </div>
-      <div class="faq-item animate-in" style="transition-delay:.35s">
-        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
-          Por que o Prof. Corujão é pago?
-          <span class="faq-plus" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-ans">
-          <p style="margin-bottom:14px">São 7 dias para testar sem pagar nada. Depois disso, cada geração consome créditos reais de IA, e isso tem custo. O valor mensal cobre:</p>
-          <ul style="list-style:none;padding:0;display:grid;gap:10px">
-            <li style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-size:18px;line-height:1.2">🤖</span>
-              <span><strong>Google Gemini</strong>: a IA que gera todo o conteúdo. Cada plano, atividade e jogo consome créditos da API.</span>
-            </li>
-            <li style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-size:18px;line-height:1.2">☁️</span>
-              <span><strong>Firebase e hospedagem</strong>: banco de dados, autenticação e infraestrutura para manter o app no ar 24h.</span>
-            </li>
-            <li style="display:flex;gap:10px;align-items:flex-start">
-              <span style="font-size:18px;line-height:1.2">🛠️</span>
-              <span><strong>Desenvolvimento contínuo</strong>: novas funcionalidades, melhorias e suporte saem do mesmo lugar.</span>
-            </li>
-          </ul>
-          <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px">
-            R$ 59,90/mês não é lucro: é o que mantém o app funcionando e evoluindo para professores como você.
-          </p>
         </div>
       </div>
     </div>
