@@ -22,6 +22,20 @@ Resumo:
 sem pedido explícito. O guia da marca vale como referência de estilo
 (componentes, tom, mascote) e para materiais futuros.
 
+## Mobile é a prioridade
+
+**O acesso principal ao site é pelo celular.** Toda decisão de layout,
+tipografia e animação se resolve primeiro em tela estreita (390px) e só
+depois no desktop. Ao mexer no site, confira sempre:
+
+- `document.documentElement.scrollWidth` igual à largura da viewport
+  (rolagem horizontal é o defeito mais comum e vem de `translateX` em
+  animação de entrada, elementos girados e faixas com largura maior que 100%)
+- nenhum alvo de toque com menos de 44px de altura
+- nenhum texto de corpo abaixo de 12px
+- o CTA principal do hero acima da dobra
+- o CTA fixo do rodapé não pode cobrir o fim do conteúdo
+
 ## Convenções
 
 - Página em pt-BR; tom direto e empático com a dor do professor.
