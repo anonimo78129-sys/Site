@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prof. Corujão: o assistente de IA completo para professores</title>
-  <meta name="description" content="Feito por professor, para professor. Planos de aula BNCC, provas, slides, 9 jogos com IA, Batalha de Revisão, gamificação de turma, diário de bordo e agenda inteligente. Tudo em um só app.">
+  <meta name="description" content="Feito por professor, para professor. A aula de amanhã pronta antes de você deitar: planos com habilidades da BNCC conferidas contra o dataset oficial, provas, slides, jogos, competições em turma e diário de classe. Teste 7 dias grátis.">
   <meta property="og:title" content="Prof. Corujão: IA Educacional para Professores">
-  <meta property="og:description" content="Planos de aula, provas, slides, jogos, Batalha de Revisão e gamificação de turma. 30+ recursos em um só app. Teste grátis, sem cartão.">
+  <meta property="og:description" content="A aula de amanhã pronta antes de você deitar. Planos com BNCC conferida, provas, slides, jogos e competições em turma. Teste 7 dias grátis, sem cartão.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="illu-01.png">
   <meta property="og:locale" content="pt_BR">
@@ -729,8 +729,110 @@
     }
     .t-text { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.65; }
 
+
     /* ══════════════════════════════════════
-       03 — FEATURES
+       03 — BNCC VERIFICADA
+    ══════════════════════════════════════ */
+    #bncc { background: #fff; padding-top: 90px; }
+    .bncc-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 56px; align-items: center;
+    }
+    @media (max-width: 880px) { .bncc-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+    .bncc-steps { list-style: none; display: flex; flex-direction: column; gap: 22px; }
+    .bncc-steps li { display: flex; gap: 16px; align-items: flex-start; }
+    .bs-num {
+      flex-shrink: 0; width: 38px; height: 38px;
+      background: var(--amarelo, #f5c842); color: #180e4e;
+      border: 2.5px solid #180e4e; border-radius: 11px;
+      box-shadow: 4px 4px 0 #180e4e;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 17px;
+      transform: rotate(-2deg);
+    }
+    .bncc-steps li:nth-child(2) .bs-num { transform: rotate(2deg); }
+    .bs-name { font-size: 17px; font-weight: 800; margin-bottom: 4px; letter-spacing: -.01em; }
+    .bs-desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+    .bs-desc code {
+      background: var(--brand-soft); color: var(--brand);
+      padding: 1px 6px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 700;
+    }
+    .bncc-note {
+      margin-top: 26px; padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 13.5px; color: var(--muted); line-height: 1.65;
+    }
+    .bncc-note strong { color: var(--ink); }
+
+    /* painel de verificação */
+    .bncc-panel {
+      background: var(--night); border-radius: 26px;
+      padding: 26px; color: #fff;
+      box-shadow: 0 30px 80px rgba(13,16,67,.32);
+      position: relative; overflow: hidden;
+    }
+    .bncc-panel::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 420px 300px at 85% 0%, rgba(70,89,255,.35) 0%, transparent 65%);
+    }
+    .bp-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; position: relative;
+    }
+    .bp-head img { width: 38px; height: 38px; border-radius: 11px; }
+    .bp-title { font-size: 14.5px; font-weight: 800; }
+    .bp-sub { font-size: 11.5px; color: rgba(255,255,255,.55); }
+    .bp-row {
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center; gap: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-left: 3px solid var(--emerald);
+      border-radius: 12px; padding: 11px 14px;
+      margin-bottom: 9px; position: relative;
+    }
+    .bp-code {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 12.5px; font-weight: 700; color: #b3c0ff;
+      white-space: nowrap;
+    }
+    .bp-txt {
+      font-size: 12.5px; color: rgba(255,255,255,.7);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .bp-flag {
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--emerald); white-space: nowrap;
+    }
+    .bp-row.bad {
+      border-left-color: #f43f5e;
+      background: rgba(244,63,94,.1);
+    }
+    .bp-row.bad .bp-code { color: #fda4af; text-decoration: line-through; }
+    .bp-row.bad .bp-flag { color: #fda4af; }
+    .bp-fix {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(251,191,36,.12);
+      border: 1px solid rgba(251,191,36,.35);
+      border-radius: 12px; padding: 12px 14px;
+      font-size: 12.5px; color: #fde68a; line-height: 1.45;
+      position: relative;
+    }
+    .bp-fix-em { font-size: 17px; flex-shrink: 0; }
+    .bp-foot {
+      margin-top: 18px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      font-size: 12px; color: rgba(255,255,255,.6);
+      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+      position: relative; flex-wrap: wrap;
+    }
+    .bp-foot strong { color: #fff; font-size: 16px; }
+    .bp-foot span { font-size: 11px; color: rgba(255,255,255,.4); }
+
+    /* ══════════════════════════════════════
+       04 — FEATURES
     ══════════════════════════════════════ */
     #features {
       background: var(--bg);
@@ -1377,7 +1479,8 @@
     </a>
     <div class="nav-menu" id="nav-menu">
       <a href="#features" class="nav-link">Funcionalidades</a>
-      <a href="#batalha" class="nav-link">Batalha <span class="mini-new">NOVO</span></a>
+      <a href="#bncc" class="nav-link">BNCC <span class="mini-new">NOVO</span></a>
+      <a href="#batalha" class="nav-link">Competição</a>
       <a href="#kit" class="nav-link">Kit do Professor</a>
       <a href="#planos" class="nav-link">Planos</a>
       <a href="#faq" class="nav-link">FAQ</a>
@@ -1408,15 +1511,16 @@
         <div class="eyebrow animate-in">Todo o seu planejamento em um só app</div>
 
         <h1 class="hero-title animate-in" style="transition-delay:.08s">
-          Você planeja, corrige, improvisa. E ainda perde
-          <span class="hl-box">o fim de semana.</span>
+          Você deita, e a aula de amanhã
+          <span class="hl-box">continua na sua cabeça.</span>
         </h1>
 
         <p class="hero-sub animate-in" style="transition-delay:.16s">
-          O Prof. Corujão é o assistente de IA feito por professor, para professor.
-          Planos de aula, provas, slides, <strong>9 jogos educativos</strong>,
-          <strong>batalhas de revisão</strong>, gamificação de turma, diário de bordo
-          e agenda inteligente. Tudo em segundos, enquanto você toma o café.
+          Ela pode já estar pronta quando você deitar. O Prof. Corujão é o assistente
+          de IA feito por professor, para professor: planos com as
+          <strong>habilidades da BNCC conferidas</strong> uma a uma, provas, slides,
+          <strong>9 jogos</strong>, competições em turma e diário de classe.
+          Você escolhe o tema, ele monta o resto.
         </p>
 
         <div class="hero-actions animate-in" style="transition-delay:.24s">
@@ -1431,7 +1535,7 @@
 
         <div class="hero-trust animate-in" style="transition-delay:.32s">
           <span class="dot"></span>
-          10 gerações grátis para testar · Sem cartão de crédito · Instala no celular
+          7 dias grátis, criação ilimitada · Sem cartão de crédito · Instala no celular
         </div>
 
         <div class="hero-badges animate-in" style="transition-delay:.36s">
@@ -1439,8 +1543,8 @@
             <div class="bncc-tag">BNCC</div>
             <div class="bncc-text">
               <span>
-                <strong>Planos alinhados</strong> ao banco oficial
-                <small>Habilidades reais, não inventadas pela IA</small>
+                <strong>1.580 habilidades</strong> conferidas uma a uma
+                <small>Se a IA inventar um código, o app reescreve</small>
               </span>
             </div>
           </div>
@@ -1448,8 +1552,8 @@
             <div class="bncc-tag">NOVO</div>
             <div class="bncc-text">
               <span>
-                <strong>Batalha de Revisão</strong> em turnos
-                <small>Sua turma disputa o conteúdo em uma arena</small>
+                <strong>Mundo Perdido</strong> e 4 competições
+                <small>Jogo narrativo em tela cheia e disputas em turma</small>
               </span>
             </div>
           </div>
@@ -1457,20 +1561,20 @@
 
         <div class="hero-stats animate-in" style="transition-delay:.4s">
           <div>
-            <div class="hero-stat-num" data-count="30" data-suffix="+">30+</div>
-            <div class="hero-stat-lbl">Recursos no app</div>
+            <div class="hero-stat-num" data-count="1580">1.580</div>
+            <div class="hero-stat-lbl">Habilidades da BNCC</div>
           </div>
           <div>
             <div class="hero-stat-num" data-count="9">9</div>
             <div class="hero-stat-lbl">Jogos com IA</div>
           </div>
           <div>
-            <div class="hero-stat-num" data-count="8">8</div>
-            <div class="hero-stat-lbl">Ferramentas ao vivo</div>
+            <div class="hero-stat-num" data-count="4">4</div>
+            <div class="hero-stat-lbl">Competições em turma</div>
           </div>
           <div>
             <div class="hero-stat-num" data-count="7">7</div>
-            <div class="hero-stat-lbl">Kit do Professor</div>
+            <div class="hero-stat-lbl">Instrumentos de aula</div>
           </div>
         </div>
       </div>
@@ -1499,29 +1603,29 @@
 <div class="ribbon-wrap" aria-hidden="true">
   <div class="ribbon">
     <div class="marquee-track">
-      <span>Alinhado à BNCC</span>
+      <span>1.580 habilidades da BNCC conferidas</span>
       <span>Planos de aula em segundos</span>
-      <span>Batalha de Revisão</span>
+      <span>Mundo Perdido</span>
       <span>Provas com gabarito</span>
       <span>Escape Rooms imprimíveis</span>
+      <span>Exporta em Word e PowerPoint</span>
       <span>Gamificação de turma</span>
       <span>Slides automáticos</span>
       <span>Diário de bordo</span>
       <span>Agenda com importação por PDF</span>
       <span>Adaptação inclusiva</span>
-      <span>Chat com IA pedagógica</span>
       <!-- duplicado para loop -->
-      <span>Alinhado à BNCC</span>
+      <span>1.580 habilidades da BNCC conferidas</span>
       <span>Planos de aula em segundos</span>
-      <span>Batalha de Revisão</span>
+      <span>Mundo Perdido</span>
       <span>Provas com gabarito</span>
       <span>Escape Rooms imprimíveis</span>
+      <span>Exporta em Word e PowerPoint</span>
       <span>Gamificação de turma</span>
       <span>Slides automáticos</span>
       <span>Diário de bordo</span>
       <span>Agenda com importação por PDF</span>
       <span>Adaptação inclusiva</span>
-      <span>Chat com IA pedagógica</span>
     </div>
   </div>
 </div>
@@ -1534,7 +1638,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">01 / 08</span>
+        <span class="section-num">01 / 09</span>
         <div class="eyebrow">A Realidade do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1545,14 +1649,14 @@
     <div class="dor-feature">
       <div class="dor-quote-block animate-in">
         <p>
-          Você entra na sala com 35 alunos, um conteúdo pra cumprir, e o celular deles
-          competindo com você. Você passa horas montando uma atividade que eles fazem
-          em 10 minutos, ou não fazem.
+          Você sai da escola e o trabalho vem junto. Jantar pensando na aula de amanhã,
+          deitar planejando a próxima semana, acordar já devendo. O corpo sai da sala,
+          a cabeça não.
         </p>
         <p style="font-size:24px;font-weight:600;font-style:normal;font-family:'Inter';color:var(--ink);line-height:1.45;">
-          Você quer que a aula seja incrível. <span class="ink-accent">Mas o tempo não colabora.</span>
+          Não é falta de vontade. <span class="ink-accent">É a mente que não desliga.</span>
         </p>
-        <div class="quote-sig">Todo professor brasileiro, em algum momento</div>
+        <div class="quote-sig">O que professores escrevem quando ninguém está olhando</div>
       </div>
 
       <div class="animate-in from-right" style="transition-delay:.1s;overflow:hidden;">
@@ -1563,33 +1667,33 @@
     <div class="dor-grid">
       <div class="dor-card animate-in">
         <span class="dor-card-num">i.</span>
-        <span class="dor-icon">⏰</span>
-        <div class="dor-name">Falta de tempo</div>
-        <div class="dor-desc">Planejamento consome horas que não existem na sua semana.</div>
+        <span class="dor-icon">🌙</span>
+        <div class="dor-name">A mente não tem paz</div>
+        <div class="dor-desc">Dormir pensando no conteúdo da próxima aula. Acordar no meio da noite lembrando do que faltou.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.06s">
         <span class="dor-card-num">ii.</span>
-        <span class="dor-icon">😴</span>
-        <div class="dor-name">Turma desengajada</div>
-        <div class="dor-desc">Conteúdo seco não prende atenção. Criar algo diferente exige energia.</div>
+        <span class="dor-icon">🏠</span>
+        <div class="dor-name">O trabalho vai junto</div>
+        <div class="dor-desc">Você fecha a porta da escola, mas o planejamento senta no sofá com você.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.12s">
         <span class="dor-card-num">iii.</span>
         <span class="dor-icon">📋</span>
-        <div class="dor-name">Burocracia infinita</div>
-        <div class="dor-desc">Pareceres, chamada, provas, relatórios: uma pilha que rouba o fim de semana.</div>
+        <div class="dor-name">A pilha que nunca zera</div>
+        <div class="dor-desc">Pareceres, chamada, provas, relatórios. Some um domingo e a pilha continua ali.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.18s">
         <span class="dor-card-num">iv.</span>
-        <span class="dor-icon">🤯</span>
-        <div class="dor-name">Sobrecarga criativa</div>
-        <div class="dor-desc">Criar do zero todo dia é exaustivo. Inspiração não surge com 6 turmas.</div>
+        <span class="dor-icon">🔋</span>
+        <div class="dor-name">Criar do zero, todo dia</div>
+        <div class="dor-desc">Seis turmas, seis planejamentos. Inspiração não aparece por decreto às 22h.</div>
       </div>
       <div class="dor-card animate-in" style="transition-delay:.24s">
         <span class="dor-card-num">v.</span>
-        <span class="dor-icon">💡</span>
-        <div class="dor-name">Boa ideia, mas…</div>
-        <div class="dor-desc">"Queria gamificar, mas não sei por onde começar." Falta a ferramenta certa.</div>
+        <span class="dor-icon">🚪</span>
+        <div class="dor-name">A vontade de sair</div>
+        <div class="dor-desc">Bons professores desistindo da sala nos primeiros meses, cansados antes de começar.</div>
       </div>
     </div>
 
@@ -1613,19 +1717,19 @@
 
       <div>
         <div class="eyebrow-row animate-in" style="margin-bottom:24px;display:flex;align-items:center;gap:18px">
-          <span class="section-num" style="color:rgba(255,255,255,.4)">02 / 08</span>
+          <span class="section-num" style="color:rgba(255,255,255,.4)">02 / 09</span>
           <div class="eyebrow light">A Virada</div>
         </div>
 
         <h2 class="virada-question animate-in" style="transition-delay:.08s">
-          E se a IA fizesse <span class="hl-box on-dark">a parte chata</span>
-          <br><em>e você ficasse só com a parte boa de ensinar?</em>
+          E se a aula de amanhã já estivesse pronta
+          <br><em>na hora em que você <span class="hl-box on-dark">fecha os olhos?</span></em>
         </h2>
 
         <p class="virada-desc animate-in" style="transition-delay:.16s">
-          O Prof. Corujão trabalha com você em segundo plano. Você digita o tema,
-          ele pensa, estrutura, cria e avisa quando termina. Da aula de amanhã
-          à revisão gamificada da prova, tudo sai pronto pra usar.
+          Você digita o tema antes de sair da escola. O Corujão pensa, estrutura e
+          monta enquanto você vai pra casa, e avisa quando termina. Quando você
+          senta pra jantar, a aula já existe. Não tem mais o que resolver de cabeça.
         </p>
 
         <div class="terminal animate-in" style="transition-delay:.24s">
@@ -1636,11 +1740,11 @@
           <div class="t-row">
             <span class="t-role owl"><img src="logo.png" alt="" style="width:14px;height:14px;object-fit:contain;border-radius:4px;vertical-align:-2px;margin-right:3px;"> Corujão</span>
             <div id="t-anim-output">
-              <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano de aula alinhado à BNCC</div>
+              <div class="t-item" data-delay="400"><span class="t-em">✅</span> Plano completo com as habilidades da BNCC conferidas</div>
               <div class="t-item" data-delay="900"><span class="t-em">✅</span> Atividade impressa pronta para distribuir</div>
               <div class="t-item" data-delay="1400"><span class="t-em">✅</span> Slides com imagens e design automático</div>
-              <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Batalha de Revisão pra fechar a semana</div>
-              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Gerado em <strong>segundos</strong>, em segundo plano</div>
+              <div class="t-item" data-delay="1900"><span class="t-em">✅</span> Quiz Relâmpago pra fechar a semana</div>
+              <div class="t-item t-timer" data-delay="2500"><span class="t-em">⏱</span> Pronto <strong>antes de você chegar em casa</strong></div>
               <span class="t-cursor" id="t-cursor"></span>
             </div>
           </div>
@@ -1660,19 +1764,121 @@
 <!-- nuvens: noite → dia -->
 <div class="sep" style="background:#0d1043" aria-hidden="true">
   <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
-    <path fill="#f8f9fe" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+    <path fill="#ffffff" d="M0,70 L0,42 Q30,14 80,34 Q120,2 190,28 Q240,6 300,32 Q350,12 420,36 Q470,8 540,30 Q600,4 660,32 Q710,14 780,34 Q830,6 900,30 Q950,12 1020,36 Q1080,4 1140,30 Q1190,14 1260,34 Q1310,8 1380,32 Q1420,16 1440,38 L1440,70 Z"/>
+  </svg>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     03 — BNCC VERIFICADA
+══════════════════════════════════════ -->
+<section id="bncc">
+  <div class="container">
+
+    <div class="sec-header">
+      <div class="eyebrow-row animate-in">
+        <span class="section-num">03 / 09</span>
+        <div class="eyebrow">BNCC verificada</div>
+      </div>
+      <h2 class="h1 animate-in" style="transition-delay:.08s">
+        A IA inventa código de habilidade.<br>
+        Aqui ela <span class="hl-box tr">não passa.</span>
+      </h2>
+      <p class="lead animate-in" style="transition-delay:.16s">
+        Todo mundo diz "alinhado à BNCC". A diferença é que aqui a conferência
+        não depende da IA: cada código que sai no plano é comparado com o dataset
+        oficial antes de chegar em você.
+      </p>
+    </div>
+
+    <div class="bncc-grid">
+
+      <!-- ESQUERDA: os 3 passos -->
+      <div class="animate-in from-left">
+        <ol class="bncc-steps">
+          <li>
+            <span class="bs-num">1</span>
+            <div>
+              <div class="bs-name">Identifica a turma</div>
+              <div class="bs-desc">Pelo nível e pelo nome da turma, o app descobre etapa, ano e disciplina. Entende <code>9º B</code>, <code>3º A</code>, <code>2ª série</code>, <code>Maternal II</code>.</div>
+            </div>
+          </li>
+          <li>
+            <span class="bs-num">2</span>
+            <div>
+              <div class="bs-name">Injeta as habilidades reais</div>
+              <div class="bs-desc">Seleciona as aprendizagens oficiais mais próximas do seu tema e entrega prontas para a IA, em vez de deixar ela adivinhar.</div>
+            </div>
+          </li>
+          <li>
+            <span class="bs-num">3</span>
+            <div>
+              <div class="bs-name">Confere e reescreve</div>
+              <div class="bs-desc">Depois da resposta, extrai todo código do texto e compara com o dataset. Inventou, esqueceu ou omitiu? A seção é reescrita.</div>
+            </div>
+          </li>
+        </ol>
+        <p class="bncc-note">
+          Quando a etapa não pode ser deduzida, ou a disciplina não existe naquela
+          etapa, o app prefere <strong>não ancorar nada</strong> a fixar um código
+          da série errada.
+        </p>
+      </div>
+
+      <!-- DIREITA: painel de verificação -->
+      <div class="bncc-panel animate-in from-right" style="transition-delay:.12s" aria-hidden="true">
+        <div class="bp-head">
+          <img src="logo.png" alt="">
+          <div>
+            <div class="bp-title">Conferindo habilidades</div>
+            <div class="bp-sub">Ciências · 7º ano · Fotossíntese</div>
+          </div>
+        </div>
+        <div class="bp-row ok">
+          <span class="bp-code">EF07CI01</span>
+          <span class="bp-txt">Discutir a ocorrência de distúrbios nutricionais</span>
+          <span class="bp-flag">conferido</span>
+        </div>
+        <div class="bp-row ok">
+          <span class="bp-code">EF07CI08</span>
+          <span class="bp-txt">Avaliar como os impactos das atividades humanas</span>
+          <span class="bp-flag">conferido</span>
+        </div>
+        <div class="bp-row bad">
+          <span class="bp-code">EF07CI27</span>
+          <span class="bp-txt">Código que não existe na BNCC</span>
+          <span class="bp-flag">inventado</span>
+        </div>
+        <div class="bp-fix">
+          <span class="bp-fix-em">↻</span>
+          <span>Seção de habilidades reescrita com os códigos reais do 7º ano</span>
+        </div>
+        <div class="bp-foot">
+          <strong>1.580</strong> aprendizagens vigentes carregadas
+          <span>Infantil · Fundamental · Médio</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- colina: branco → off-white -->
+<div class="sep short" style="background:#fff" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path fill="#f8f9fe" d="M0,60 L0,34 C240,62 480,8 720,28 C960,48 1200,10 1440,34 L1440,60 Z"/>
   </svg>
 </div>
 
 <!-- ══════════════════════════════════════
-     03 — FEATURES
+     04 — FEATURES
 ══════════════════════════════════════ -->
 <section id="features">
   <div class="container">
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">03 / 08</span>
+        <span class="section-num">04 / 09</span>
         <div class="eyebrow">Funcionalidades</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -1694,21 +1900,23 @@
           <em>enquanto você toma café.</em>
         </h3>
         <p class="feat-desc">
-          Digite o tema e a turma. O Corujão gera o material completo.
-          Você só revisa, imprime ou projeta.
+          Digite o tema e a turma. O Corujão monta o documento inteiro, ajusta os
+          tempos pela duração da sua aula e devolve pronto para revisar, exportar
+          ou imprimir.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>Alinhado à BNCC</strong>: banco real de habilidades, não inventadas pela IA</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Planos de aula completos</strong> com objetivos, metodologia e avaliação</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Sequências didáticas</strong> com múltiplas aulas encadeadas</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Provas com gabarito</strong>: múltipla escolha, dissertativa, mista</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Slides profissionais</strong> com imagens e layouts automáticos</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Acervo pessoal</strong>: tudo que você gera fica salvo e pesquisável</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Plano completo</strong>: eixo temático, objetivos, perguntas mobilizadoras, metodologia, recursos, avaliação e referências</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Tempos calculados</strong> de abertura, desenvolvimento e fechamento pela duração real da sua aula</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Habilidades da BNCC conferidas</strong> contra o dataset oficial</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Sequências didáticas</strong> com várias aulas encadeadas</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Provas com gabarito</strong>: objetivas, discursivas ou mistas</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Slides com editor visual</strong>: imagens por tema e paleta a partir da cor que você escolher</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Exporta em Word e PowerPoint</strong>, com layout de impressão feito para cada tipo de material</span></li>
           <li><span class="feat-check">✓</span><span>Gera em <strong>segundo plano</strong> e avisa quando termina</span></li>
         </ul>
         <div class="feat-meta">
-          <div><strong>8+</strong>Tipos de saída</div>
-          <div><strong>BNCC</strong>Alinhado</div>
+          <div><strong>Word</strong>e PowerPoint</div>
+          <div><strong>1.580</strong>Habilidades conferidas</div>
           <div><strong>~4s</strong>Tempo médio</div>
         </div>
       </div>
@@ -1728,26 +1936,25 @@
           <span class="hl-box">vira jogo.</span>
         </h3>
         <p class="feat-desc">
-          9 tipos de jogos educativos gerados automaticamente a partir do tema
-          da aula, pra imprimir ou projetar. É o que faz o aluno pedir
-          pra repetir na semana seguinte.
+          9 tipos de jogos gerados a partir do tema da aula, para imprimir ou
+          projetar. A IA escreve o conteúdo, mas quem monta a grade e sorteia as
+          cartelas é o app, com algoritmo próprio: o jogo sempre sai jogável.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>Geração automática</strong> a partir do tema da aula</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Escape Room com 4 temas</strong>: Medieval, Laboratório, Detetive e Espaço</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Personalização total</strong>: nível, faixa etária e disciplina</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Estrutura montada pelo app</strong>: encaixe das palavras e sorteio das cartelas por algoritmo, não pela IA</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Escape Room em 4 ambientações</strong>: Pergaminho Medieval, Laboratório Científico, Investigação Detetivesca e Estação Espacial</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Tudo exportável para impressão</strong>, incluindo o caderno da sala de escape</span></li>
         </ul>
         <div class="gami-grid animate-in" style="margin-top:24px">
-          <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room · 4 temas</div>
-          <div class="gami-pill"><span class="gp-em">📖</span>Storytelling</div>
+          <div class="gami-pill gami-top"><span class="gp-em">🔐</span>Escape Room · 4 ambientações</div>
+          <div class="gami-pill"><span class="gp-em">📖</span>História narrativa</div>
           <div class="gami-pill"><span class="gp-em">❓</span>Quiz</div>
           <div class="gami-pill"><span class="gp-em">🔤</span>Caça-palavras</div>
           <div class="gami-pill"><span class="gp-em">✏️</span>Cruzadas</div>
           <div class="gami-pill"><span class="gp-em">🎯</span>Bingo</div>
           <div class="gami-pill"><span class="gp-em">🃏</span>Memória</div>
           <div class="gami-pill"><span class="gp-em">🗂️</span>Flashcards</div>
-          <div class="gami-pill"><span class="gp-em">🔢</span>Sequência</div>
-          <div class="gami-pill"><span class="gp-em">⚔️</span>Batalha</div>
+          <div class="gami-pill gami-wide"><span class="gp-em">🔢</span>Sequência lógica</div>
         </div>
       </div>
 
@@ -1775,29 +1982,28 @@
           e o comportamento <span class="hl-box tr">vira pontos.</span>
         </h3>
         <p class="feat-desc">
-          Um sistema completo de gamificação de turma: XP, moedas, equipes,
-          missões semanais e loja de recompensas. O aluno participa porque
-          quer subir no pódio.
+          XP, moedas, níveis, medalhas e missões semanais. E a loja de recompensas
+          é de propósito sem prêmio material: o que o aluno compra é ser ajudante
+          do dia ou escolher a música da aula.
         </p>
         <ul class="feat-list">
-          <li><span class="feat-check">✓</span><span><strong>XP e moedas</strong> por participação e comportamento</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Equipes personalizadas</strong> com nome, emoji e cor</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Missões semanais</strong> com meta e recompensa configurável</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Loja de recompensas</strong>: alunos trocam moedas por prêmios</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Hall da Fama</strong> com pódio por temporada</span></li>
+          <li><span class="feat-check">✓</span><span><strong>XP e moedas</strong> por comportamentos que você configura: participar e ajudar somam, atrapalhar desconta</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Seis níveis</strong>: Aprendiz, Explorador, Estudioso, Sábio, Mestre e Lenda</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Medalhas</strong> por marcos, incluindo sequências de dias seguidos pontuando</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Loja sem prêmio material</strong>: ajudante do dia, escolher a música da aula, recado positivo para casa, um dia a mais no prazo</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Equipes, missões semanais e temporadas</strong> com registro no Hall da Fama</span></li>
         </ul>
         <p class="feat-desc" style="margin-top:22px;margin-bottom:12px">
-          <strong style="color:var(--ink)">E na hora da aula</strong>, 8 ferramentas ao vivo pra usar no projetor:
+          <strong style="color:var(--ink)">E na hora da aula</strong>, 7 instrumentos para usar no projetor:
         </p>
         <div class="gami-grid animate-in">
           <div class="gami-pill"><span class="gp-em">🎟️</span>Sorteador</div>
-          <div class="gami-pill"><span class="gp-em">⏱️</span>Timer</div>
+          <div class="gami-pill"><span class="gp-em">⏱️</span>Cronômetro</div>
           <div class="gami-pill"><span class="gp-em">👥</span>Grupos</div>
-          <div class="gami-pill"><span class="gp-em">🔊</span>Medidor de Barulho</div>
+          <div class="gami-pill"><span class="gp-em">🔊</span>Medidor de ruído</div>
           <div class="gami-pill"><span class="gp-em">🚦</span>Semáforo</div>
           <div class="gami-pill"><span class="gp-em">🎲</span>Dado</div>
-          <div class="gami-pill"><span class="gp-em">🏅</span>Placar</div>
-          <div class="gami-pill gami-wide"><span class="gp-em">⚔️</span>Batalha de Revisão</div>
+          <div class="gami-pill gami-top"><span class="gp-em">🏅</span>Placar de equipes</div>
         </div>
       </div>
 
@@ -1863,7 +2069,8 @@
           <li><span class="feat-check">✓</span><span><strong>Importação de calendário letivo por PDF</strong>: a IA lê e preenche tudo</span></li>
           <li><span class="feat-check">✓</span><span><strong>Importação de ementa por PDF</strong>: módulos viram aulas distribuídas no ano</span></li>
           <li><span class="feat-check">✓</span><span><strong>Turmas com horários reais</strong> por dia da semana e cores</span></li>
-          <li><span class="feat-check">✓</span><span><strong>Lembretes de aula</strong>: notificação antes de cada aula, direto no celular</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Lembrete cerca de 30 minutos antes</strong> da aula, no celular, mesmo com o app fechado</span></li>
+          <li><span class="feat-check">✓</span><span><strong>Feriados nacionais calculados</strong> para qualquer ano, inclusive as datas móveis que dependem da Páscoa</span></li>
           <li><span class="feat-check">✓</span><span><strong>Diário de bordo</strong>: chamada, anotações e conceitos por aluno</span></li>
           <li><span class="feat-check">✓</span><span><strong>Sincronizado em tempo real</strong>: celular e computador sempre iguais</span></li>
         </ul>
@@ -1918,18 +2125,18 @@
 
     <div class="batalha-head">
       <div class="eyebrow-row animate-in" style="display:flex;align-items:center;gap:18px">
-        <span class="section-num" style="color:rgba(255,255,255,.4)">04 / 08</span>
+        <span class="section-num" style="color:rgba(255,255,255,.4)">05 / 09</span>
         <div class="eyebrow light">A Grande Novidade</div>
       </div>
       <span class="press-start animate-in" style="transition-delay:.04s">▶ PRESS START</span>
-      <span class="pill pill-new animate-in" style="transition-delay:.05s">⚔️ Novo · Batalha de Revisão</span>
+      <span class="pill pill-new animate-in" style="transition-delay:.05s">🎮 Novo · Mundo Perdido e 4 competições</span>
       <h2 class="batalha-title animate-in" style="transition-delay:.1s">
         A revisão da prova virou <em>o momento mais esperado da semana.</em>
       </h2>
       <p class="batalha-sub animate-in" style="transition-delay:.18s">
-        Duas equipes. Uma arena. A IA gera perguntas do seu conteúdo e cada
-        acerto vira um ataque no estilo dos jogos de batalha em turnos.
-        Sua turma vai revisar a matéria inteira gritando de torcida.
+        As perguntas saem da disciplina e do nível da sua turma, e os pontos
+        viram experiência na gamificação. Quatro formatos de disputa, mais um
+        jogo narrativo em tela cheia que o aluno joga sozinho.
       </p>
     </div>
 
@@ -1953,40 +2160,35 @@
 
       <div class="animate-in from-right" style="transition-delay:.12s">
         <div class="rule-cards">
-          <div class="rule-card">
-            <span class="rc-em">✅</span>
-            <div class="rc-name">Acertou = ataque</div>
-            <div class="rc-desc">A equipe responde certo e o mago da equipe lança o feitiço no rival.</div>
+          <div class="rule-card gold">
+            <span class="rc-em">⚔️</span>
+            <div class="rc-name">Batalha de Equipes</div>
+            <div class="rc-desc">Combate por acertos: quem responde certo ataca, quem erra abre a guarda. Resposta em 3 segundos dá dano crítico e abaixo de metade do HP entra o Modo Fúria.</div>
           </div>
           <div class="rule-card">
-            <span class="rc-em">❌</span>
-            <div class="rc-name">Errou = contra-ataque</div>
-            <div class="rc-desc">Resposta errada abre a guarda e o rival contra-ataca na hora.</div>
+            <span class="rc-em">💰</span>
+            <div class="rc-name">O Milhão</div>
+            <div class="rc-desc">Escada de prêmios com patamares de segurança. A tensão de arriscar mais uma pergunta ou parar.</div>
+          </div>
+          <div class="rule-card">
+            <span class="rc-em">🔨</span>
+            <div class="rc-name">Leilão do Saber</div>
+            <div class="rc-desc">As equipes apostam pontos antes de saber se acertaram. Ensina a turma a medir a própria confiança.</div>
           </div>
           <div class="rule-card gold">
             <span class="rc-em">⚡</span>
-            <div class="rc-name">Crítico em 3 segundos</div>
-            <div class="rc-desc">Respondeu rápido? Dano crítico. A turma inteira estuda pra responder primeiro.</div>
+            <div class="rc-name">Quiz Relâmpago</div>
+            <div class="rc-desc">Dez rodadas rápidas, cenário animado e uma personagem que reage a cada resposta da turma.</div>
           </div>
-          <div class="rule-card">
-            <span class="rc-em">💚</span>
-            <div class="rc-name">Sequência cura</div>
-            <div class="rc-desc">Acertos seguidos recuperam HP da equipe. Consistência vale ouro.</div>
-          </div>
-          <div class="rule-card gold">
-            <span class="rc-em">🔥</span>
-            <div class="rc-name">Modo Fúria</div>
-            <div class="rc-desc">Abaixo de metade do HP a equipe entra em Fúria e bate mais forte. Virada é possível até o fim.</div>
-          </div>
-          <div class="rule-card">
-            <span class="rc-em">🏆</span>
-            <div class="rc-name">Vitória vira XP</div>
-            <div class="rc-desc">O resultado alimenta a gamificação da turma: pontos, pódio e Hall da Fama.</div>
+          <div class="rule-card" style="grid-column:1/-1">
+            <span class="rc-em">🌿</span>
+            <div class="rc-name">Mundo Perdido</div>
+            <div class="rc-desc">Jogo narrativo em tela cheia, com trilha sonora e centenas de cenários. Um estudante adormece a três dias da prova final e acorda num jardim que só abre passagem quando ele acerta perguntas sobre plantas. As escolhas mudam as reações dos personagens e o final quem decide é o jogador. Você pode gerar o próprio conjunto de perguntas e compartilhar a partida.</div>
           </div>
         </div>
 
         <p class="batalha-cta-note">
-          <span>🎮</span> Integrada às suas equipes da Turma Gamificada, ou jogue com equipes avulsas. Funciona no projetor.
+          <span>🎮</span> Todas integradas às equipes da Turma Gamificada, ou jogue com equipes avulsas. Funciona no projetor.
         </p>
       </div>
 
@@ -2009,7 +2211,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">05 / 08</span>
+        <span class="section-num">06 / 09</span>
         <div class="eyebrow">Kit do Professor</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -2025,12 +2227,12 @@
       <div class="kit-card wide animate-in">
         <div class="kit-icon" style="background:#eef2ff">🎓</div>
         <div class="kit-name">Parecer Descritivo</div>
-        <div class="kit-desc">Comentários de boletim e pareceres individuais por aluno. O pesadelo do fim de bimestre, pronto em minutos.</div>
+        <div class="kit-desc">Pareceres individuais e comentários de boletim, com impressão em papel timbrado. O pesadelo do fim de bimestre, pronto em minutos.</div>
       </div>
       <div class="kit-card animate-in" style="transition-delay:.05s">
         <div class="kit-icon" style="background:#d1fae5">♿</div>
         <div class="kit-name">Adaptação Inclusiva</div>
-        <div class="kit-desc">Adapta qualquer atividade para TEA, TDAH, dislexia e outras necessidades.</div>
+        <div class="kit-desc">Adapta atividades para TDAH, TEA, dislexia, deficiência intelectual, baixa visão, surdez e altas habilidades.</div>
       </div>
       <div class="kit-card animate-in" style="transition-delay:.1s">
         <div class="kit-icon" style="background:#fef3c7">📊</div>
@@ -2060,7 +2262,7 @@
       <div class="kit-card wide dark animate-in" style="transition-delay:.35s">
         <div class="kit-icon" style="background:rgba(255,255,255,.12)"><img src="logo.png" alt="" style="width:28px;height:28px;object-fit:contain;"></div>
         <div class="kit-name">Tudo salvo no seu Acervo</div>
-        <div class="kit-desc">Cada material gerado fica na sua biblioteca pessoal, com busca, filtros e download quando quiser. Nada se perde.</div>
+        <div class="kit-desc">Sua biblioteca pessoal com busca e filtro por tipo, mais um acervo compartilhado com materiais curados. Exporta em Word e PowerPoint.</div>
       </div>
     </div>
 
@@ -2088,7 +2290,7 @@
 
       <div class="animate-in" style="transition-delay:.1s">
         <div class="eyebrow-row" style="margin-bottom:20px;display:flex;align-items:center;gap:18px">
-          <span class="section-num">06 / 08</span>
+          <span class="section-num">07 / 09</span>
           <div class="eyebrow">A História por Trás</div>
         </div>
 
@@ -2143,7 +2345,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">07 / 08</span>
+        <span class="section-num">08 / 09</span>
         <div class="eyebrow">Planos</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -2157,7 +2359,7 @@
 
     <div class="urgency-strip animate-in">
       <span class="bolt">⚡</span>
-      <span>As primeiras vagas de Apoiadores têm condição especial. Depois do lançamento, o preço muda.</span>
+      <span>São 7 dias de criação ilimitada, sem cartão. Depois você decide se vale continuar.</span>
     </div>
 
     <div class="plans-wrap">
@@ -2167,17 +2369,16 @@
         <div class="plan-head">
           <span class="sticker-green">Acesso Gratuito</span>
         </div>
-        <div class="plan-price">R$&nbsp;0</div>
-        <div class="plan-period">para sempre gratuito · sem cartão</div>
+        <div class="plan-price">7 dias</div>
+        <div class="plan-period">grátis, a partir do cadastro · sem cartão</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> <span><strong>10 gerações de IA</strong> pra testar tudo</span></li>
-          <li><span class="pf-check">✓</span> <span>Planejador com BNCC</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Criação ilimitada</strong> por 7 dias: planos, provas, slides, jogos e materiais</span></li>
+          <li><span class="pf-check">✓</span> <span>Planejador com as habilidades da BNCC conferidas</span></li>
+          <li><span class="pf-check">✓</span> <span>Todos os jogos e as competições em turma</span></li>
+          <li><span class="pf-check">✓</span> <span>Agenda, turmas, diário de classe e gamificação</span></li>
           <li><span class="pf-check">✓</span> <span>Chat com IA pedagógica</span></li>
-          <li><span class="pf-check">✓</span> <span>Jogos e gamificação básicos</span></li>
-          <li><span class="pf-check">✓</span> <span>Agenda, turmas e diário de bordo</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Gerações ilimitadas</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Escape Room completo · 4 temas</span></li>
-          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Acesso antecipado a novidades</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Passados os 7 dias você não perde nada</strong>: o material já criado continua seu</span></li>
+          <li><span class="pf-check dim">✓</span> <span style="color:var(--muted-2)">Criar material novo depois do prazo</span></li>
         </ul>
         <a href="https://profcorujao.vercel.app/" target="_blank" rel="noopener" class="btn btn-outline plan-btn">
           Usar gratuitamente
@@ -2191,14 +2392,14 @@
           <div class="plan-label pro-color">Apoiador Pro</div>
         </div>
         <div class="plan-price"><sup>R$</sup>&nbsp;59,90<span class="per">&nbsp;/mês</span></div>
-        <div class="plan-period">acesso completo e ilimitado</div>
+        <div class="plan-period">criação ilimitada, sem prazo</div>
         <ul class="plan-feats">
-          <li><span class="pf-check">✓</span> <span><strong>Gerações ilimitadas</strong> em tudo: planos, provas, slides, jogos</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Batalha de Revisão</strong> e gamificação completa</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Escape Room completo</strong> · todos os 4 temas</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Criação ilimitada e sem prazo</strong> em tudo que o app faz</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Mundo Perdido</strong> e as 4 competições em turma</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Escape Room</strong> nas 4 ambientações</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong>: pareceres, inclusão, rubricas e mais</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong>: calendário letivo e ementa</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Acesso antecipado</strong> a novidades</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Exportação em Word e PowerPoint</strong></span></li>
           <li><span class="pf-check">✓</span> <span>Nome na lista de Apoiadores do app</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Suporte direto</strong> com o criador</span></li>
         </ul>
@@ -2219,8 +2420,8 @@
     </div>
 
     <p class="plans-note animate-in">
-      O app funciona em qualquer navegador e é instalável como PWA no Android e iPhone.
-      Login com Google ou e-mail · dados protegidos pelo Firebase.
+      O app funciona em qualquer navegador e é instalável no Android, iPhone, Windows e Mac.
+      Cadastro com e-mail e senha · dados protegidos pelo Firebase.
     </p>
 
   </div>
@@ -2241,7 +2442,7 @@
 
     <div class="sec-header">
       <div class="eyebrow-row animate-in">
-        <span class="section-num">08 / 08</span>
+        <span class="section-num">09 / 09</span>
         <div class="eyebrow">Dúvidas Frequentes</div>
       </div>
       <h2 class="h1 animate-in" style="transition-delay:.08s">
@@ -2261,17 +2462,30 @@
           Foi desenhado pra professor, não pra programador.
         </div>
       </div>
-      <div class="faq-item animate-in" style="transition-delay:.05s">
+      <div class="faq-item animate-in" style="transition-delay:.03s">
         <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
-          Como funciona a Batalha de Revisão na prática?
+          O que acontece quando terminam os 7 dias?
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe duas equipes
-          e projeta a arena na TV ou no projetor. A IA gera as perguntas na hora e cada
-          equipe responde na sua vez: acerto ataca, erro sofre contra-ataque, resposta
-          rápida dá dano crítico. Vence quem zerar o HP do rival, e os pontos podem ir
-          direto pra gamificação da turma.
+          Você continua entrando no app e <strong>todo o material que já criou continua
+          lá</strong>, para consultar, exportar e imprimir. O que fica bloqueado é só a
+          criação de conteúdo novo. Nada é apagado e você não precisa cadastrar cartão
+          para começar.
+        </div>
+      </div>
+      <div class="faq-item animate-in" style="transition-delay:.05s">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          Como funcionam os jogos de competição na prática?
+          <span class="faq-plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-ans">
+          Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe as equipes
+          e projeta na TV. As perguntas são geradas pela disciplina e nível da turma.
+          Na Batalha de Equipes o acerto ataca e o erro abre a guarda; n'O Milhão a
+          turma sobe uma escada de prêmios; no Leilão do Saber as equipes apostam
+          pontos antes de saber se acertaram; e o Quiz Relâmpago são dez rodadas
+          rápidas com cenário animado. Os pontos viram experiência na gamificação.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.1s">
@@ -2280,9 +2494,9 @@
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Sim, para gerar conteúdo com IA é necessária conexão.
-          Mas o app é instalável como PWA e funciona como app nativo no celular,
-          com experiência fluida e responsiva.
+          Sim. A interface abre offline, mas seus dados (turmas, planos, diário) e a
+          geração de conteúdo com IA precisam de conexão. O app é instalável no
+          celular e no computador e funciona como aplicativo nativo.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.15s">
@@ -2291,8 +2505,8 @@
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Funciona em qualquer navegador: Safari, Chrome, Firefox.
-          É instalável no Android como app nativo. No iPhone, funciona perfeitamente pelo Safari.
+          Funciona em qualquer navegador: Safari, Chrome, Firefox. É instalável como
+          aplicativo no Android, iPhone, Windows e Mac.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.2s">
@@ -2301,9 +2515,9 @@
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Sim, 100%. Tudo que você gera no Prof. Corujão pertence a você.
-          Pode editar, imprimir, compartilhar e usar como quiser, sem restrições.
-          E tudo fica salvo no seu Acervo pessoal.
+          Sim, 100%. Tudo que você gera pertence a você: pode editar, exportar em Word
+          ou PowerPoint, imprimir e compartilhar sem restrição. E mesmo quando o teste
+          de 7 dias termina, todo o material que você já criou continua acessível.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.25s">
@@ -2312,7 +2526,7 @@
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          Sim. Login com Google ou e-mail, dados armazenados e protegidos pelo Firebase (Google).
+          Sim. Cadastro com e-mail e senha, dados armazenados e protegidos pelo Firebase (Google).
           Nenhuma informação sensível é compartilhada com terceiros.
         </div>
       </div>
@@ -2333,7 +2547,7 @@
           <span class="faq-plus" aria-hidden="true">+</span>
         </button>
         <div class="faq-ans">
-          <p style="margin-bottom:14px">Cada geração consome créditos reais de IA, e isso tem custo. O valor mensal cobre:</p>
+          <p style="margin-bottom:14px">São 7 dias para testar sem pagar nada. Depois disso, cada geração consome créditos reais de IA, e isso tem custo. O valor mensal cobre:</p>
           <ul style="list-style:none;padding:0;display:grid;gap:10px">
             <li style="display:flex;gap:10px;align-items:flex-start">
               <span style="font-size:18px;line-height:1.2">🤖</span>
@@ -2386,8 +2600,8 @@
       </h2>
 
       <p class="cta-final-sub animate-in" style="transition-delay:.16s">
-        Teste grátis agora: são 10 gerações por conta da casa, sem cartão.
-        Se o Corujão te devolver uma noite de sono, você já sabe o que fazer.
+        São 7 dias de criação ilimitada, sem cartão. Se o Corujão te devolver
+        uma noite de sono, você já sabe o que fazer.
       </p>
 
       <div class="animate-in" style="transition-delay:.24s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
@@ -2467,11 +2681,11 @@
       const el = e.target;
       const target = parseInt(el.dataset.count, 10);
       const suffix = el.dataset.suffix || '';
-      if (reducedMotion) { el.textContent = target + suffix; return; }
+      if (reducedMotion) { el.textContent = target.toLocaleString('pt-BR') + suffix; return; }
       const t0 = performance.now(), dur = 1100;
       (function tick(now) {
         const p = Math.min((now - t0) / dur, 1);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('pt-BR') + suffix;
         if (p < 1) requestAnimationFrame(tick);
       })(t0);
     });
