@@ -42,7 +42,7 @@
       --pixel: 'Press Start 2P', monospace;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -115,6 +115,12 @@
     .animate-in.from-right { transform: translateX(44px); }
     .animate-in.zoom       { transform: scale(.92); }
     .animate-in.visible { opacity: 1; transform: none; }
+    /* No celular a entrada lateral empurraria o bloco pra fora da tela e criaria
+       rolagem horizontal enquanto ele espera aparecer. Vira entrada vertical. */
+    @media (max-width: 900px) {
+      .animate-in.from-left,
+      .animate-in.from-right { transform: translateY(24px); }
+    }
 
     /* grades com entrada em cascata (pílulas de jogos/ferramentas) */
     .gami-grid.animate-in { opacity: 1; transform: none; }
@@ -1457,6 +1463,60 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(70,89,255,.3); border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(70,89,255,.5); }
+
+
+    /* ══════════════════════════════════════
+       AJUSTES MOBILE (foco principal do site)
+    ══════════════════════════════════════ */
+    @media (max-width: 700px) {
+      /* Legibilidade: nada de rótulo abaixo de 11px na mão do professor */
+      .t-role        { font-size: 11px; padding: 5px 12px; }
+      .bp-flag       { font-size: 11px; }
+      .bp-sub        { font-size: 12.5px; }
+      .bp-foot span  { font-size: 12px; }
+      .bh-sub        { font-size: 12.5px; }
+      .pill          { font-size: 12px; padding: 6px 13px; }
+      .eyebrow       { font-size: 12.5px; }
+      .nav-link .mini-new { font-size: 10px; padding: 2px 6px; }
+
+      /* Alvos de toque confortáveis */
+      .footer-meta a {
+        display: inline-flex; align-items: center;
+        min-height: 44px; padding: 4px 0;
+      }
+      .nav-logo { min-height: 44px; }
+
+      /* O adesivo do hero é o clímax, mas não pode espremer a tela */
+      .hl-box {
+        border-width: 2.5px;
+        box-shadow: 4px 5px 0 #180e4e;
+        border-radius: 11px;
+      }
+      .hl-box.on-dark { box-shadow: 4px 5px 0 rgba(0,0,0,.55); }
+
+      /* Painel da BNCC: o código e a etiqueta ficam, o texto longo sai */
+      .bp-row { grid-template-columns: auto auto; row-gap: 2px; }
+      .bp-txt { display: none; }
+
+      /* Cartões do placar e das regras respiram mais */
+      .board-card, .bncc-panel { padding: 22px 18px; border-radius: 22px; }
+      .rule-card { padding: 16px; }
+
+      /* Molduras tortas endireitam: no celular a inclinação come a margem */
+      .scene-frame, .slide06, .board-card, .night-panel, .bncc-panel { transform: none; }
+      .urgency-strip { transform: none; box-shadow: 5px 6px 0 #180e4e; }
+
+      /* CTA fixo não pode cobrir o fim da página */
+      footer { padding-bottom: 96px; }
+    }
+
+    /* Telas bem estreitas */
+    @media (max-width: 380px) {
+      .container, .container-tight { padding: 0 20px; }
+      .hero-stats { gap: 18px; }
+      .plan-card, .faq-btn { padding-left: 22px; padding-right: 22px; }
+      .plan-card { padding-top: 30px; padding-bottom: 30px; }
+    }
 
     @media (max-width: 700px) {
       section { padding: 78px 0; }
