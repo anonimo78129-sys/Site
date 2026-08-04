@@ -1158,9 +1158,25 @@
     .rule-card.gold { border-color: rgba(251,191,36,.45); }
     .rule-card.gold .rc-name { color: #fbbf24; }
 
+
+    .game-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 30px; align-items: start;
+    }
+    @media (max-width: 980px) { .game-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+    .game-card .batalha-banner { margin-bottom: 18px; aspect-ratio: 1100/532; }
+    .game-card .batalha-banner img { height: 100%; object-fit: cover; }
+    .gc-name {
+      font-size: 19px; font-weight: 900; color: #fff;
+      margin-bottom: 8px; letter-spacing: -.01em;
+    }
+    .gc-desc { font-size: 14px; color: rgba(255,255,255,.68); line-height: 1.65; }
+
     .batalha-cta-note {
-      margin-top: 26px; font-size: 13px; color: rgba(255,255,255,.55);
-      display: flex; align-items: center; gap: 8px;
+      margin-top: 30px; font-size: 13px; color: rgba(255,255,255,.55);
+      display: flex; align-items: flex-start; gap: 8px; max-width: 760px;
+      margin-left: auto; margin-right: auto; text-align: center;
+      justify-content: center;
     }
 
     /* ══════════════════════════════════════
@@ -1613,8 +1629,8 @@
             <div class="bncc-tag">NOVO</div>
             <div class="bncc-text">
               <span>
-                <strong>Mundo Perdido</strong> e 4 competições
-                <small>Jogo narrativo em tela cheia e disputas em turma</small>
+                <strong>Mundo Perdido</strong> e Quiz Relâmpago
+                <small>Jogo narrativo em tela cheia e disputa em equipes</small>
               </span>
             </div>
           </div>
@@ -1630,8 +1646,8 @@
             <div class="hero-stat-lbl">Jogos com IA</div>
           </div>
           <div>
-            <div class="hero-stat-num" data-count="4">4</div>
-            <div class="hero-stat-lbl">Competições em turma</div>
+            <div class="hero-stat-num" data-count="3">3</div>
+            <div class="hero-stat-lbl">Jogos em destaque</div>
           </div>
           <div>
             <div class="hero-stat-num" data-count="7">7</div>
@@ -2191,23 +2207,25 @@
         <div class="eyebrow light">A Grande Novidade</div>
       </div>
       <span class="press-start animate-in" style="transition-delay:.04s">▶ PRESS START</span>
-      <span class="pill pill-new animate-in" style="transition-delay:.05s">🎮 Novo · Mundo Perdido e 4 competições</span>
+      <span class="pill pill-new animate-in" style="transition-delay:.05s">🎮 Novo · 3 jogos em destaque</span>
       <h2 class="batalha-title animate-in" style="transition-delay:.1s">
         A revisão da prova virou <em>o momento mais esperado da semana.</em>
       </h2>
       <p class="batalha-sub animate-in" style="transition-delay:.18s">
-        As perguntas saem da disciplina e do nível da sua turma, e os pontos
-        viram experiência na gamificação. Quatro formatos de disputa, mais um
-        jogo narrativo em tela cheia que o aluno joga sozinho.
+        Batalha em equipes, quiz relâmpago pra fechar a aula, e uma aventura
+        narrativa que o aluno joga sozinho. As perguntas saem da disciplina e
+        do nível da sua turma, e os pontos viram experiência na gamificação.
       </p>
     </div>
 
-    <div class="batalha-grid">
+    <div class="game-grid">
 
-      <div class="animate-in from-left">
+      <div class="game-card animate-in from-left">
         <div class="batalha-banner">
           <img src="illu-batalha.jpg" alt="QuaqueMagia, Arena do Conhecimento" loading="lazy">
         </div>
+        <div class="gc-name">Batalha de Equipes</div>
+        <div class="gc-desc">Combate por acertos: quem responde certo ataca, quem erra abre a guarda. Resposta em 3 segundos dá dano crítico, e abaixo de metade do HP entra o Modo Fúria.</div>
         <div class="duel-strip">
           <button type="button" class="duel-duck-btn" id="duck-red-btn" aria-label="Ver o mago vermelho atacar">
             <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="Mago vermelho" loading="lazy">
@@ -2220,41 +2238,27 @@
         <p class="duel-hint">Toque em um mago pra ver o ataque ⚡</p>
       </div>
 
-      <div class="animate-in from-right" style="transition-delay:.12s">
-        <div class="rule-cards">
-          <div class="rule-card gold">
-            <span class="rc-em">⚔️</span>
-            <div class="rc-name">Batalha de Equipes</div>
-            <div class="rc-desc">Combate por acertos: quem responde certo ataca, quem erra abre a guarda. Resposta em 3 segundos dá dano crítico e abaixo de metade do HP entra o Modo Fúria.</div>
-          </div>
-          <div class="rule-card">
-            <span class="rc-em">💰</span>
-            <div class="rc-name">O Milhão</div>
-            <div class="rc-desc">Escada de prêmios com patamares de segurança. A tensão de arriscar mais uma pergunta ou parar.</div>
-          </div>
-          <div class="rule-card">
-            <span class="rc-em">🔨</span>
-            <div class="rc-name">Leilão do Saber</div>
-            <div class="rc-desc">As equipes apostam pontos antes de saber se acertaram. Ensina a turma a medir a própria confiança.</div>
-          </div>
-          <div class="rule-card gold">
-            <span class="rc-em">⚡</span>
-            <div class="rc-name">Quiz Relâmpago</div>
-            <div class="rc-desc">Dez rodadas rápidas, cenário animado e uma personagem que reage a cada resposta da turma.</div>
-          </div>
-          <div class="rule-card" style="grid-column:1/-1">
-            <span class="rc-em">🌿</span>
-            <div class="rc-name">Mundo Perdido</div>
-            <div class="rc-desc">Jogo narrativo em tela cheia, com trilha sonora e centenas de cenários. Um estudante adormece a três dias da prova final e acorda num jardim que só abre passagem quando ele acerta perguntas sobre plantas. As escolhas mudam as reações dos personagens e o final quem decide é o jogador. Você pode gerar o próprio conjunto de perguntas e compartilhar a partida.</div>
-          </div>
+      <div class="game-card animate-in" style="transition-delay:.08s">
+        <div class="batalha-banner">
+          <img src="illu-mundo-perdido.jpg" alt="Mundo Perdido, Escape Room" loading="lazy">
         </div>
+        <div class="gc-name">Mundo Perdido</div>
+        <div class="gc-desc">Jogo narrativo em tela cheia, com trilha sonora própria e centenas de cenários. Um estudante adormece a três dias da prova e acorda num jardim que só abre passagem quando ele acerta perguntas sobre plantas. As escolhas mudam a história, e o final quem decide é o jogador.</div>
+      </div>
 
-        <p class="batalha-cta-note">
-          <span>🎮</span> Todas integradas às equipes da Turma Gamificada, ou jogue com equipes avulsas. Funciona no projetor.
-        </p>
+      <div class="game-card animate-in from-right" style="transition-delay:.16s">
+        <div class="batalha-banner">
+          <img src="illu-quiz-relampago.png" alt="Quiz Relâmpago" loading="lazy">
+        </div>
+        <div class="gc-name">Quiz Relâmpago</div>
+        <div class="gc-desc">Dez rodadas rápidas, cenário animado e uma personagem que reage a cada resposta da turma. Pra fechar a aula ou revisar em cinco minutos.</div>
       </div>
 
     </div>
+
+    <p class="batalha-cta-note">
+      <span>🎮</span> Batalha de Equipes e Quiz Relâmpago rodam com as equipes da Turma Gamificada, ou equipes avulsas, e funcionam no projetor. Mundo Perdido o aluno joga sozinho, no próprio ritmo.
+    </p>
   </div>
 </section>
 
@@ -2457,7 +2461,7 @@
         <div class="plan-period">criação ilimitada, sem prazo</div>
         <ul class="plan-feats">
           <li><span class="pf-check">✓</span> <span><strong>Criação ilimitada e sem prazo</strong> em tudo que o app faz</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Mundo Perdido</strong> e as 4 competições em turma</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Mundo Perdido</strong>, Batalha de Equipes e Quiz Relâmpago</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Escape Room</strong> nas 4 ambientações</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong>: chamada, inclusão, rubricas e mais</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong>: calendário letivo e ementa</span></li>
@@ -2588,10 +2592,10 @@
         <div class="faq-ans">
           Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe as equipes
           e projeta na TV. As perguntas são geradas pela disciplina e nível da turma.
-          Na Batalha de Equipes o acerto ataca e o erro abre a guarda; n'O Milhão a
-          turma sobe uma escada de prêmios; no Leilão do Saber as equipes apostam
-          pontos antes de saber se acertaram; e o Quiz Relâmpago são dez rodadas
-          rápidas com cenário animado. Os pontos viram experiência na gamificação.
+          Na Batalha de Equipes o acerto ataca e o erro abre a guarda, com crítico em
+          3 segundos e Modo Fúria na virada; o Quiz Relâmpago são dez rodadas rápidas
+          com cenário animado. Os pontos viram experiência na gamificação. Já o Mundo
+          Perdido é uma aventura narrativa que o aluno joga sozinho, no próprio ritmo.
         </div>
       </div>
       <div class="faq-item animate-in" style="transition-delay:.20s">
