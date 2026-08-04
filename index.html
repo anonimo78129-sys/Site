@@ -1095,51 +1095,6 @@
     }
     .batalha-banner img { width: 100%; display: block; }
 
-    .duel-strip {
-      display: flex; align-items: flex-end; justify-content: center;
-      gap: clamp(20px, 6vw, 60px);
-      margin: 34px auto 0; max-width: 560px;
-      padding: 22px 20px 4px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-    }
-    .duel-duck-btn {
-      background: none; border: none; padding: 8px; margin: -8px;
-      cursor: pointer; border-radius: 14px;
-      transition: transform .18s cubic-bezier(.34,1.56,.64,1);
-    }
-    .duel-duck-btn:hover { transform: scale(1.1) translateY(-3px); }
-    .duel-duck-btn:active { transform: scale(.94); }
-    .duel-duck { width: clamp(64px, 11vw, 96px); image-rendering: pixelated; display: block; }
-    /* Sprites nativos: vermelho olha pra esquerda, azul olha pra direita.
-       Espelha os dois pra ficarem de frente um pro outro na arena. */
-    .duel-duck.red  { transform: scaleX(-1); }
-    .duel-duck.blue { transform: scaleX(-1); }
-    .duel-hint {
-      text-align: center; font-size: 11px; color: rgba(255,255,255,.4);
-      letter-spacing: .04em; margin: 2px 0 18px;
-    }
-    .duel-dmg {
-      position: absolute; z-index: 50;
-      font-family: var(--pixel); font-size: 12px; color: #fbbf24;
-      text-shadow: 0 2px 0 rgba(0,0,0,.6);
-      pointer-events: none; transform: translate(-50%, 0);
-      animation: dmg-float .9s ease-out forwards;
-      white-space: nowrap;
-    }
-    @keyframes dmg-float {
-      0%   { opacity: 0; transform: translate(-50%, 4px) scale(.7); }
-      18%  { opacity: 1; transform: translate(-50%, -10px) scale(1.15); }
-      100% { opacity: 0; transform: translate(-50%, -48px) scale(1); }
-    }
-    .duel-vs {
-      font-family: var(--pixel); font-size: clamp(14px, 2.4vw, 22px);
-      color: #fbbf24; align-self: center;
-      text-shadow: 0 3px 0 rgba(0,0,0,.5);
-      animation: blink 1.6s infinite;
-    }
-
     .rule-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .rule-cards { grid-template-columns: 1fr; } }
     .rule-card {
@@ -2224,18 +2179,8 @@
         <div class="batalha-banner">
           <img src="illu-batalha.jpg" alt="QuaqueMagia, Arena do Conhecimento" loading="lazy">
         </div>
-        <div class="gc-name">Batalha de Equipes</div>
+        <div class="gc-name">QuaqueMagia</div>
         <div class="gc-desc">Combate por acertos: quem responde certo ataca, quem erra abre a guarda. Resposta em 3 segundos dá dano crítico, e abaixo de metade do HP entra o Modo Fúria.</div>
-        <div class="duel-strip">
-          <button type="button" class="duel-duck-btn" id="duck-red-btn" aria-label="Ver o mago vermelho atacar">
-            <img src="duck-red-1.png" class="duel-duck red" id="duck-red" alt="Mago vermelho" loading="lazy">
-          </button>
-          <span class="duel-vs">VS</span>
-          <button type="button" class="duel-duck-btn" id="duck-blue-btn" aria-label="Ver o mago azul atacar">
-            <img src="duck-blue-1.png" class="duel-duck blue" id="duck-blue" alt="Mago azul" loading="lazy">
-          </button>
-        </div>
-        <p class="duel-hint">Toque em um mago pra ver o ataque ⚡</p>
       </div>
 
       <div class="game-card animate-in" style="transition-delay:.08s">
@@ -2257,7 +2202,7 @@
     </div>
 
     <p class="batalha-cta-note">
-      <span>🎮</span> Batalha de Equipes e Quiz Relâmpago rodam com as equipes da Turma Gamificada, ou equipes avulsas, e funcionam no projetor. Mundo Perdido o aluno joga sozinho, no próprio ritmo.
+      <span>🎮</span> QuaqueMagia e Quiz Relâmpago rodam com as equipes da Turma Gamificada, ou equipes avulsas, e funcionam no projetor. Mundo Perdido o aluno joga sozinho, no próprio ritmo.
     </p>
   </div>
 </section>
@@ -2461,7 +2406,7 @@
         <div class="plan-period">criação ilimitada, sem prazo</div>
         <ul class="plan-feats">
           <li><span class="pf-check">✓</span> <span><strong>Criação ilimitada e sem prazo</strong> em tudo que o app faz</span></li>
-          <li><span class="pf-check">✓</span> <span><strong>Mundo Perdido</strong>, Batalha de Equipes e Quiz Relâmpago</span></li>
+          <li><span class="pf-check">✓</span> <span><strong>Mundo Perdido</strong>, QuaqueMagia e Quiz Relâmpago</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Escape Room</strong> nas 4 ambientações</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Kit do Professor</strong>: chamada, inclusão, rubricas e mais</span></li>
           <li><span class="pf-check">✓</span> <span><strong>Importação por PDF</strong>: calendário letivo e ementa</span></li>
@@ -2592,7 +2537,7 @@
         <div class="faq-ans">
           Você informa o tema (ex.: "Revolução Industrial, 9º ano"), escolhe as equipes
           e projeta na TV. As perguntas são geradas pela disciplina e nível da turma.
-          Na Batalha de Equipes o acerto ataca e o erro abre a guarda, com crítico em
+          Na QuaqueMagia o acerto ataca e o erro abre a guarda, com crítico em
           3 segundos e Modo Fúria na virada; o Quiz Relâmpago são dez rodadas rápidas
           com cenário animado. Os pontos viram experiência na gamificação. Já o Mundo
           Perdido é uma aventura narrativa que o aluno joga sozinho, no próprio ritmo.
@@ -2907,81 +2852,6 @@
     imgs[cur].classList.add('active');
     dots[cur].classList.add('active');
   }, 3000);
-})();
-
-/* ── Pixel duel: idle loop + click-to-attack ── */
-(function () {
-  const red  = document.getElementById('duck-red');
-  const blue = document.getElementById('duck-blue');
-  const redBtn  = document.getElementById('duck-red-btn');
-  const blueBtn = document.getElementById('duck-blue-btn');
-  if (!red || !blue) return;
-
-  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const IDLE = 5, CAST = 6, HIT = 3;
-
-  ['red','blue'].forEach(team => {
-    for (let i = 1; i <= IDLE; i++) { const img = new Image(); img.src = `duck-${team}-${i}.png`; }
-    for (let i = 1; i <= CAST; i++) { const img = new Image(); img.src = `duck-${team}-cast-${i}.png`; }
-    for (let i = 1; i <= HIT;  i++) { const img = new Image(); img.src = `duck-${team}-hit-${i}.png`; }
-  });
-
-  let f = 0;
-  let animating = false;
-
-  setInterval(() => {
-    if (animating) return;
-    f = (f + 1) % IDLE;
-    red.src  = `duck-red-${f + 1}.png`;
-    blue.src = `duck-blue-${f + 1}.png`;
-  }, 220);
-
-  function showDamage(defenderEl) {
-    const rect = defenderEl.getBoundingClientRect();
-    const dmg = document.createElement('span');
-    dmg.className = 'duel-dmg';
-    dmg.setAttribute('aria-hidden', 'true');
-    dmg.textContent = '-' + (10 + Math.floor(Math.random() * 9));
-    dmg.style.left = (rect.left + rect.width / 2) + 'px';
-    dmg.style.top  = (rect.top + window.scrollY) + 'px';
-    document.body.appendChild(dmg);
-    setTimeout(() => dmg.remove(), 900);
-  }
-
-  function attack(team) {
-    if (animating) return;
-    const attacker = team === 'red' ? red : blue;
-    const defender = team === 'red' ? blue : red;
-    const defColor = team === 'red' ? 'blue' : 'red';
-
-    if (noMotion) {
-      showDamage(defender);
-      return;
-    }
-
-    animating = true;
-    let i = 0;
-    const castTimer = setInterval(() => {
-      i++;
-      attacker.src = `duck-${team}-cast-${Math.min(i, CAST)}.png`;
-      if (i >= CAST) {
-        clearInterval(castTimer);
-        showDamage(defender);
-        let h = 0;
-        const hitTimer = setInterval(() => {
-          h++;
-          defender.src = `duck-${defColor}-hit-${Math.min(h, HIT)}.png`;
-          if (h >= HIT) {
-            clearInterval(hitTimer);
-            setTimeout(() => { animating = false; }, 300);
-          }
-        }, 90);
-      }
-    }, 75);
-  }
-
-  redBtn && redBtn.addEventListener('click', () => attack('red'));
-  blueBtn && blueBtn.addEventListener('click', () => attack('blue'));
 })();
 
 /* ── Owl flying easter egg ── */
