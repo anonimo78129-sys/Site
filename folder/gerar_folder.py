@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera o folder de prospeccao do Prof. Corujao em PDF (A4, 6 paginas).
+"""Gera o folder de prospeccao do Prof. Corujao em PDF (A4, frente e verso).
 
 Le folder/folder.html, reduz as imagens do repositorio para uma resolucao
 adequada a impressao, monta uma copia temporaria do site e renderiza com o

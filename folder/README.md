@@ -1,24 +1,27 @@
 # Folder de prospecção — Prof. Corujão
 
-Peça impressa de 6 páginas A4 para prospectar professores presencialmente:
-visita a escola, sala dos professores, feira pedagógica, evento de formação.
+Peça impressa para prospectar professores presencialmente: visita a escola,
+sala dos professores, feira pedagógica, evento de formação.
 
+**Formato:** uma folha A4, frente e verso. Duas páginas, nada de dobra.
 **PDF pronto:** `folder-prof-corujao.pdf`
 
-## Estrutura das páginas
+## O que está em cada lado
 
-| Pág. | Papel na conversa |
-|---|---|
-| 1 | Capa: "Ei Professor(a)" e a pergunta que abre a porta |
-| 2 | A dor, nomeada em cinco frases que o professor reconhece |
-| 3 | A virada e o mecanismo: a BNCC conferida contra o dataset do MEC |
-| 4 | O que vem junto: planejador, gamificação, agenda, chat, acervo |
-| 5 | Os jogos e o material impresso, mais o Kit do Professor |
-| 6 | Planos, QR code para testar grátis, QR do WhatsApp e a história do criador |
+**Frente** (violeta cheio, o lado que o professor vê primeiro na mesa):
+o gancho "Ei Professor(a)", a pergunta que abre a conversa, três dores da
+rotina em uma linha cada, a fita "O corpo sai da sala. A cabeça não.", o
+exemplo de um tema virando plano, prova, slides e jogo em cerca de 4 segundos,
+e o rodapé com os três números e o selo de 7 dias grátis.
 
-Páginas 1 e 6 têm fundo violeta cheio; as internas são claras, para gastar
-menos tinta e ficar legível em impressão simples. O miolo é frente e verso:
-imprima em 3 folhas, ou grampeie como caderno A5 se preferir a peça menor.
+**Verso** (fundo claro, para gastar menos tinta e ler melhor):
+as quatro frentes do app em blocos curtos, a faixa das 1.580 habilidades da
+BNCC conferidas, os três jogos com imagem, o que sai impresso, e o bloco de
+oferta com os dois planos, o QR code de teste grátis e o QR do WhatsApp.
+
+Ficou de fora de propósito o que não cabe em folder e o site já explica bem:
+o passo a passo da conferência da BNCC, o Kit do Professor item por item, o
+FAQ e a história longa do TCC. Folder abre a conversa; o resto é no app.
 
 ## Como regerar
 
@@ -35,7 +38,7 @@ O arquivo abre direto no navegador para conferir antes de gerar o PDF.
 
 ## Arquivos
 
-- `folder.html` — a peça inteira, em HTML/CSS, 6 blocos `.page` de 210×297mm
+- `folder.html` — a peça inteira, em HTML/CSS, dois blocos `.page` de 210×297mm
 - `gerar_folder.py` — otimização de imagens e renderização em PDF
 - `fonts/` — Inter, Rozha One e Instrument Serif embutidas, para o PDF não
   depender da internet nem das fontes da máquina
@@ -47,3 +50,10 @@ Para trocar um QR code:
 ```bash
 python3 -c "import segno; segno.make('SUA-URL', error='h').save('folder/assets/qr-app.svg', scale=10, border=2, dark='#180e4e', light=None)"
 ```
+
+## Na hora de imprimir
+
+Peça frente e verso na mesma folha, sem redimensionar (escala 100%, "tamanho
+real"), em papel de pelo menos 120g para o violeta não marcar o outro lado.
+O fundo colorido vai até a borda, então a gráfica precisa imprimir com sangria
+ou aceitar a margem branca fina da impressora comum.
