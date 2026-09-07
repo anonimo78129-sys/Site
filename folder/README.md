@@ -23,6 +23,34 @@ Tríptico com duas dobras (dobra em C), montado sobre o gabarito da gráfica.
 | `folder-prof-corujao-guias.pdf` | Prova de conferência: mostra corte, vincos e margem de segurança. Não mandar para impressão |
 | `folder-prof-corujao-editavel.pptx` | Versão editável (PowerPoint), para abrir e customizar no Canva, PowerPoint, Google Slides ou LibreOffice Impress. Não tem sangria nem vinco — é para editar, não para imprimir direto |
 
+## Por que o PDF é todo em cor chapada
+
+O PDF é montado **sem nenhum gradiente, blur ou `filter` CSS**. Isso não é
+escolha estética: gradiente vira *shading pattern* dentro do PDF, e o Canva
+não sabe separar isso — ele rasteriza a página inteira junto, e o fundo chega
+como um bloco só, impossível de editar.
+
+Com cor chapada, o PDF sai com zero shadings e zero patterns; cada retângulo,
+adesivo, fita e caixa vira um objeto vetorial próprio (85 no total, entre as
+duas páginas) e o texto continua sendo texto de verdade. É o máximo que o
+formato PDF permite: **camadas de PDF (OCG) existem, mas o Canva as ignora** —
+o que decide se dá para editar é ser vetor separado em vez de imagem achatada.
+
+Para conferir depois de mexer na arte:
+
+```bash
+python3 - <<'EOF'
+import pymupdf
+d = pymupdf.open('folder/folder-prof-corujao.pdf')
+for p in d:
+    print(p.number+1, 'Shading=', d.xref_get_key(p.xref, "Resources/Shading")[0],
+          '| vetores:', len(p.get_drawings()),
+          '| imagens:', len(p.get_images()))
+EOF
+```
+
+`Shading=null` nas duas páginas é o resultado esperado.
+
 ## Versão editável (Canva / PowerPoint)
 
 O PDF é uma imagem fixa: ninguém edita texto nele. Para isso existe o
@@ -40,6 +68,8 @@ Diferenças de propósito em relação ao PDF:
 - **Formato:** A4 paisagem (297 × 210 mm) dividido em 3 colunas iguais de
   99 mm — o "trifold" clássico que o próprio Canva já reconhece, sem a
   assimetria de 97/100/100 mm que só faz sentido para a dobra física do PDF
+- **Mesmo texto do PDF.** Os dois arquivos são mantidos em sincronia; ao mudar
+  a copy em `folder.html`, mude também em `pptx/gerar_pptx.js`
 - **Sem sangria nem marcas de corte** — depois de editar, se for imprimir,
   configure sangria e dobra nas opções de impressão do Canva (ou exporte de
   novo em PDF e use o `gerar_folder.py` como referência de medidas)
@@ -80,21 +110,38 @@ depois de cada mudança de layout). Ainda assim, abra o `.pptx` de verdade
 antes de usar em produção — texto tende a quebrar linha de um jeito que só a
 renderização real mostra.
 
+## Para quem a peça foi escrita
+
+Uma professora que **nunca ouviu falar do app e não se considera boa de
+tecnologia**. Ela pega o folder na sala dos professores e decide em um minuto
+se aquilo serve para ela. Isso comanda as decisões de texto:
+
+- A peça diz **o que a coisa é**, em português de gente, já na capa: "um site
+  que monta o plano de aula, a prova e os slides". Nada de "assistente de IA"
+  sem explicação
+- O medo número um ("eu não sei mexer com isso") é respondido três vezes: no
+  selo verde da Interna, no passo 1 do miolo e no primeiro item do FAQ
+- Um FAQ de seis perguntas ocupa um painel inteiro, porque objeção não
+  respondida no papel vira folder no lixo
+- Jargão fora: sem "gamificação" solta, sem "algoritmo", sem "dataset"
+
 ## O que está em cada painel
 
-**Capa** — o gancho: "Ei Professor(a)", a pergunta que abre a conversa, o
-mascote e o selo de 7 dias grátis.
+**Capa** — o gancho ("Ei Professor(a)", a pergunta sobre fazer tudo sozinho),
+o mascote e, antes do rodapé, a caixa branca que explica o que o app é.
 
 **Interna** (o painel que dobra para dentro, primeiro a aparecer quando o
 professor abre) — a dor em três linhas, a fita "O corpo sai da sala. A cabeça
-não." e o exemplo de um tema virando plano, prova, slides e jogo.
+não.", a explicação de que é um site onde se escreve o tema, o exemplo em
+formato de conversa e o selo "não precisa saber mexer com tecnologia".
 
 **Contra Capa** (o verso quando está fechado) — a oferta: os dois planos, o QR
 code de teste grátis, o QR do WhatsApp e a assinatura do TCC.
 
-**Miolo aberto** (os três painéis internos, lidos como uma página só) — o que
-o app faz, a faixa das 1.580 habilidades da BNCC, a foto do escape room
-impresso, os instrumentos de aula e os três jogos em destaque.
+**Miolo aberto** (os três painéis internos, lidos como uma página só) — como
+funciona em três passos e o que chega pronto, com a faixa das 1.580
+habilidades da BNCC; depois o que ele resolve além da aula; e por fim os jogos
+e as perguntas que todo professor faz.
 
 ## Como regerar
 
