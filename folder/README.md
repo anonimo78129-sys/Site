@@ -3,43 +3,67 @@
 Peça impressa para prospectar professores presencialmente: visita a escola,
 sala dos professores, feira pedagógica, evento de formação.
 
-**Formato:** uma folha A4, frente e verso. Duas páginas, nada de dobra.
-**PDF pronto:** `folder-prof-corujao.pdf`
+## Formato
 
-## O que está em cada lado
+Tríptico com duas dobras (dobra em C), montado sobre o gabarito da gráfica.
 
-**Frente** (violeta cheio, o lado que o professor vê primeiro na mesa):
-o gancho "Ei Professor(a)", a pergunta que abre a conversa, três dores da
-rotina em uma linha cada, a fita "O corpo sai da sala. A cabeça não.", o
-exemplo de um tema virando plano, prova, slides e jogo em cerca de 4 segundos,
-e o rodapé com os três números e o selo de 7 dias grátis.
+- **Folha:** 303 × 216 mm — A4 deitado (297 × 210) com 3 mm de sangria em volta
+- **Painéis depois do corte:** 100 + 100 + **97** mm. O de 97 mm é o que dobra
+  para dentro, por isso é o mais estreito
+- **Parte externa**, da esquerda para a direita: Interna (97) · Contra Capa (100) · Capa (100)
+- **Parte interna**, da esquerda para a direita: Verso Capa (100) · Verso Contra Capa (100) · Verso Interna (97)
+- **Margem de segurança:** 6 mm do corte e 6 mm de cada vinco, com mais 3 mm de
+  respiro no pé. Nenhum texto cruza dobra
 
-**Verso** (fundo claro, para gastar menos tinta e ler melhor):
-as quatro frentes do app em blocos curtos, a faixa das 1.580 habilidades da
-BNCC conferidas, os três jogos com imagem, o que sai impresso, e o bloco de
-oferta com os dois planos, o QR code de teste grátis e o QR do WhatsApp.
+## Arquivos gerados
 
-Ficou de fora de propósito o que não cabe em folder e o site já explica bem:
-o passo a passo da conferência da BNCC, o Kit do Professor item por item, o
-FAQ e a história longa do TCC. Folder abre a conversa; o resto é no app.
+| Arquivo | Para que serve |
+|---|---|
+| `folder-prof-corujao.pdf` | Arte final, com sangria e sem marcas. É este que vai para a gráfica |
+| `folder-prof-corujao-guias.pdf` | Prova de conferência: mostra corte, vincos e margem de segurança. Não mandar para impressão |
+
+## O que está em cada painel
+
+**Capa** — o gancho: "Ei Professor(a)", a pergunta que abre a conversa, o
+mascote e o selo de 7 dias grátis.
+
+**Interna** (o painel que dobra para dentro, primeiro a aparecer quando o
+professor abre) — a dor em três linhas, a fita "O corpo sai da sala. A cabeça
+não." e o exemplo de um tema virando plano, prova, slides e jogo.
+
+**Contra Capa** (o verso quando está fechado) — a oferta: os dois planos, o QR
+code de teste grátis, o QR do WhatsApp e a assinatura do TCC.
+
+**Miolo aberto** (os três painéis internos, lidos como uma página só) — o que
+o app faz, a faixa das 1.580 habilidades da BNCC, a foto do escape room
+impresso, os instrumentos de aula e os três jogos em destaque.
 
 ## Como regerar
 
 ```bash
-python3 folder/gerar_folder.py
+python3 folder/gerar_folder.py           # arte final
+python3 folder/gerar_folder.py --guias   # prova com as marcas
 ```
 
 O script reduz as imagens do repositório para resolução de impressão, monta uma
-cópia temporária do site e renderiza com o Chromium headless. Depende de
-`pillow` e de um Chromium instalado (o caminho é procurado em `CHROMES`).
+cópia temporária do site, **avisa se algum painel passou da margem de
+segurança** e renderiza com o Chromium headless. No fim ajusta a página para
+exatamente 303 × 216 mm, porque o Chromium arredonda a altura para 215,9.
 
-Para editar o texto ou o layout, mexa em `folder.html` e rode o script de novo.
-O arquivo abre direto no navegador para conferir antes de gerar o PDF.
+Depende de `pillow` e de um Chromium instalado (o caminho é procurado em
+`CHROMES`). O `pymupdf` é opcional: sem ele o PDF sai com 0,1 mm a menos de
+altura, o que não muda nada na impressão mas pode ser barrado na conferência
+da gráfica.
 
-## Arquivos
+Para editar, mexa em `folder.html` e rode o script de novo. O arquivo abre
+direto no navegador, e a geometria dos painéis está nos `style` de cada
+`.painel` (posição e largura em mm dentro da folha de 303).
 
-- `folder.html` — a peça inteira, em HTML/CSS, dois blocos `.page` de 210×297mm
-- `gerar_folder.py` — otimização de imagens e renderização em PDF
+## Arquivos do projeto
+
+- `folder.html` — a peça inteira, em HTML/CSS: duas folhas de 303 × 216 mm com
+  três painéis absolutos cada
+- `gerar_folder.py` — otimização de imagens, checagem de margem e renderização
 - `fonts/` — Inter, Rozha One e Instrument Serif embutidas, para o PDF não
   depender da internet nem das fontes da máquina
 - `assets/qr-app.svg` — QR de `app.profcorujao.com.br`
@@ -51,9 +75,9 @@ Para trocar um QR code:
 python3 -c "import segno; segno.make('SUA-URL', error='h').save('folder/assets/qr-app.svg', scale=10, border=2, dark='#180e4e', light=None)"
 ```
 
-## Na hora de imprimir
+## Na hora de pedir a impressão
 
-Peça frente e verso na mesma folha, sem redimensionar (escala 100%, "tamanho
-real"), em papel de pelo menos 120g para o violeta não marcar o outro lado.
-O fundo colorido vai até a borda, então a gráfica precisa imprimir com sangria
-ou aceitar a margem branca fina da impressora comum.
+Peça **A4 4×4 com duas dobras (dobra em C)**, papel couché brilho 150g ou mais.
+Mande `folder-prof-corujao.pdf` como está: já tem os 3 mm de sangria que o
+gabarito pede e não leva marcas de corte. Confira antes no
+`folder-prof-corujao-guias.pdf` se algum elemento novo encostou no vinco.

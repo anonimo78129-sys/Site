@@ -5,13 +5,23 @@
 <title>Prof. Corujão — Folder de prospecção</title>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
-/* ═══════════════════════════════════════════════════════════
-   FOLDER PROF. CORUJÃO
-   Uma folha A4, frente e verso. Frente = gancho, dor e virada.
-   Verso  = o que faz, prova e oferta com QR code.
+/* ═══════════════════════════════════════════════════════════════════
+   FOLDER PROF. CORUJÃO — tríptico com duas dobras (dobra em C)
+
+   Folha: 303 × 216 mm (A4 deitado 297×210 + 3 mm de sangria em volta).
+   Depois do corte os painéis ficam 100 + 100 + 97 mm. O de 97 mm é o
+   que dobra para dentro, conforme o gabarito da gráfica.
+
+   PARTE EXTERNA  (esq → dir): Interna 97 | Contra Capa 100 | Capa 100
+   PARTE INTERNA  (esq → dir): Verso Capa 100 | Verso Contra Capa 100 |
+                               Verso Interna 97
+
+   Margem de segurança: 6 mm do corte e 6 mm de cada dobra. Nada de
+   texto cruza vinco.
+
    Identidade: base índigo/violeta + adesivos amarelos (borda navy,
    sombra dura sem blur). Nunca emoji de coruja: sempre a logo.png.
-   ═══════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -27,53 +37,61 @@
   --muted:     #5b6070;
 }
 
-@page { size: A4; margin: 0; }
+@page { size: 303mm 216mm; margin: 0; }
 
 html, body {
   font-family: 'Inter', 'Liberation Sans', sans-serif;
   color: var(--ink);
-  background: #d8dbe6;
+  background: #cdd1de;
   -webkit-font-smoothing: antialiased;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-.page {
+.folha {
   position: relative;
-  width: 210mm; height: 297mm;
+  width: 303mm; height: 216mm;
   overflow: hidden;
   page-break-after: always; break-after: page;
   background: var(--paper);
   margin: 0 auto;
 }
-.page:last-child { page-break-after: auto; break-after: auto; }
-@media screen { .page { margin: 0 auto 10mm; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
+.folha:last-child { page-break-after: auto; break-after: auto; }
+@media screen { .folha { margin: 0 auto 10mm; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
 
-.pad { padding: 13mm 13mm 11mm; height: 100%; display: flex; flex-direction: column; position: relative; z-index: 2; }
+/* Cada painel cobre a sangria do seu lado, então o fundo sangra sozinho. */
+.painel { position: absolute; top: 0; height: 216mm; overflow: hidden; }
+.painel > .conteudo {
+  position: absolute; top: 9mm; bottom: 12mm; left: 6mm; right: 6mm;
+  display: flex; flex-direction: column;
+  z-index: 2;
+}
+.painel.esq  > .conteudo { left: 9mm; }   /* borda de corte à esquerda */
+.painel.dir  > .conteudo { right: 9mm; }  /* borda de corte à direita  */
 
-/* ── Adesivo amarelo: o componente assinatura ───────────────── */
+/* ── Adesivo amarelo: o componente assinatura ─────────────────────── */
 .hl {
   --tilt: -1.2deg;
   display: inline-block;
   background: var(--yellow); color: var(--navy);
   border: 3px solid var(--navy);
-  border-radius: 14px;
+  border-radius: 13px;
   padding: .02em .3em .1em;
-  box-shadow: 6px 7px 0 var(--navy);
+  box-shadow: 5px 6px 0 var(--navy);
   transform: rotate(var(--tilt));
   line-height: 1.1;
 }
 .hl.tr { --tilt: 1.3deg; }
-.hl.on-dark { box-shadow: 6px 7px 0 rgba(0,0,0,.55); }
+.hl.on-dark { box-shadow: 5px 6px 0 rgba(0,0,0,.55); }
 
 .selo {
   display: inline-block; white-space: nowrap;
   background: var(--green); color: var(--green-ink);
   border: 2.5px solid var(--green-ink);
   border-radius: 10px;
-  padding: 4px 13px 5px;
-  font-size: 11.5px; font-weight: 900;
-  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px 5px;
+  font-size: 10.5px; font-weight: 900;
+  letter-spacing: .07em; text-transform: uppercase;
   box-shadow: 4px 4px 0 var(--green-ink);
   transform: rotate(-1deg);
 }
@@ -81,296 +99,406 @@ html, body {
 .display { font-family: 'Rozha One', 'Liberation Serif', serif; font-weight: 400; text-transform: uppercase; }
 .mt-a { margin-top: auto; }
 
-/* ── Cabeçalho de marca ─────────────────────────────────────── */
-.topo { display: flex; align-items: center; justify-content: space-between; }
-.marca { display: flex; align-items: center; gap: 10px; }
-.marca img { width: 42px; height: 42px; object-fit: contain; }
-.marca span { font-weight: 900; font-size: 17px; letter-spacing: -.01em; }
-.handle { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .72; }
+.marca { display: flex; align-items: center; gap: 8px; }
+.marca img { width: 30px; height: 30px; object-fit: contain; }
+.marca span { font-weight: 900; font-size: 14px; letter-spacing: -.01em; }
 
-/* ══════════════ FRENTE ══════════════ */
-.frente {
-  background:
-    radial-gradient(ellipse 150mm 90mm at 84% 3%, rgba(245,200,66,.26) 0%, transparent 62%),
-    radial-gradient(ellipse 150mm 105mm at 4% 98%, rgba(96,77,246,.9) 0%, transparent 62%),
-    linear-gradient(168deg, #5a46f8 0%, #503bf6 34%, #2e1f9e 76%, #180e4e 100%);
-  color: #fff;
-}
-.frente .handle { color: rgba(255,255,255,.72); }
+.eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--indigo); display: flex; align-items: center; gap: 8px; }
+.eyebrow::before { content: ''; width: 20px; height: 2px; background: currentColor; }
+.eyebrow.claro { color: rgba(255,255,255,.75); }
 
-.gancho { margin-top: 8mm; }
-.gancho .l1 { font-size: 58px; line-height: 1; }
-.gancho .l2 { font-size: 25px; font-weight: 900; line-height: 1.22; letter-spacing: -.02em; margin-top: 8mm; max-width: 112mm; }
-.gancho .l3 { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.85); margin-top: 4mm; max-width: 105mm; }
-
-.coruja {
-  position: absolute; right: -16mm; top: 62mm;
-  width: 112mm; z-index: 1;
-  filter: drop-shadow(0 16px 34px rgba(10,6,40,.5));
-}
-
-.dores { margin-top: 8mm; display: flex; flex-direction: column; gap: 5px; max-width: 104mm; }
-.dores div { font-size: 13px; line-height: 1.4; font-weight: 600; color: rgba(255,255,255,.93); display: flex; gap: 8px; }
-.dores i { font-style: normal; color: var(--yellow); font-weight: 900; }
+h2.tit { font-size: 25px; font-weight: 900; line-height: 1.16; letter-spacing: -.025em; color: var(--navy); margin-top: 7px; }
+h2.tit .hl { font-size: 25px; }
+p.lead { font-size: 12px; line-height: 1.55; color: var(--muted); }
+p.lead b { color: var(--navy); font-weight: 800; }
 
 .fita {
   background: var(--yellow); color: var(--navy);
-  border-top: 3px solid var(--navy); border-bottom: 3px solid var(--navy);
-  transform: rotate(-.6deg);
-  width: 124%; margin-left: -12%;
-  padding: 7px 0; text-align: center;
-  font-size: 13.5px; font-weight: 900;
+  border: 3px solid var(--navy); border-radius: 12px;
+  box-shadow: 5px 6px 0 rgba(24,14,78,.22);
+  transform: rotate(-.8deg);
+  padding: 6px 10px; text-align: center;
+  font-size: 12px; font-weight: 900; line-height: 1.25;
+}
+/* Sangra só até a borda de corte da esquerda; para antes do vinco. */
+.fita.sangra-esq {
+  width: calc(100% + 9mm); margin-left: -9mm;
+  border-left: none; border-radius: 0 12px 12px 0;
+  box-shadow: 4px 6px 0 rgba(24,14,78,.22);
 }
 
-.virada { margin-top: 13mm; }
-.virada h2 { font-size: 27px; font-weight: 900; line-height: 1.2; letter-spacing: -.025em; }
-.virada h2 .hl { font-size: 27px; }
-.chat { background: rgba(13,8,50,.55); border: 1.5px solid rgba(255,255,255,.18); border-radius: 18px; padding: 14px 16px; margin-top: 6mm; }
-.chat .quem { font-size: 9.5px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); }
-.chat .fala { background: var(--indigo); border-radius: 13px; padding: 7px 12px; font-size: 12.5px; font-weight: 600; display: inline-block; margin: 3px 0 8px; }
-.chk { display: flex; gap: 8px; font-size: 13px; line-height: 1.5; margin: 4px 0; }
+/* ══════════ CAPA ══════════ */
+.capa {
+  background:
+    radial-gradient(ellipse 90mm 70mm at 88% 2%, rgba(245,200,66,.25) 0%, transparent 62%),
+    linear-gradient(166deg, #5a46f8 0%, #503bf6 30%, #2e1f9e 74%, #180e4e 100%);
+  color: #fff;
+}
+.capa .handle { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-top: 2px; }
+.capa .g1 { font-size: 40px; line-height: 1; margin-top: 9mm; }
+.capa .g2 { font-size: 30px; line-height: 1; margin-top: 5mm; }
+.capa .sub { font-size: 18px; font-weight: 900; line-height: 1.26; letter-spacing: -.02em; margin-top: 8mm; }
+.capa .sub2 { font-size: 11.5px; line-height: 1.55; color: rgba(255,255,255,.84); margin-top: 4mm; }
+.capa-owl {
+  position: absolute; left: 50%; transform: translateX(-46%);
+  bottom: 26mm; width: 92mm; z-index: 1;
+  filter: drop-shadow(0 14px 30px rgba(10,6,40,.5));
+}
+.capa .fim p { font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.82); margin-top: 4mm; line-height: 1.45; }
+.capa .url { font-size: 11px; font-weight: 900; color: var(--yellow); margin-top: 2mm; }
+
+/* ══════════ INTERNA (dor + virada) ══════════ */
+.interna { background: var(--paper); }
+.dores { margin-top: 6mm; display: flex; flex-direction: column; gap: 7px; }
+.dores div { display: flex; gap: 7px; font-size: 12px; line-height: 1.5; color: var(--navy); font-weight: 600; }
+.dores i { font-style: normal; color: var(--indigo); font-weight: 900; }
+
+.chat { background: var(--navy); border-radius: 15px; padding: 13px 13px; color: #fff; margin-top: 5mm; }
+.chat .quem { font-size: 8.5px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+.chat .fala { background: var(--indigo); border-radius: 11px; padding: 6px 10px; font-size: 11px; font-weight: 600; display: inline-block; margin: 3px 0 7px; line-height: 1.35; }
+.chk { display: flex; gap: 7px; font-size: 11.5px; line-height: 1.5; margin: 4px 0; }
 .chk i { font-style: normal; color: var(--yellow); font-weight: 900; }
 
-.numeros { display: flex; gap: 9mm; background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.22); border-radius: 16px; padding: 13px 18px; }
-.numeros div { font-size: 11.5px; line-height: 1.35; font-weight: 600; color: rgba(255,255,255,.88); }
-.numeros b { display: block; font-size: 22px; font-weight: 900; color: var(--yellow); }
+.numeros { display: flex; gap: 4mm; }
+.numeros div { flex: 1; background: #fff; border: 2px solid #e2e5f5; border-radius: 12px; padding: 8px 6px; text-align: center; }
+.numeros b { display: block; font-family: 'Rozha One', serif; font-size: 21px; color: var(--indigo); line-height: 1.05; white-space: nowrap; }
+.numeros b .un { display: inline; margin-left: 2px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 900; }
+.numeros span { display: block; font-size: 8.5px; font-weight: 700; color: var(--muted); line-height: 1.25; margin-top: 2px; }
 
-.rodape-frente { display: flex; align-items: center; gap: 5mm; margin-top: 5mm; }
-.rodape-frente p { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.85); }
+/* ══════════ CONTRA CAPA (oferta) ══════════ */
+.contra {
+  background:
+    radial-gradient(ellipse 80mm 60mm at 90% 96%, rgba(245,200,66,.18) 0%, transparent 62%),
+    linear-gradient(162deg, #5a46f8 0%, #3b2cbe 50%, #180e4e 100%);
+  color: #fff;
+}
+.contra h2 { font-size: 21px; font-weight: 900; line-height: 1.2; letter-spacing: -.025em; margin-top: 7px; }
+.contra h2 .hl { font-size: 21px; }
+.plano { border: 1.5px solid rgba(255,255,255,.26); border-radius: 13px; padding: 7px 10px; margin-top: 2.5mm; }
+.plano.pro { background: #fff; color: var(--navy); border: 2.5px solid var(--navy); box-shadow: 5px 5px 0 rgba(0,0,0,.4); }
+.plano .nome { font-size: 9px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.plano .pr { font-family: 'Rozha One', serif; font-size: 22px; line-height: 1.15; color: var(--yellow); }
+.plano.pro .nome { color: var(--indigo); opacity: 1; }
+.plano.pro .pr { color: var(--indigo); }
+.plano .pr small { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; color: var(--muted); }
+.plano .sub { font-size: 9px; line-height: 1.38; opacity: .84; margin-top: 2px; }
+.plano.pro .sub { color: var(--muted); opacity: 1; }
 
-/* ══════════════ VERSO ══════════════ */
-.eyebrow { font-size: 10.5px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--indigo); display: flex; align-items: center; gap: 9px; }
-.eyebrow::before { content: ''; width: 26px; height: 2px; background: currentColor; }
-h2.tit { font-size: 29px; font-weight: 900; line-height: 1.14; letter-spacing: -.025em; color: var(--navy); margin-top: 8px; }
-h2.tit .hl { font-size: 29px; }
-p.lead { font-size: 13.5px; line-height: 1.58; color: var(--muted); }
-p.lead b { color: var(--navy); font-weight: 800; }
+.qr { background: #fff; border: 2.5px solid var(--navy); border-radius: 13px; padding: 7px 9px; display: flex; gap: 8px; align-items: center; box-shadow: 5px 5px 0 rgba(0,0,0,.4); margin-top: 2.5mm; }
+.qr img { width: 20mm; height: 20mm; flex-shrink: 0; }
+.qr b { display: block; font-size: 11.5px; font-weight: 900; color: var(--navy); line-height: 1.18; }
+.qr span { display: block; font-size: 9px; line-height: 1.35; color: var(--muted); margin-top: 3px; }
+.qr .url { font-size: 10px; font-weight: 800; color: var(--indigo); margin-top: 3px; }
 
-.grade { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; margin-top: 5mm; }
-.item { background: #fff; border: 2px solid #e2e5f5; border-radius: 15px; padding: 9px 11px; }
-.item .tag { font-size: 9.5px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo); }
-.item b { display: block; font-size: 15px; font-weight: 900; color: var(--navy); margin: 2px 0 3px; line-height: 1.18; }
-.item p { font-size: 11px; line-height: 1.42; color: var(--muted); }
+.tcc { font-size: 9px; line-height: 1.45; color: rgba(255,255,255,.85); margin-top: 3mm; }
+.tcc b { color: #fff; }
+.rodape { font-size: 8px; color: rgba(255,255,255,.55); font-weight: 600; margin-top: 1.5mm; }
 
-.bncc { background: var(--navy); color: #fff; border-radius: 16px; padding: 10px 14px; margin-top: 3.5mm; display: flex; align-items: center; gap: 6mm; }
-.bncc .n { font-family: 'Rozha One', serif; font-size: 32px; color: var(--yellow); line-height: 1; }
-.bncc p { font-size: 11.5px; line-height: 1.48; }
+/* ══════════ MIOLO ══════════ */
+.item { background: #fff; border: 2px solid #e2e5f5; border-radius: 14px; padding: 9px 11px; margin-top: 3.5mm; }
+.item .tag { font-size: 9px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo); }
+.item b { display: block; font-size: 13.5px; font-weight: 900; color: var(--navy); margin: 2px 0 3px; line-height: 1.18; }
+.item p { font-size: 10.5px; line-height: 1.42; color: var(--muted); }
+
+.bncc { background: var(--navy); color: #fff; border-radius: 14px; padding: 10px 12px; }
+.bncc .n { font-family: 'Rozha One', serif; font-size: 30px; color: var(--yellow); line-height: 1; }
+.bncc p { font-size: 10.5px; line-height: 1.48; margin-top: 3px; }
 .bncc p span { color: rgba(255,255,255,.72); }
 
-.jogos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; margin-top: 4mm; }
-.jogo { border: 2.5px solid var(--navy); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 4px 5px 0 rgba(24,14,78,.16); }
-.jogo img { width: 100%; height: 19mm; object-fit: cover; display: block; }
-.jogo .t { padding: 5px 8px 7px; }
-.jogo b { display: block; font-size: 12.5px; font-weight: 900; color: var(--navy); }
-.jogo span { font-size: 10.5px; line-height: 1.38; color: var(--muted); display: block; margin-top: 2px; }
+.jogo { border: 2.5px solid var(--navy); border-radius: 13px; overflow: hidden; background: #fff; box-shadow: 4px 5px 0 rgba(24,14,78,.15); margin-top: 3.5mm; }
+.jogo img { width: 100%; height: 21mm; object-fit: cover; display: block; }
+.jogo .t { padding: 5px 9px 7px; }
+.jogo b { display: block; font-size: 12px; font-weight: 900; color: var(--navy); }
+.jogo span { display: block; font-size: 10px; line-height: 1.38; color: var(--muted); margin-top: 2px; }
 
-.pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3mm; }
-.pill { font-size: 10.5px; font-weight: 700; color: var(--navy); background: #fff; border: 1.5px solid #dcdff2; border-radius: 999px; padding: 3px 10px; }
+.pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3.5mm; }
+.foto { margin-top: 3.5mm; border: 2.5px solid var(--navy); border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 4px 5px 0 rgba(24,14,78,.15); }
+.foto img { width: 100%; height: 35mm; object-fit: cover; display: block; }
+.foto p { padding: 7px 10px 9px; font-size: 10px; line-height: 1.45; color: var(--muted); }
+.pill { font-size: 9.5px; font-weight: 700; color: var(--navy); background: #fff; border: 1.5px solid #dcdff2; border-radius: 999px; padding: 3px 9px; }
 
-/* ── Bloco de oferta ────────────────────────────────────────── */
-.oferta {
-  background:
-    radial-gradient(ellipse 110mm 60mm at 92% 100%, rgba(245,200,66,.2) 0%, transparent 62%),
-    linear-gradient(160deg, #5a46f8 0%, #3b2cbe 52%, #180e4e 100%);
-  color: #fff; border-radius: 20px; padding: 12px 14px 13px;
-}
-.oferta h3 { font-size: 20px; font-weight: 900; line-height: 1.18; letter-spacing: -.02em; }
-.oferta h3 .hl { font-size: 20px; }
-.precos { display: grid; grid-template-columns: 1fr 1.25fr; gap: 3.5mm; margin-top: 3.5mm; }
-.preco { border: 1.5px solid rgba(255,255,255,.26); border-radius: 14px; padding: 8px 11px; }
-.preco.pro { background: #fff; color: var(--navy); border: 2.5px solid var(--navy); box-shadow: 5px 5px 0 rgba(0,0,0,.4); }
-.preco .nome { font-size: 9.5px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
-.preco .pr { font-family: 'Rozha One', serif; font-size: 25px; line-height: 1.15; color: var(--yellow); }
-.preco.pro .pr { color: var(--indigo); }
-.preco .pr small { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; color: var(--muted); }
-.preco .sub { font-size: 10px; line-height: 1.38; opacity: .82; margin-top: 2px; }
-.preco.pro .sub { color: var(--muted); opacity: 1; }
-
-.contatos { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; margin-top: 3.5mm; }
-.qr { background: #fff; border: 2.5px solid var(--navy); border-radius: 15px; padding: 8px 10px; display: flex; gap: 9px; align-items: center; box-shadow: 5px 5px 0 rgba(0,0,0,.4); }
-.qr img { width: 22mm; height: 22mm; }
-.qr b { display: block; font-size: 13px; font-weight: 900; color: var(--navy); line-height: 1.15; }
-.qr span { display: block; font-size: 10px; line-height: 1.4; color: var(--muted); margin-top: 3px; }
-.qr .url { font-size: 10.5px; font-weight: 800; color: var(--indigo); margin-top: 4px; }
-
-.assina { display: flex; align-items: center; gap: 4mm; margin-top: 3.5mm; }
-.assina p { font-size: 10.5px; line-height: 1.45; color: rgba(255,255,255,.85); }
-.assina p b { color: #fff; }
-
-.rodape { display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; color: #9aa0b5; font-weight: 600; margin-top: 3mm; }
+/* ══════════ Guias de conferência (só no PDF de prova) ══════════ */
+.guia { display: none; position: absolute; z-index: 50; pointer-events: none; }
+body.guias .guia { display: block; }
+.guia.corte  { border: 1px dashed #e11d48; inset: 3mm 3mm; }
+.guia.seg    { border: 1px dashed #06b6d4; inset: 9mm 9mm; }
+.guia.dobra  { top: 0; bottom: 0; width: 0; border-left: 1px dashed #e11d48; }
+.guia.rot    { top: 2mm; font-size: 8px; color: #e11d48; font-family: 'Inter', sans-serif; font-weight: 700; background: #fff; padding: 0 3px; }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════ FRENTE ══════════════════ -->
-<section class="page frente">
-  <img src="../illu-01.png" alt="" class="coruja">
-  <div class="pad">
-    <div class="topo">
-      <div class="marca"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
-      <div class="handle">@prof.corujão</div>
-    </div>
+<!-- ═══════════════════ PARTE EXTERNA ═══════════════════
+     esquerda → direita: Interna (97) | Contra Capa (100) | Capa (100)
+     ═════════════════════════════════════════════════════ -->
+<section class="folha">
 
-    <div class="gancho">
-      <div class="l1"><span class="display hl on-dark">Ei Professor(a)</span></div>
-      <div class="l2">Cansado de fazer tudo sozinho e sem tempo de sobra?</div>
-      <div class="l3">Pouco tempo, muita cobrança, sobrecarga que ninguém vê de fora.</div>
-    </div>
+  <!-- ── Painel Interna: 0 → 100 mm (sangria 3 + painel 97) ── -->
+  <div class="painel interna esq" style="left:0; width:100mm">
+    <div class="conteudo">
+      <div class="eyebrow">A realidade da sala</div>
+      <h2 class="tit">Isso soa <span class="hl">familiar?</span></h2>
 
-    <div class="dores">
-      <div><i>›</i><span>Janta pensando na aula de amanhã e deita planejando a próxima semana.</span></div>
-      <div><i>›</i><span>Seis turmas, seis planejamentos. Inspiração não aparece por decreto às 22h.</span></div>
-      <div><i>›</i><span>Notas, chamada, provas, relatórios. Some um domingo e a pilha continua ali.</span></div>
-    </div>
+      <div class="dores">
+        <div><i>›</i><span>Janta pensando na aula de amanhã e deita planejando a próxima semana.</span></div>
+        <div><i>›</i><span>Seis turmas, seis planejamentos. Inspiração não aparece por decreto às 22h.</span></div>
+        <div><i>›</i><span>Notas, chamada, provas, relatórios. Some um domingo e a pilha continua ali.</span></div>
+      </div>
 
-    <div style="margin-top:7mm">
-      <div class="fita">O corpo sai da sala. A cabeça não.</div>
-    </div>
+      <div style="margin-top:8mm"><div class="fita sangra-esq">O corpo sai da sala. A cabeça não.</div></div>
 
-    <div class="virada">
-      <h2>Você escreve o tema.<br>Ele monta <span class="hl on-dark tr">o resto.</span></h2>
+      <div style="margin-top:9mm">
+        <div class="eyebrow">A virada</div>
+        <h2 class="tit" style="font-size:22px">Você escreve o tema.<br>Ele monta <span class="hl tr" style="font-size:22px">o resto.</span></h2>
+      </div>
+
       <div class="chat">
         <div class="quem">Professor</div>
         <div class="fala">Fotossíntese, 8º ano. Algo que engaje a turma.</div>
         <div class="quem">Corujão, em cerca de 4 segundos</div>
-        <div style="margin-top:5px">
+        <div style="margin-top:4px">
           <div class="chk"><i>✓</i><span>Plano completo, com as habilidades da BNCC conferidas uma a uma</span></div>
           <div class="chk"><i>✓</i><span>Prova com gabarito e atividade pronta para imprimir</span></div>
           <div class="chk"><i>✓</i><span>Slides com imagens, exportáveis em PowerPoint</span></div>
-          <div class="chk"><i>✓</i><span>Um jogo do conteúdo, para fechar a semana com a turma</span></div>
+          <div class="chk"><i>✓</i><span>Um jogo do conteúdo, para fechar a semana</span></div>
+        </div>
+      </div>
+
+      <div class="mt-a" style="padding-top:5mm">
+        <div class="numeros">
+          <div><b>1.580</b><span>habilidades<br>da BNCC</span></div>
+          <div><b>9</b><span>jogos<br>com IA</span></div>
+          <div><b>~4<span class="un">seg</span></b><span>por<br>material</span></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="mt-a" style="padding-top:6mm">
-      <div class="numeros">
-        <div><b>1.580</b>habilidades da BNCC<br>conferidas uma a uma</div>
-        <div><b>9</b>jogos gerados<br>a partir da sua aula</div>
-        <div><b>~4s</b>para o material<br>ficar pronto</div>
+  <!-- ── Painel Contra Capa: 100 → 200 mm ── -->
+  <div class="painel contra" style="left:100mm; width:100mm">
+    <div class="conteudo">
+      <div class="marca"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+
+      <div style="margin-top:5mm">
+        <div class="eyebrow claro">Como começar</div>
+        <h2>Teste sete dias. Depois você <span class="hl on-dark tr">decide.</span></h2>
       </div>
-      <div class="rodape-frente">
+
+      <p style="font-size:10.5px;line-height:1.5;color:rgba(255,255,255,.85);margin-top:3.5mm">
+        Criação ilimitada por sete dias, sem cartão. Passado o prazo,
+        <b style="color:#fff">o material que você já criou continua seu</b>.
+      </p>
+
+      <div class="plano">
+        <div class="nome">Acesso gratuito</div>
+        <div class="pr">7 dias</div>
+        <div class="sub">Tudo liberado, sem cartão e sem compromisso.</div>
+      </div>
+      <div class="plano pro">
+        <div class="nome">★ Apoiador Pro</div>
+        <div class="pr">R$ 59,90<small> /mês</small></div>
+        <div class="sub">Sem prazo e sem fidelidade. Menos de R$ 2 por dia, o preço de um café.</div>
+      </div>
+
+      <div class="qr">
+        <img src="assets/qr-app.svg" alt="QR code para testar grátis">
+        <div>
+          <b>Aponte a câmera<br>e teste grátis</b>
+          <span>Celular, tablet ou computador.</span>
+          <div class="url">app.profcorujao.com.br</div>
+        </div>
+      </div>
+      <div class="qr">
+        <img src="assets/qr-whats.svg" alt="QR code do WhatsApp">
+        <div>
+          <b>Ficou com dúvida?<br>Fale comigo</b>
+          <span>WhatsApp direto com quem desenvolveu.</span>
+          <div class="url">(98) 98179-6309</div>
+        </div>
+      </div>
+
+      <div class="mt-a" style="padding-top:2mm">
         <span class="selo">7 dias grátis · sem cartão</span>
-        <p>Vire a folha e veja tudo o que ele faz.</p>
+        <p class="tcc">
+          <b>Não é uma empresa. É um TCC.</b> Construí o Prof. Corujão sozinho, para
+          professores que eu vi trabalhando até tarde com o que tinham.<br><b>Lyelson Martins</b>
+        </p>
+        <div class="rodape">© 2026 Prof. Corujão · @prof.corujão</div>
       </div>
     </div>
   </div>
+
+  <!-- ── Painel Capa: 200 → 303 mm (painel 100 + sangria 3) ── -->
+  <div class="painel capa dir" style="left:200mm; width:103mm">
+    <img src="../illu-01.png" alt="" class="capa-owl">
+    <div class="conteudo">
+      <div class="marca"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+      <div class="handle">@prof.corujão</div>
+
+      <div class="g1"><span class="display hl on-dark">Ei</span></div>
+      <div class="g2"><span class="display hl on-dark tr">Professor(a)</span></div>
+
+      <div class="sub">Cansado de fazer tudo sozinho e sem tempo de sobra?</div>
+      <div class="sub2">Pouco tempo, muita cobrança, sobrecarga que ninguém vê de fora.</div>
+
+      <div class="mt-a fim">
+        <span class="selo">7 dias grátis · sem cartão</span>
+        <p>O assistente de IA feito por professor, para professor.<br>Abra e veja o que ele resolve.</p>
+        <div class="url">app.profcorujao.com.br</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guia corte"></div>
+  <div class="guia seg"></div>
+  <div class="guia dobra" style="left:100mm"></div>
+  <div class="guia dobra" style="left:200mm"></div>
+  <div class="guia rot" style="left:5mm">EXTERNA · Interna 97 | Contra Capa 100 | Capa 100</div>
 </section>
 
-<!-- ══════════════════ VERSO ══════════════════ -->
-<section class="page">
-  <div class="pad">
-    <div class="eyebrow">O que vem junto</div>
-    <h2 class="tit">Meia dúzia de apps num <span class="hl">só lugar.</span></h2>
+<!-- ═══════════════════ PARTE INTERNA ═══════════════════
+     esquerda → direita: Verso Capa (100) | Verso Contra Capa (100) |
+                         Verso Interna (97)
+     Miolo contínuo: fundo claro atravessa os três painéis.
+     ═════════════════════════════════════════════════════ -->
+<section class="folha" style="background:linear-gradient(160deg,#ffffff 0%, var(--paper) 42%, var(--lilac) 100%)">
 
-    <div class="grade">
+  <!-- ── Verso Capa: 0 → 103 mm ── -->
+  <div class="painel esq" style="left:0; width:103mm">
+    <div class="conteudo">
+      <div class="eyebrow">O que vem junto</div>
+      <h2 class="tit">Meia dúzia de apps num <span class="hl">só lugar.</span></h2>
+      <p class="lead" style="margin-top:4mm">
+        Cada ferramenta resolve uma dor que você tem hoje. Juntas, devolvem as
+        horas que o planejamento come da sua semana.
+      </p>
+
       <div class="item">
         <div class="tag">★ Carro-chefe</div>
         <b>Planejador</b>
-        <p>Digite o tema e a turma. Volta o plano inteiro, com os tempos ajustados à duração real da sua aula, mais prova, slides e sequência didática.</p>
+        <p>Digite o tema e a turma. Volta o plano inteiro, com os tempos ajustados
+        à duração real da sua aula, mais prova com gabarito, slides e a sequência
+        didática das próximas aulas.</p>
       </div>
+
       <div class="item">
         <div class="tag">Turma gamificada</div>
         <b>O comportamento vira ponto</b>
-        <p>XP, moedas, níveis, equipes e missões da semana. A loja não dá prêmio material: dá ser ajudante do dia ou escolher a música da aula.</p>
+        <p>XP, moedas, níveis, equipes e missões da semana. A loja de recompensas
+        não dá prêmio material: dá ser ajudante do dia, escolher a música da aula
+        ou levar um recado positivo para casa.</p>
       </div>
+
       <div class="item">
-        <div class="tag">Agenda &amp; diário</div>
-        <b>O ano letivo a partir de um PDF</b>
-        <p>Manda o calendário da escola em PDF e a IA preenche feriados, recessos e eventos. Chamada, anotações e conceitos por aluno também ficam aqui.</p>
+        <div class="tag">Chat pedagógico</div>
+        <b>Um colega, não um robô</b>
+        <p>Assistente especializado em educação: tira dúvida, sugere abordagem e
+        dá feedback sobre a sua prova. Aceita arquivos e imagens, e o histórico
+        fica sincronizado entre celular e computador.</p>
       </div>
-      <div class="item">
-        <div class="tag">Kit do Professor</div>
-        <b>A burocracia do domingo</b>
-        <p>Lista de chamada, adaptação inclusiva para TDAH, TEA e dislexia, rubrica de avaliação, bilhete para a família e aula a partir de um vídeo do YouTube.</p>
-      </div>
-    </div>
 
-    <div class="bncc">
-      <div class="n">1.580</div>
-      <p>
-        <b>habilidades da BNCC conferidas contra o documento oficial do MEC</b>, uma a uma.<br>
-        <span>Toda IA diz que é “alinhada à BNCC”. Aqui o código é comparado antes de chegar em você, e o que não bate é reescrito. Seu plano não sai com habilidade inventada.</span>
-      </p>
-    </div>
-
-    <div style="margin-top:5mm">
-      <div class="eyebrow">A parte que a turma pede de novo</div>
-      <h2 class="tit" style="font-size:25px">Qualquer conteúdo <span class="hl tr" style="font-size:25px">vira jogo.</span></h2>
-    </div>
-
-    <div class="jogos">
-      <div class="jogo">
-        <img src="../illu-mundo-perdido.jpg" alt="Mundo Perdido">
-        <div class="t"><b>Mundo Perdido</b><span>Aventura narrativa que o aluno joga sozinho, no próprio ritmo.</span></div>
-      </div>
-      <div class="jogo">
-        <img src="../illu-quiz-relampago.png" alt="Quiz Relâmpago">
-        <div class="t"><b>Quiz Relâmpago</b><span>Dez rodadas no projetor. Fecha a aula em cinco minutos.</span></div>
-      </div>
-      <div class="jogo">
-        <img src="../illu-batalha.jpg" alt="QuaqueMagia">
-        <div class="t"><b>QuaqueMagia</b><span>Combate por acertos entre as equipes da turma.</span></div>
-      </div>
-    </div>
-
-    <div class="pills">
-      <span class="pill">Escape Room em 4 ambientações</span><span class="pill">Caça-palavras</span>
-      <span class="pill">Cruzadas</span><span class="pill">Bingo</span><span class="pill">Memória</span>
-      <span class="pill">Flashcards</span><span class="pill">Tudo pronto para imprimir</span>
-      <span class="pill">Exporta em Word e PowerPoint</span>
-    </div>
-
-    <div class="mt-a" style="padding-top:5mm">
-      <div class="oferta">
-        <h3>Teste sete dias. Depois você <span class="hl on-dark tr">decide.</span></h3>
-
-        <div class="precos">
-          <div class="preco">
-            <div class="nome">Acesso gratuito</div>
-            <div class="pr">7 dias</div>
-            <div class="sub">Criação ilimitada, sem cartão de crédito. Passado o prazo, o material que você criou continua seu.</div>
-          </div>
-          <div class="preco pro">
-            <div class="nome" style="color:var(--indigo)">★ Apoiador Pro</div>
-            <div class="pr">R$ 59,90<small> /mês</small></div>
-            <div class="sub">Sem prazo e sem fidelidade. Menos de R$ 2 por dia, o preço de um café, para recuperar horas de planejamento toda semana.</div>
-          </div>
-        </div>
-
-        <div class="contatos">
-          <div class="qr">
-            <img src="assets/qr-app.svg" alt="QR code para testar grátis">
-            <div>
-              <b>Aponte a câmera<br>e teste grátis</b>
-              <span>Funciona no celular, no tablet e no computador.</span>
-              <div class="url">app.profcorujao.com.br</div>
-            </div>
-          </div>
-          <div class="qr">
-            <img src="assets/qr-whats.svg" alt="QR code do WhatsApp">
-            <div>
-              <b>Ficou com dúvida?<br>Fale comigo</b>
-              <span>WhatsApp direto com quem desenvolveu o app.</span>
-              <div class="url">(98) 98179-6309</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="assina">
-          <span class="selo">7 dias grátis · sem cartão</span>
+      <div class="mt-a" style="padding-top:4mm">
+        <div class="bncc">
+          <div class="n">1.580</div>
           <p>
-            <b>Não é uma empresa. É um TCC.</b> Construí o Prof. Corujão sozinho, para os professores
-            que eu vi trabalhando até tarde com o que tinham. <b>Lyelson Martins</b>
+            <b>habilidades da BNCC conferidas contra o documento oficial do MEC.</b><br>
+            <span>Toda IA diz que é “alinhada à BNCC”. Aqui o código é comparado antes de chegar
+            em você, e o que não bate é reescrito. Seu plano não sai com habilidade inventada.</span>
           </p>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="rodape">
-        <span>© 2026 Prof. Corujão · IA Educacional</span>
-        <span>app.profcorujao.com.br · @prof.corujão</span>
+  <!-- ── Verso Contra Capa: 103 → 203 mm ── -->
+  <div class="painel" style="left:103mm; width:100mm">
+    <div class="conteudo">
+      <div class="item" style="margin-top:0">
+        <div class="tag">Agenda &amp; diário de bordo</div>
+        <b>O ano letivo a partir de um PDF</b>
+        <p>Manda o calendário da escola em PDF e a IA preenche feriados, recessos,
+        reuniões e eventos. A ementa vira aulas distribuídas no ano, e o lembrete
+        chega no celular meia hora antes da aula.</p>
+      </div>
+
+      <div class="item">
+        <div class="tag">Kit do Professor</div>
+        <b>A burocracia do domingo</b>
+        <p>Lista de chamada pronta para imprimir, adaptação inclusiva para TDAH,
+        TEA, dislexia e baixa visão, rubrica de avaliação, nivelador de texto,
+        bilhete para a família e aula a partir de um vídeo do YouTube.</p>
+      </div>
+
+      <div class="foto">
+        <img src="../illu-06a.jpg" alt="Escape Room impresso gerado pelo app">
+        <p>O caderno da sala de escape sai pronto para imprimir, com pistas,
+        gabarito e cartelas. A aula acontece sem projetor e sem celular na mão
+        do aluno.</p>
+      </div>
+
+      <div class="item">
+        <div class="tag">Acervo</div>
+        <b>Nada se perde entre um bimestre e outro</b>
+        <p>Biblioteca pessoal com busca e filtro por tipo, mais um acervo
+        compartilhado com materiais curados.</p>
+      </div>
+
+      <div style="margin-top:4mm">
+        <div class="eyebrow">Na hora da aula, no projetor</div>
+        <div class="pills">
+          <span class="pill">Sorteador</span><span class="pill">Cronômetro</span>
+          <span class="pill">Grupos</span><span class="pill">Medidor de ruído</span>
+          <span class="pill">Semáforo</span><span class="pill">Dado</span>
+          <span class="pill">Placar de equipes</span>
+        </div>
+      </div>
+
+      <div class="mt-a" style="padding-top:4mm">
+        <div class="fita">Exporta em Word e PowerPoint.<br>O material é seu, para editar e imprimir.</div>
       </div>
     </div>
   </div>
+
+  <!-- ── Verso Interna: 203 → 303 mm (painel 97 + sangria 3) ── -->
+  <div class="painel dir" style="left:203mm; width:100mm">
+    <div class="conteudo">
+      <div class="eyebrow">A parte que a turma pede de novo</div>
+      <h2 class="tit" style="font-size:23px">Qualquer conteúdo <span class="hl tr" style="font-size:23px">vira jogo.</span></h2>
+      <p class="lead" style="margin-top:3.5mm;font-size:11px">
+        A IA escreve as perguntas pela disciplina e pelo nível da turma. Quem monta
+        a grade e sorteia as cartelas é o app: <b>o jogo sempre sai jogável.</b>
+      </p>
+
+      <div class="jogo">
+        <img src="../illu-mundo-perdido.jpg" alt="Mundo Perdido">
+        <div class="t"><b>Mundo Perdido</b><span>Aventura narrativa em tela cheia. O aluno joga sozinho, no próprio ritmo, e as escolhas mudam o final.</span></div>
+      </div>
+      <div class="jogo">
+        <img src="../illu-quiz-relampago.png" alt="Quiz Relâmpago">
+        <div class="t"><b>Quiz Relâmpago</b><span>Dez rodadas rápidas no projetor. Fecha a aula ou revisa a semana em cinco minutos.</span></div>
+      </div>
+      <div class="jogo">
+        <img src="../illu-batalha.jpg" alt="QuaqueMagia">
+        <div class="t"><b>QuaqueMagia</b><span>Combate por acertos entre as equipes da turma, com dano crítico e virada no Modo Fúria.</span></div>
+      </div>
+
+      <div class="pills">
+        <span class="pill">Escape Room em 4 ambientações</span><span class="pill">Caça-palavras</span>
+        <span class="pill">Cruzadas</span><span class="pill">Bingo</span><span class="pill">Memória</span>
+        <span class="pill">Flashcards</span><span class="pill">Tudo pronto para imprimir</span>
+      </div>
+
+      <div class="mt-a" style="padding-top:4mm;text-align:center">
+        <span class="hl" style="font-size:12px;font-weight:900;margin-right:6px">app.profcorujao.com.br</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="guia corte"></div>
+  <div class="guia seg"></div>
+  <div class="guia dobra" style="left:103mm"></div>
+  <div class="guia dobra" style="left:203mm"></div>
+  <div class="guia rot" style="left:5mm">INTERNA · Verso Capa 100 | Verso Contra Capa 100 | Verso Interna 97</div>
 </section>
 
 </body>
