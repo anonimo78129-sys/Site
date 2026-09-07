@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Prof. Corujão — Folder de prospecção</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   FOLDER PROF. CORUJÃO — A4 · 6 páginas · impressão frente/verso
+   Identidade: base índigo/violeta + adesivos amarelos (borda navy,
+   sombra dura sem blur). Nunca emoji de coruja: sempre a logo.png.
+   ═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --violet:      #503bf6;
+  --violet-lt:   #604df6;
+  --violet-pan:  #3d2bc9;
+  --indigo:      #4659ff;
+  --navy:        #180e4e;
+  --yellow:      #f5c842;
+  --green:       #10b981;
+  --green-ink:   #063a28;
+  --lilac:       #eef0ff;
+  --paper:       #f8f9fe;
+  --ink:         #0c1015;
+  --muted:       #5b6070;
+}
+
+@page { size: A4; margin: 0; }
+
+html, body {
+  font-family: 'Inter', 'Liberation Sans', sans-serif;
+  color: var(--ink);
+  background: #d8dbe6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  position: relative;
+  width: 210mm; height: 297mm;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  background: var(--paper);
+  margin: 0 auto;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+@media screen { .page { margin: 0 auto 10mm; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
+
+.pad { padding: 16mm 15mm; height: 100%; display: flex; flex-direction: column; }
+
+/* ── Adesivo amarelo: o componente assinatura ───────────────── */
+.hl {
+  --tilt: -1.2deg;
+  display: inline-block;
+  background: var(--yellow); color: var(--navy);
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  padding: .02em .3em .1em;
+  box-shadow: 6px 7px 0 var(--navy);
+  transform: rotate(var(--tilt));
+  line-height: 1.1;
+}
+.hl.tr { --tilt: 1.3deg; }
+.hl.on-dark { box-shadow: 6px 7px 0 rgba(0,0,0,.55); }
+
+.selo {
+  display: inline-block; white-space: nowrap;
+  background: var(--green); color: var(--green-ink);
+  border: 2.5px solid var(--green-ink);
+  border-radius: 10px;
+  padding: 4px 13px 5px;
+  font-size: 11.5px; font-weight: 900;
+  letter-spacing: .08em; text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--green-ink);
+  transform: rotate(-1deg);
+}
+
+/* ── Tipografia ─────────────────────────────────────────────── */
+.display { font-family: 'Rozha One', 'Liberation Serif', serif; font-weight: 400; text-transform: uppercase; letter-spacing: .005em; }
+.serif-it { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+
+.eyebrow {
+  font-size: 10.5px; font-weight: 800;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--indigo);
+  display: flex; align-items: center; gap: 9px;
+}
+.eyebrow::before { content: ''; width: 26px; height: 2px; background: currentColor; }
+.eyebrow.light { color: rgba(255,255,255,.8); }
+
+h2.tit {
+  font-size: 36px; font-weight: 900; line-height: 1.12;
+  letter-spacing: -.025em; color: var(--navy);
+  margin: 9px 0 0;
+}
+h2.tit .hl { font-size: 36px; }
+p.lead { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+p.lead b, p.lead strong { color: var(--navy); font-weight: 800; }
+
+/* ── Capa ───────────────────────────────────────────────────── */
+.cover {
+  background:
+    radial-gradient(ellipse 150mm 90mm at 82% 4%, rgba(245,200,66,.28) 0%, transparent 62%),
+    radial-gradient(ellipse 140mm 100mm at 8% 96%, rgba(96,77,246,.85) 0%, transparent 60%),
+    linear-gradient(168deg, #5a46f8 0%, #503bf6 38%, #2e1f9e 78%, #180e4e 100%);
+  color: #fff;
+}
+.cover .pad { padding: 14mm 14mm 12mm; }
+.cover-top { display: flex; align-items: center; justify-content: space-between; }
+.brandmark { display: flex; align-items: center; gap: 10px; }
+.brandmark img { width: 42px; height: 42px; object-fit: contain; }
+.brandmark span { font-weight: 900; font-size: 17px; letter-spacing: -.01em; }
+.handle { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+
+.cover-head { margin-top: 11mm; }
+.cover-head .l1 { font-size: 62px; line-height: 1; }
+.cover-head .l2 { font-size: 27px; font-weight: 900; line-height: 1.24; letter-spacing: -.02em; margin-top: 9mm; max-width: 118mm; }
+.cover-head .l3 { font-size: 15px; line-height: 1.62; color: rgba(255,255,255,.84); margin-top: 5mm; max-width: 110mm; }
+
+.cover-owl {
+  position: absolute; right: -14mm; bottom: 40mm;
+  width: 126mm; z-index: 1;
+  filter: drop-shadow(0 16px 34px rgba(10,6,40,.55));
+}
+.cover-bottom { margin-top: auto; position: relative; z-index: 2; }
+.cover-strip {
+  background: rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255,255,255,.22);
+  border-radius: 16px;
+  padding: 11px 16px;
+  display: flex; gap: 7mm;
+  max-width: 122mm;
+}
+.cover-strip div { font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,.9); font-weight: 600; }
+.cover-strip b { display: block; font-size: 19px; font-weight: 900; color: var(--yellow); }
+.cover-foot { margin-top: 6mm; display: flex; align-items: center; gap: 5mm; flex-wrap: wrap; }
+.cover-foot p { font-size: 12px; color: rgba(255,255,255,.8); font-weight: 600; }
+
+/* ── Fita atravessando a página ─────────────────────────────── */
+.fita {
+  background: var(--yellow); color: var(--navy);
+  border-top: 3px solid var(--navy); border-bottom: 3px solid var(--navy);
+  transform: rotate(-.6deg);
+  width: 118%; margin-left: -9%;
+  padding: 7px 0; text-align: center;
+  font-size: 13px; font-weight: 900; letter-spacing: .02em;
+}
+
+/* ── Cartões ────────────────────────────────────────────────── */
+.card {
+  background: #fff; border: 2px solid #e2e5f5;
+  border-radius: 16px; padding: 11px 13px;
+}
+.card.navy { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.dor-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 6mm; }
+.dor {
+  background: #fff; border: 2px solid #e6e3f5; border-left: 5px solid var(--violet);
+  border-radius: 14px; padding: 10px 12px;
+}
+.dor b { display: block; font-size: 14px; font-weight: 900; color: var(--navy); margin-bottom: 2px; }
+.dor span { font-size: 12px; line-height: 1.48; color: var(--muted); }
+
+/* ── Chat mock ──────────────────────────────────────────────── */
+.chat { background: var(--navy); border-radius: 20px; padding: 14px; color: #fff; }
+.msg { display: flex; gap: 9px; margin-bottom: 9px; }
+.msg .who { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); width: 20mm; padding-top: 3px; flex-shrink: 0; }
+.bubble { background: rgba(255,255,255,.12); border-radius: 14px; padding: 8px 12px; font-size: 12.5px; line-height: 1.45; }
+.bubble.me { background: var(--indigo); }
+.chk { display: flex; gap: 7px; align-items: flex-start; font-size: 12.5px; line-height: 1.4; margin: 4px 0; }
+.chk i { color: var(--yellow); font-style: normal; font-weight: 900; }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+.step { background: var(--lilac); border-radius: 14px; padding: 11px 12px; border: 2px solid #dfe3ff; }
+.step .n { font-family: 'Rozha One', serif; font-size: 26px; color: var(--indigo); line-height: 1; }
+.step b { display: block; font-size: 13px; color: var(--navy); margin: 4px 0 2px; }
+.step span { font-size: 11.5px; line-height: 1.45; color: var(--muted); }
+
+/* ── Funcionalidades ────────────────────────────────────────── */
+.feats { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.feat { background: #fff; border: 2px solid #e2e5f5; border-radius: 16px; padding: 11px 13px; }
+.feat .tag { font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo); }
+.feat b { display: block; font-size: 15px; font-weight: 900; color: var(--navy); margin: 3px 0 4px; line-height: 1.2; }
+.feat p { font-size: 11.5px; line-height: 1.5; color: var(--muted); }
+.feat ul { list-style: none; margin-top: 5px; }
+.feat li { font-size: 11.5px; line-height: 1.42; color: var(--navy); padding-left: 14px; position: relative; margin-bottom: 2px; }
+.feat li::before { content: '✓'; position: absolute; left: 0; color: var(--indigo); font-weight: 900; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.pill {
+  font-size: 11px; font-weight: 700; color: var(--navy);
+  background: #fff; border: 1.5px solid #dcdff2;
+  border-radius: 999px; padding: 4px 11px;
+}
+.pill.on-dark { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); color: #fff; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+.stat { text-align: center; background: #fff; border: 2px solid #e2e5f5; border-radius: 14px; padding: 9px 4px; }
+.stat b { display: block; font-family: 'Rozha One', serif; font-size: 25px; color: var(--indigo); line-height: 1.05; white-space: nowrap; }
+.stat span { font-size: 10px; font-weight: 700; color: var(--muted); line-height: 1.25; display: block; margin-top: 2px; }
+
+/* ── Jogos ──────────────────────────────────────────────────── */
+.games { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+.game { border: 2px solid var(--navy); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 4px 5px 0 rgba(24,14,78,.16); }
+.game img { width: 100%; height: 26mm; object-fit: cover; display: block; }
+.game .txt { padding: 8px 10px 10px; }
+.game b { display: block; font-size: 13.5px; font-weight: 900; color: var(--navy); }
+.game span { font-size: 11px; line-height: 1.42; color: var(--muted); display: block; margin-top: 3px; }
+
+.kit { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+.kit div { background: var(--lilac); border-radius: 12px; padding: 8px 9px; border: 1.5px solid #dfe3ff; }
+.kit b { display: block; font-size: 11.5px; font-weight: 900; color: var(--navy); line-height: 1.2; }
+.kit span { font-size: 10px; line-height: 1.35; color: var(--muted); display: block; margin-top: 2px; }
+
+/* ── Planos / CTA ───────────────────────────────────────────── */
+.back {
+  background:
+    radial-gradient(ellipse 130mm 80mm at 90% 92%, rgba(245,200,66,.2) 0%, transparent 60%),
+    linear-gradient(162deg, #5a46f8 0%, #4030c9 46%, #180e4e 100%);
+  color: #fff;
+}
+.planos { display: grid; grid-template-columns: 1fr 1.15fr; gap: 5mm; }
+.plano { background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.22); border-radius: 18px; padding: 13px 15px; }
+.plano.pro { background: #fff; border: 3px solid var(--navy); box-shadow: 6px 7px 0 rgba(0,0,0,.45); color: var(--navy); }
+.plano .nome { font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.plano .preco { font-family: 'Rozha One', serif; font-size: 34px; line-height: 1.1; margin: 3px 0 1px; }
+.plano.pro .preco { color: var(--indigo); }
+.plano .sub { font-size: 11px; opacity: .8; margin-bottom: 7px; }
+.plano ul { list-style: none; }
+.plano li { font-size: 11.5px; line-height: 1.45; padding-left: 15px; position: relative; margin-bottom: 3px; }
+.plano li::before { content: '✓'; position: absolute; left: 0; font-weight: 900; color: var(--yellow); }
+.plano.pro li::before { color: var(--green); }
+
+.qrs { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.qr { background: #fff; border: 3px solid var(--navy); border-radius: 18px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; box-shadow: 6px 7px 0 rgba(0,0,0,.45); }
+.qr img { width: 27mm; height: 27mm; }
+.qr b { display: block; font-size: 14px; font-weight: 900; color: var(--navy); line-height: 1.15; }
+.qr span { font-size: 10.5px; line-height: 1.4; color: var(--muted); display: block; margin-top: 4px; }
+.qr .url { font-size: 10.5px; font-weight: 800; color: var(--indigo); margin-top: 5px; display: block; word-break: break-all; }
+
+.autor { display: flex; gap: 5mm; align-items: center; }
+.autor img { width: 26mm; border-radius: 14px; border: 2.5px solid rgba(255,255,255,.3); }
+.autor p { font-size: 12px; line-height: 1.55; color: rgba(255,255,255,.88); }
+.autor p b { color: #fff; }
+
+.foot { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: rgba(255,255,255,.6); font-weight: 600; }
+.foot.dark-ink { color: #9aa0b5; }
+
+.mt-a { margin-top: auto; }
+.imgbox { border: 3px solid var(--navy); border-radius: 18px; overflow: hidden; box-shadow: 6px 7px 0 rgba(24,14,78,.18); background: #fff; }
+.imgbox img { display: block; width: 100%; }
+.imgbox img.crop { height: 84mm; object-fit: cover; object-position: 50% 56%; }
+.imgbox img.crop-sq { height: 47mm; object-fit: cover; object-position: 50% 50%; }
+
+/* unidade em Inter: o 's' da Rozha One parece um 8 */
+.stat b .un { display: inline; margin-left: 2px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: -.02em; }
+
+/* lista de argumentos na capa */
+.cover-mid { margin-top: 9mm; display: flex; flex-direction: column; gap: 7px; max-width: 96mm; position: relative; z-index: 2; }
+.cover-mid div { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,.93); font-weight: 600; }
+.cover-mid i { color: var(--yellow); font-style: normal; font-weight: 900; }
+
+/* mock da conferencia da BNCC */
+.bncc { background: #fff; border: 2px solid #e2e5f5; border-radius: 16px; padding: 11px 13px; margin-top: 5mm; }
+.bncc .cab { font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.bncc .lin { display: flex; align-items: center; gap: 9px; padding: 4px 0; border-top: 1px solid #eef0f8; font-size: 11.5px; }
+.bncc .lin b { font-family: 'Inter'; font-weight: 900; color: var(--navy); width: 22mm; flex-shrink: 0; }
+.bncc .lin span { color: var(--muted); flex: 1; }
+.bncc .lin em { font-style: normal; font-size: 10px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; }
+.bncc .ok em { background: #d7f7ea; color: #05715016; color: #057150; }
+.bncc .bad em { background: #ffe0e0; color: #b91c1c; }
+.bncc .bad b, .bncc .bad span { color: #b91c1c; text-decoration: line-through; }
+.bncc .fix { margin-top: 7px; background: var(--lilac); border-radius: 10px; padding: 6px 10px; font-size: 11px; font-weight: 700; color: var(--indigo); }
+
+/* placar de equipes */
+.placar { background: var(--navy); border-radius: 18px; padding: 12px 15px; color: #fff; }
+.placar .cab { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+.placar .cab b { font-size: 13px; font-weight: 900; }
+.placar .cab span { font-size: 10.5px; color: rgba(255,255,255,.6); }
+.placar .eq { display: flex; align-items: center; gap: 9px; font-size: 12px; padding: 4px 0; border-top: 1px solid rgba(255,255,255,.12); }
+.placar .eq i { font-style: normal; color: var(--yellow); font-weight: 900; width: 12px; }
+.placar .eq span { flex: 1; font-weight: 700; }
+.placar .eq em { font-style: normal; font-weight: 900; color: var(--yellow); }
+
+/* passos do CTA final */
+.passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 5mm; }
+.passos div { border: 1.5px solid rgba(255,255,255,.24); border-radius: 12px; padding: 8px 11px; font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,.9); }
+.passos b { display: block; color: var(--yellow); font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ PÁGINA 1 · CAPA ══════════════ -->
+<section class="page cover">
+  <img src="../illu-01.png" alt="" class="cover-owl">
+  <div class="pad">
+    <div class="cover-top">
+      <div class="brandmark"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+      <div class="handle">@prof.corujão</div>
+    </div>
+
+    <div class="cover-head">
+      <div class="l1"><span class="display hl on-dark">Ei Professor(a)</span></div>
+      <div class="l2">Cansado de fazer tudo sozinho e sem tempo de sobra?</div>
+      <div class="l3">Pouco tempo, muita cobrança, sobrecarga que ninguém vê de fora.</div>
+    </div>
+
+    <div class="cover-mid">
+      <div><i>✓</i><span>Você escreve o tema em uma linha. Volta o plano, a prova, os slides e o jogo.</span></div>
+      <div><i>✓</i><span>Cada habilidade da BNCC é conferida contra o documento oficial do MEC.</span></div>
+      <div><i>✓</i><span>Sai pronto para imprimir, ou exportado em Word e PowerPoint.</span></div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-strip">
+        <div><b>1.580</b>habilidades da BNCC<br>conferidas uma a uma</div>
+        <div><b>9</b>jogos gerados<br>a partir da sua aula</div>
+        <div><b>~4s</b>para o plano<br>ficar pronto</div>
+      </div>
+      <div class="cover-foot">
+        <span class="selo">7 dias grátis · sem cartão</span>
+        <p>O assistente de IA feito por professor, para professor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PÁGINA 2 · A DOR ══════════════ -->
+<section class="page">
+  <div class="pad">
+    <div class="eyebrow">01 · A realidade da sala de aula</div>
+    <h2 class="tit">Isso soa <span class="hl">familiar?</span></h2>
+    <p class="lead" style="margin-top:5mm;max-width:150mm">
+      Você sai da escola e o trabalho vem junto. Janta pensando na aula de amanhã,
+      deita planejando a próxima semana, acorda já devendo. <b>O corpo sai da sala, a cabeça não.</b>
+    </p>
+
+    <div class="dor-list">
+      <div class="dor"><b>A mente não desliga</b><span>Dormir pensando no conteúdo da próxima aula. Acordar de madrugada lembrando do que faltou.</span></div>
+      <div class="dor"><b>O trabalho vai junto</b><span>Você fecha a porta da escola, mas o planejamento senta no sofá com você.</span></div>
+      <div class="dor"><b>A pilha que nunca zera</b><span>Notas, chamada, provas, relatórios. Some um domingo inteiro e a pilha continua ali.</span></div>
+      <div class="dor"><b>Criar do zero, todo dia</b><span>Seis turmas, seis planejamentos. Inspiração não aparece por decreto às 22h.</span></div>
+      <div class="dor" style="grid-column:1 / -1"><b>E a vontade de sair</b><span>Bons professores desistindo da sala nos primeiros meses, cansados antes mesmo de começar. Não é falta de vocação: é falta de ferramenta.</span></div>
+    </div>
+
+    <div class="imgbox" style="margin-top:6mm">
+      <img src="../illu-02.png" class="crop" alt="Professor cercado de provas para corrigir">
+    </div>
+
+    <div class="mt-a" style="padding-top:6mm">
+      <div class="fita">Não é falta de vontade. É que ninguém dá conta de fazer tudo sozinho.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PÁGINA 3 · A VIRADA ══════════════ -->
+<section class="page">
+  <div class="pad">
+    <div class="eyebrow">02 · A virada</div>
+    <h2 class="tit">Você escreve o tema.<br>Ele monta <span class="hl tr">o resto.</span></h2>
+    <p class="lead" style="margin-top:5mm;max-width:152mm">
+      Digite o tema antes de sair da escola. O Corujão estrutura e monta enquanto você vai
+      para casa, e avisa quando termina. <b>Quando você senta para jantar, a aula já existe.</b>
+    </p>
+
+    <div class="chat" style="margin-top:6mm">
+      <div class="msg">
+        <div class="who">Professor</div>
+        <div class="bubble me">Fotossíntese, 8º ano. Algo que engaje a turma.</div>
+      </div>
+      <div class="msg">
+        <div class="who">Corujão</div>
+        <div class="bubble" style="flex:1">
+          <div class="chk"><i>✓</i><span>Plano completo com as habilidades da BNCC conferidas uma a uma</span></div>
+          <div class="chk"><i>✓</i><span>Atividade impressa, pronta para distribuir na aula seguinte</span></div>
+          <div class="chk"><i>✓</i><span>Slides com imagens e design automático, exportáveis em PowerPoint</span></div>
+          <div class="chk"><i>✓</i><span>Quiz Relâmpago para fechar a semana com a turma no projetor</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:7mm 0 6mm">
+      <span class="hl" style="font-size:23px;font-weight:900">Pronto antes de você chegar em casa</span>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom:4mm">03 · Por que confiar no que sai</div>
+    <h2 class="tit" style="font-size:27px;margin-bottom:4mm">
+      Toda IA diz que é “alinhada à BNCC”.<br>Aqui a habilidade é <span class="hl tr" style="font-size:27px">conferida.</span>
+    </h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div><b>Identifica a turma</b>
+        <span>Pelo nome e nível, descobre etapa, ano e disciplina. Entende 9º B, 3º A, 2ª série, Maternal II.</span>
+      </div>
+      <div class="step">
+        <div class="n">2</div><b>Injeta as habilidades reais</b>
+        <span>Seleciona as aprendizagens oficiais mais próximas do tema, em vez de deixar a IA adivinhar.</span>
+      </div>
+      <div class="step">
+        <div class="n">3</div><b>Confere e reescreve</b>
+        <span>Compara cada código com o dataset do MEC. Se algum não bate, a seção sai reescrita com os certos.</span>
+      </div>
+    </div>
+
+    <div class="bncc">
+      <div class="cab">Conferindo habilidades · Ciências · 7º ano · Fotossíntese</div>
+      <div class="lin ok"><b>EF07CI01</b><span>Discutir a ocorrência de distúrbios nutricionais</span><em>conferido</em></div>
+      <div class="lin ok"><b>EF07CI08</b><span>Avaliar como os impactos das atividades humanas</span><em>conferido</em></div>
+      <div class="lin bad"><b>EF07CI27</b><span>Código que não existe na BNCC</span><em>inventado</em></div>
+      <div class="fix">↻ Seção de habilidades reescrita com os códigos reais do 7º ano</div>
+    </div>
+
+    <div class="mt-a" style="padding-top:6mm">
+      <div class="card navy" style="display:flex;align-items:center;gap:6mm;padding:12px 16px">
+        <div style="font-family:'Rozha One',serif;font-size:38px;color:var(--yellow);line-height:1">1.580</div>
+        <div style="font-size:12.5px;line-height:1.5">
+          <b>aprendizagens vigentes carregadas</b>, da Educação Infantil ao Ensino Médio.<br>
+          <span style="color:rgba(255,255,255,.7)">É por isso que o seu plano não chega com código inventado.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PÁGINA 4 · FUNCIONALIDADES ══════════════ -->
+<section class="page">
+  <div class="pad">
+    <div class="eyebrow">04 · O que vem junto</div>
+    <h2 class="tit">Meia dúzia de apps<br>num <span class="hl">só lugar.</span></h2>
+
+    <div class="stats" style="margin:6mm 0 5mm">
+      <div class="stat"><b>1.580</b><span>habilidades<br>da BNCC</span></div>
+      <div class="stat"><b>9</b><span>jogos<br>gerados por IA</span></div>
+      <div class="stat"><b>7</b><span>instrumentos<br>de aula</span></div>
+      <div class="stat"><b>~4<span class="un">seg</span></b><span>tempo médio<br>de geração</span></div>
+    </div>
+
+    <div class="feats">
+      <div class="feat">
+        <div class="tag">★ Carro-chefe</div>
+        <b>Planejador</b>
+        <p>Digite o tema e a turma. Volta o documento inteiro, com os tempos ajustados à duração real da sua aula.</p>
+        <ul>
+          <li>Objetivos, metodologia, recursos, avaliação e referências</li>
+          <li>Sequências didáticas com várias aulas encadeadas</li>
+          <li>Provas com gabarito: objetivas, discursivas ou mistas</li>
+          <li>Exporta em Word e PowerPoint, com layout de impressão</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="tag">Turma gamificada</div>
+        <b>O comportamento vira ponto</b>
+        <p>XP, moedas, níveis, medalhas e missões semanais, com equipes e Hall da Fama.</p>
+        <ul>
+          <li>Você configura o que soma e o que desconta</li>
+          <li>Seis níveis, de Aprendiz a Lenda</li>
+          <li>Loja de recompensas sem prêmio material: ajudante do dia, escolher a música da aula</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="tag">Agenda &amp; diário</div>
+        <b>O ano letivo a partir de um PDF</b>
+        <p>Envie o calendário da escola em PDF. A IA lê e preenche feriados, recessos, reuniões e eventos.</p>
+        <ul>
+          <li>Ementa em PDF vira aulas distribuídas no ano</li>
+          <li>Lembrete no celular cerca de 30 min antes da aula</li>
+          <li>Chamada, anotações e conceitos por aluno</li>
+        </ul>
+      </div>
+      <div class="feat">
+        <div class="tag">Chat pedagógico</div>
+        <b>Um colega, não um robô</b>
+        <p>Assistente especializado em educação, que responde como alguém da área e ainda navega no app por você.</p>
+        <ul>
+          <li>Dá feedback sobre suas atividades e provas</li>
+          <li>Aceita arquivos e imagens para análise</li>
+          <li>Histórico salvo e sincronizado entre celular e computador</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:5mm">
+      <div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:4px">Na hora da aula, no projetor</div>
+      <div class="pills">
+        <span class="pill">Sorteador</span><span class="pill">Cronômetro</span><span class="pill">Grupos</span>
+        <span class="pill">Medidor de ruído</span><span class="pill">Semáforo</span><span class="pill">Dado</span>
+        <span class="pill">Placar de equipes</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:.9fr 1.1fr;gap:5mm;margin-top:5mm;align-items:center">
+      <div class="imgbox" style="box-shadow:6px 7px 0 rgba(24,14,78,.14)">
+        <img src="../illu-04.png" class="crop-sq" alt="Planejador e gerador de slides do Prof. Corujão">
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:3mm">Acervo</div>
+        <div style="font-size:20px;font-weight:900;color:var(--navy);line-height:1.18;letter-spacing:-.02em">
+          O que você cria numa terça<br>ainda está lá no ano seguinte.
+        </div>
+        <p class="lead" style="font-size:12.5px;margin-top:3mm">
+          Biblioteca pessoal com busca e filtro por tipo, mais um acervo compartilhado
+          com materiais curados. <b>Nada se perde entre um bimestre e outro.</b>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-a" style="padding-top:5mm">
+      <div class="fita">Tudo exporta em Word e PowerPoint. O material é seu, para editar e imprimir.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PÁGINA 5 · JOGOS E MATERIAIS ══════════════ -->
+<section class="page">
+  <div class="pad">
+    <div class="eyebrow">05 · A parte que a turma pede de novo</div>
+    <h2 class="tit">Qualquer conteúdo<br><span class="hl tr">vira jogo.</span></h2>
+    <p class="lead" style="margin-top:5mm;max-width:150mm">
+      A IA escreve as perguntas pela disciplina e pelo nível da turma. Quem monta a grade e
+      sorteia as cartelas é o app, com algoritmo próprio: <b>o jogo sempre sai jogável.</b>
+    </p>
+
+    <div class="games" style="margin-top:5mm">
+      <div class="game">
+        <img src="../illu-mundo-perdido.jpg" alt="Mundo Perdido">
+        <div class="txt"><b>Mundo Perdido</b><span>Aventura narrativa em tela cheia, com trilha própria. O aluno joga sozinho e as escolhas mudam o final.</span></div>
+      </div>
+      <div class="game">
+        <img src="../illu-quiz-relampago.png" alt="Quiz Relâmpago">
+        <div class="txt"><b>Quiz Relâmpago</b><span>Dez rodadas rápidas no projetor, com cenário animado. Fecha a aula em cinco minutos.</span></div>
+      </div>
+      <div class="game">
+        <img src="../illu-batalha.jpg" alt="QuaqueMagia">
+        <div class="txt"><b>QuaqueMagia</b><span>Combate por acertos entre equipes. Resposta em 3 segundos dá dano crítico e a virada tem Modo Fúria.</span></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.05fr .95fr;gap:5mm;margin-top:5mm;align-items:start">
+      <div>
+        <div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:5px">Sai da tela e vai para o papel</div>
+        <div class="pills" style="margin-bottom:5mm">
+          <span class="pill">Escape Room · 4 ambientações</span><span class="pill">História narrativa</span>
+          <span class="pill">Quiz</span><span class="pill">Caça-palavras</span><span class="pill">Cruzadas</span>
+          <span class="pill">Bingo</span><span class="pill">Memória</span><span class="pill">Flashcards</span>
+          <span class="pill">Sequência lógica</span>
+        </div>
+        <p class="lead" style="font-size:13px">
+          O caderno da sala de escape sai pronto para imprimir, com pistas, gabarito e
+          cartelas. <b>Você leva impresso e a aula acontece sem projetor, sem internet, sem celular na mão do aluno.</b>
+        </p>
+      </div>
+      <div class="imgbox"><img src="../illu-06a.jpg" alt="Escape Room impresso gerado pelo app"></div>
+    </div>
+
+    <div class="placar" style="margin-top:5mm">
+      <div class="cab">
+        <b>Turma 8º B · placar da semana</b>
+        <span>Missão: 500 XP até sexta · Recompensa: aula no pátio</span>
+      </div>
+      <div class="eq"><i>1</i><span>Dragões Vermelhos</span><em>440 XP</em></div>
+      <div class="eq"><i>2</i><span>Águias Azuis</span><em>370 XP</em></div>
+      <div class="eq"><i>3</i><span>Lobos da Noite</span><em>305 XP</em></div>
+      <div style="margin-top:7px;font-size:11px;color:rgba(255,255,255,.72);line-height:1.45">
+        Os pontos dos jogos entram na gamificação da turma. O que o aluno compra na loja
+        não é prêmio material: é ser ajudante do dia, escolher a música da aula, levar um
+        recado positivo para casa.
+      </div>
+    </div>
+
+    <div class="mt-a" style="padding-top:5mm">
+      <div style="font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:4px">Kit do Professor: a burocracia que roubava seu domingo</div>
+      <div class="kit">
+        <div><b>Lista de chamada</b><span>Direto da agenda para o papel</span></div>
+        <div><b>Adaptação inclusiva</b><span>TDAH, TEA, dislexia, baixa visão, surdez</span></div>
+        <div><b>Rubrica de avaliação</b><span>Critérios e níveis prontos</span></div>
+        <div><b>Nivelador de texto</b><span>Reescreve no nível da turma</span></div>
+        <div><b>Recado para a família</b><span>Bilhetes e mensagens prontas</span></div>
+        <div><b>Aula a partir de vídeo</b><span>Cole o link do YouTube</span></div>
+        <div><b>Material do seu PDF</b><span>Do livro didático ou apostila</span></div>
+        <div><b>Acervo pessoal</b><span>Busca, filtro e exportação</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PÁGINA 6 · PLANOS E CTA ══════════════ -->
+<section class="page back">
+  <div class="pad">
+    <div class="cover-top">
+      <div class="brandmark"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+      <div class="handle">Versão 2.0 · 2026</div>
+    </div>
+
+    <div class="eyebrow light" style="margin-top:9mm">06 · Como começar</div>
+    <h2 class="tit" style="color:#fff;font-size:33px">
+      Teste sete dias.<br>Depois você <span class="hl on-dark tr" style="font-size:33px">decide.</span>
+    </h2>
+    <p class="lead" style="color:rgba(255,255,255,.85);margin-top:4mm;max-width:145mm">
+      Criação ilimitada por sete dias, sem cartão de crédito. Passado o prazo, <b style="color:#fff">o material
+      que você já criou continua seu</b>, para consultar, exportar e imprimir.
+    </p>
+
+    <div class="planos" style="margin-top:6mm">
+      <div class="plano">
+        <div class="nome">Acesso gratuito</div>
+        <div class="preco" style="color:var(--yellow)">7 dias</div>
+        <div class="sub">a partir do cadastro, sem cartão</div>
+        <ul>
+          <li>Criação ilimitada: planos, provas, slides, jogos</li>
+          <li>Planejador com a BNCC conferida</li>
+          <li>Agenda, turmas, diário e gamificação</li>
+          <li>Depois do prazo, você não perde nada</li>
+        </ul>
+      </div>
+      <div class="plano pro">
+        <div class="nome" style="color:var(--indigo)">★ Apoiador Pro · recomendado</div>
+        <div class="preco">R$ 59,90<span style="font-family:'Inter';font-size:14px;font-weight:800;color:var(--muted)"> /mês</span></div>
+        <div class="sub" style="color:var(--muted)">criação ilimitada, sem prazo e sem fidelidade</div>
+        <ul>
+          <li>Tudo do app, sem limite de criação</li>
+          <li>Mundo Perdido, QuaqueMagia e Quiz Relâmpago</li>
+          <li>Escape Room nas quatro ambientações</li>
+          <li>Kit do Professor e importação por PDF</li>
+          <li>Exportação em Word e PowerPoint</li>
+          <li>Seu nome na lista de Apoiadores e suporte direto com o criador</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:6mm 0 5mm">
+      <span class="hl on-dark" style="font-size:19px;font-weight:900">Menos de R$ 2 por dia. O preço de um café.</span>
+    </div>
+
+    <div class="qrs">
+      <div class="qr">
+        <img src="assets/qr-app.svg" alt="QR code para testar grátis">
+        <div>
+          <b>Aponte a câmera<br>e teste grátis</b>
+          <span>Sem cartão. Funciona no celular, no tablet e no computador.</span>
+          <span class="url">app.profcorujao.com.br</span>
+        </div>
+      </div>
+      <div class="qr">
+        <img src="assets/qr-whats.svg" alt="QR code do WhatsApp">
+        <div>
+          <b>Ficou com dúvida?<br>Fale comigo</b>
+          <span>WhatsApp direto com quem desenvolveu o app.</span>
+          <span class="url">(98) 98179-6309</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="passos">
+      <div><b>1 · Aponte</b>A câmera do celular no QR code ao lado.</div>
+      <div><b>2 · Cadastre</b>E-mail e senha. Sem cartão, sem formulário longo.</div>
+      <div><b>3 · Peça</b>Escreva o tema da sua próxima aula e veja o que volta.</div>
+    </div>
+
+    <div class="mt-a" style="padding-top:6mm">
+      <div class="autor">
+        <img src="../illu-08.png" alt="Lyelson Martins">
+        <p>
+          <b>Não é uma empresa. É um TCC.</b><br>
+          Sou estudante e construí o Prof. Corujão sozinho, para os professores que eu vi
+          trabalhando até tarde, improvisando com o que tinham. Quem assina não está só
+          comprando um app: está bancando a conta de IA que mantém ele de pé.<br>
+          <b style="display:inline-block;margin-top:4px">Lyelson Martins</b>, criador do Prof. Corujão
+        </p>
+      </div>
+      <div style="display:flex;align-items:center;gap:5mm;margin:6mm 0 5mm">
+        <span class="selo">7 dias grátis · sem cartão</span>
+        <p style="font-size:11.5px;color:rgba(255,255,255,.78);font-weight:600">
+          Cadastro com e-mail e senha, dados protegidos pelo Firebase. Instalável no Android, iPhone, Windows e Mac.
+        </p>
+      </div>
+      <div class="foot">
+        <span>© 2026 Prof. Corujão · IA Educacional</span>
+        <span>app.profcorujao.com.br · @prof.corujão</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
