@@ -1,4 +1,13 @@
-# Folder de prospecção — Prof. Corujão
+# Materiais impressos — Prof. Corujão
+
+Esta pasta tem duas peças de prospecção, cada uma com seu próprio dobramento
+físico. Este README documenta primeiro o **tríptico** (`folder.html`); o
+**cartão de dobra simples** (`folder-conheca.html`) tem sua seção própria no
+fim do arquivo.
+
+---
+
+# Peça 1 — Tríptico de prospecção (`folder.html`)
 
 Peça impressa para prospectar professores presencialmente: visita a escola,
 sala dos professores, feira pedagógica, evento de formação.
@@ -186,3 +195,98 @@ Peça **A4 4×4 com duas dobras (dobra em C)**, papel couché brilho 150g ou mai
 Mande `folder-prof-corujao.pdf` como está: já tem os 3 mm de sangria que o
 gabarito pede e não leva marcas de corte. Confira antes no
 `folder-prof-corujao-guias.pdf` se algum elemento novo encostou no vinco.
+
+---
+
+# Peça 2 — "Conheça o Prof. Corujão" (`folder-conheca.html`)
+
+Cartão de **dobra simples** (uma única dobra ao meio, como um cartão de
+aniversário), pensado para uma narrativa curta: dor → virada → como funciona
+→ oferta. Complementa o tríptico da Peça 1, que é mais denso em conteúdo; este
+é o formato pra puxar pelo gancho emocional (o domingo à noite) antes de
+mostrar o produto.
+
+## Formato
+
+- **Folha:** 303 × 216 mm — A4 deitado (297 × 210) com 3 mm de sangria em volta,
+  a mesma geometria de folha da Peça 1
+- **Painéis depois do corte:** dois A5 de **148,5 mm** cada (a folha dividida
+  ao meio), diferente do tríptico: aqui não há painel assimétrico, porque a
+  dobra é uma só, no centro exato da folha (151,5 mm)
+- **Lado externo**, esquerda → direita: Contracapa (148,5) · Capa (148,5). Ao
+  dobrar, a Capa fica por cima (o que a pessoa vê primeiro); a Contracapa fica
+  nas costas
+- **Lado interno**, esquerda → direita: Página 2 (148,5) · Página 3 (148,5).
+  Formam um spread só quando o cartão é aberto
+- **Margem de segurança:** 6 mm do corte, **9 mm da dobra central** (a dobra
+  concentra o desgaste de manuseio, por isso pede mais folga que o corte de
+  borda), mais 3 mm de respiro no pé
+
+## Arquivos gerados
+
+| Arquivo | Para que serve |
+|---|---|
+| `folder-conheca.pdf` | Arte final, com sangria e sem marcas. É este que vai para a gráfica |
+| `folder-conheca-guias.pdf` | Prova de conferência: corte, dobra e margem de segurança. Não mandar para impressão |
+
+Mesmo princípio de edição da Peça 1: fundo em cor chapada, sem gradiente nem
+`filter`, para o PDF sair com zero *shading*/*pattern* e continuar separável
+em objetos caso alguém precise importar no Canva (ver a seção "Por que o PDF é
+todo em cor chapada" acima, mesma lógica vale aqui). Não existe versão `.pptx`
+desta peça — se precisar de uma editável, adapte o padrão usado em
+`pptx/gerar_pptx.js` para a geometria de dobra simples.
+
+## O que está em cada painel
+
+**Capa** — a pergunta de abertura em adesivo amarelo ("Cansado de fazer tudo
+sozinho..."), os "itens da carga mental" da semana como tags, o mascote e,
+antes da assinatura final, uma frase que resume o app em uma linha.
+
+**Contracapa** (o verso quando fechado) — a oferta: "7 dias grátis", três
+garantias de baixo atrito (sem cartão, cancela quando quiser, o material
+continua seu), o QR code do site e o QR do WhatsApp para quem quer apoiar o
+projeto a crescer.
+
+**Página 2** (a dor, em forma de cena) — o parágrafo do domingo à noite
+montando tudo do zero, a ilustração da professora corrigindo provas sozinha, a
+pergunta-gancho ("Já pensou ter alguém que faz isso tudo por você?"), uma
+caixa com o que esse domingo rouba (sono, fim de semana, tempo com a família)
+e a fita "24 horas por dia. Sem reclamar." fechando com o teaser para a
+página seguinte.
+
+**Página 3** (a virada) — "Conheça o Prof. Corujão" e os quatro passos de como
+funciona, a lista do que mais o app resolve além do plano de aula, e a caixa
+final espelhando a dor da Página 2: o que você ganha de volta (descansa, janta
+com a família, volta a ter domingo). O espelhamento entre as duas páginas —
+o que o domingo rouba vs. o que você recupera — é a espinha dorsal da peça;
+ao editar uma lista, ajuste a outra para manter o paralelo.
+
+## Como regerar
+
+```bash
+python3 folder/gerar_folder_conheca.py           # arte final
+python3 folder/gerar_folder_conheca.py --guias   # prova com as marcas
+```
+
+Mesmo script da Peça 1, só que apontando para `folder-conheca.html` — mesma
+otimização de imagem, mesma checagem de margem, mesmo ajuste fino de tamanho
+de página. Para editar o texto ou o layout, mexa em `folder-conheca.html`
+diretamente; a geometria dos painéis está nos `style` de cada `.painel`.
+
+## Arquivos específicos desta peça
+
+- `folder-conheca.html` — a peça inteira, duas folhas de 303 × 216 mm com dois
+  painéis A5 cada
+- `gerar_folder_conheca.py` — cópia do `gerar_folder.py` apontando para os
+  nomes de arquivo desta peça; reutiliza `fonts/` e `assets/` da Peça 1
+- `assets/qr-site.svg` — QR de `https://www.profcorujao.com.br/`
+- `assets/qr-whats-apoiador.svg` — QR do WhatsApp com a mesma mensagem
+  pré-preenchida usada no site (`index.html`): "Quero ser Apoiador do Prof.
+  Corujão"
+
+## Na hora de pedir a impressão
+
+Peça **dobra simples ao meio (meio-a-meio, formato cartão)**, couché brilho
+150g ou mais. Mande `folder-conheca.pdf` como está. Como a dobra é única e
+central, é a peça mais fácil das duas de explicar para a gráfica — não tem
+painel assimétrico para confundir.

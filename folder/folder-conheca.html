@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Conheça o Prof. Corujão — Folder</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   FOLDER "CONHEÇA O PROF. CORUJÃO" — cartão de dobra simples
+
+   Folha: 303 × 216 mm (A4 deitado 297×210 + 3 mm de sangria em volta).
+   Dois painéis A5 por lado (148,5 mm cada depois do corte), dobrados ao
+   meio na vertical, exatamente no centro da folha (151,5 mm).
+
+   LADO EXTERNO (esq → dir): Contracapa 148,5 | Capa 148,5
+     Ao dobrar, a Capa (painel direito) fica por cima, virada para fora;
+     a Contracapa (painel esquerdo) fica por baixo, nas costas.
+   LADO INTERNO (esq → dir): Página 2 148,5 | Página 3 148,5
+     É a leitura de dentro, com as duas páginas lado a lado como um
+     spread só quando o cartão é aberto.
+
+   Margem de segurança: 6 mm do corte, 9 mm da dobra central (a dobra
+   pede mais folga que o corte, porque o dedo passa ali), mais 3 mm de
+   respiro no pé.
+
+   Mesma identidade do folder-prospeccao (folder.html): base
+   índigo/violeta, adesivo amarelo com borda navy e sombra dura, nunca
+   emoji de coruja — sempre a logo.png.
+   ═══════════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --violet:    #503bf6;
+  --indigo:    #4659ff;
+  --navy:      #180e4e;
+  --yellow:    #f5c842;
+  --green:     #10b981;
+  --green-ink: #063a28;
+  --lilac:     #eef0ff;
+  --paper:     #f8f9fe;
+  --ink:       #0c1015;
+  --muted:     #5b6070;
+}
+
+@page { size: 303mm 216mm; margin: 0; }
+
+html, body {
+  font-family: 'Inter', 'Liberation Sans', sans-serif;
+  color: var(--ink);
+  background: #cdd1de;
+  -webkit-font-smoothing: antialiased;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.folha {
+  position: relative;
+  width: 303mm; height: 216mm;
+  page-break-after: always; break-after: page;
+  background: var(--paper);
+  margin: 0 auto;
+}
+.folha:last-child { page-break-after: auto; break-after: auto; }
+@media screen { .folha { margin: 0 auto 10mm; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
+
+.fundo { position: absolute; top: 0; height: 216mm; z-index: 0; }
+
+.painel { position: absolute; top: 0; height: 216mm; z-index: 1; }
+.painel > .conteudo {
+  position: absolute; top: 9mm; bottom: 12mm;
+  display: flex; flex-direction: column;
+}
+.painel.trim-esq > .conteudo { left: 6mm; }
+.painel.trim-dir > .conteudo { right: 6mm; }
+.painel.dobra-esq > .conteudo { left: 9mm; }
+.painel.dobra-dir > .conteudo { right: 9mm; }
+
+/* ── Adesivo amarelo: o componente assinatura ─────────────────────── */
+.hl {
+  --tilt: -1.2deg;
+  display: inline-block;
+  background: var(--yellow); color: var(--navy);
+  border: 3px solid var(--navy);
+  border-radius: 13px;
+  padding: .02em .3em .1em;
+  box-shadow: 5px 6px 0 var(--navy);
+  transform: rotate(var(--tilt));
+  line-height: 1.1;
+}
+.hl.tr { --tilt: 1.3deg; }
+.hl.on-dark { box-shadow: 5px 6px 0 #0b0630; }
+
+.selo {
+  display: inline-block; white-space: nowrap;
+  background: var(--green); color: var(--green-ink);
+  border: 2.5px solid var(--green-ink);
+  border-radius: 10px;
+  padding: 4px 12px 5px;
+  font-size: 10.5px; font-weight: 900;
+  letter-spacing: .07em; text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--green-ink);
+  transform: rotate(-1deg);
+}
+
+.display { font-family: 'Rozha One', 'Liberation Serif', serif; font-weight: 400; text-transform: uppercase; }
+.mt-a { margin-top: auto; }
+
+.marca { display: flex; align-items: center; gap: 8px; }
+.marca img { width: 32px; height: 32px; object-fit: contain; }
+.marca span { font-weight: 900; font-size: 14.5px; letter-spacing: -.01em; }
+
+.eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--indigo); display: flex; align-items: center; gap: 8px; }
+.eyebrow::before { content: ''; width: 20px; height: 2px; background: currentColor; }
+.eyebrow.claro { color: #b9c0ff; }
+.eyebrow.claro::before { background: #b9c0ff; }
+
+h1.tit, h2.tit { font-size: 26px; font-weight: 900; line-height: 1.14; letter-spacing: -.025em; color: var(--navy); }
+h2.tit .hl, h1.tit .hl { font-size: 26px; }
+p.lead { font-size: 12px; line-height: 1.55; color: var(--muted); }
+p.lead b { color: var(--navy); font-weight: 800; }
+
+.fita {
+  background: var(--yellow); color: var(--navy);
+  border: 3px solid var(--navy); border-radius: 12px;
+  box-shadow: 5px 6px 0 #c9cde6;
+  transform: rotate(-.8deg);
+  padding: 7px 10px; text-align: center;
+  font-size: 12.5px; font-weight: 900; line-height: 1.3;
+}
+.fita.on-dark { box-shadow: 5px 6px 0 #0b0630; }
+
+/* ── Tags de carga mental (capa) ──────────────────────────────────── */
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { font-size: 9.5px; font-weight: 700; color: #dcdfff; background: #3d2bc9; border: 1px solid #6553f8; border-radius: 999px; padding: 4px 10px; }
+
+/* ══════════ CAPA ══════════ */
+.capa { color: #fff; }
+.capa .g1 { font-size: 27px; font-weight: 900; line-height: 1.2; letter-spacing: -.02em; margin-top: 5mm; }
+.capa .sub2 { font-size: 11.5px; line-height: 1.55; color: #dcdfff; margin-top: 4mm; }
+.capa-owl { display: block; width: 66mm; margin: 5mm auto 0; }
+
+/* ══════════ CONTRACAPA (oferta) ══════════ */
+.contra { color: #fff; }
+.contra h2 { font-size: 25px; font-weight: 900; line-height: 1.2; letter-spacing: -.025em; margin-top: 6px; }
+.contra h2 .hl { font-size: 25px; }
+
+.qr { background: #fff; border: 2.5px solid var(--navy); border-radius: 14px; padding: 10px 11px; display: flex; gap: 10px; align-items: center; box-shadow: 5px 6px 0 #0b0630; }
+.qr img { width: 26mm; height: 26mm; flex-shrink: 0; }
+.qr b { display: block; font-size: 12.5px; font-weight: 900; color: var(--navy); line-height: 1.2; }
+.qr span { display: block; font-size: 9.5px; line-height: 1.4; color: var(--muted); margin-top: 3px; }
+.qr .url { font-size: 10.5px; font-weight: 800; color: var(--indigo); margin-top: 4px; }
+
+.rodape { font-size: 8px; color: #9198cf; font-weight: 600; }
+
+/* ══════════ PÁGINA 2 (a dor) ══════════ */
+.foto { border: 3px solid var(--navy); border-radius: 16px; overflow: hidden; box-shadow: 5px 6px 0 #dfe2f2; background: #fff; }
+.foto img { display: block; width: 100%; height: 46mm; object-fit: cover; object-position: 50% 20%; }
+
+.pergunta {
+  font-family: 'Rozha One', serif; font-style: normal;
+  font-size: 19px; line-height: 1.35; color: var(--navy);
+  border-left: 5px solid var(--yellow); padding-left: 11px;
+}
+
+/* ══════════ PÁGINA 3 (a virada) ══════════ */
+.passo { display: flex; gap: 9px; }
+.passo .n {
+  flex-shrink: 0; width: 25px; height: 25px; border-radius: 50%;
+  background: var(--indigo); color: #fff;
+  font-size: 13px; font-weight: 900; line-height: 25px; text-align: center;
+}
+.passo b { display: block; font-size: 13.5px; font-weight: 900; color: var(--navy); line-height: 1.25; }
+.passo p { font-size: 11px; line-height: 1.45; color: var(--muted); margin-top: 3px; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.pill { font-size: 9.5px; font-weight: 700; color: var(--navy); background: #fff; border: 1.5px solid #dcdff2; border-radius: 999px; padding: 3px 9px; }
+
+.recompensa { background: var(--navy); color: #fff; border-radius: 14px; padding: 14px 16px; }
+.recompensa .cab { font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: #9198cf; margin-bottom: 8px; }
+.recompensa div.item { display: flex; gap: 8px; font-size: 13px; line-height: 1.8; margin-bottom: 2px; }
+.recompensa i { font-style: normal; color: var(--yellow); font-weight: 900; }
+
+.custa { background: #fff; border: 2px solid #e2e5f5; border-radius: 14px; padding: 11px 13px; }
+.custa .cab { font-size: 9.5px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.custa div.item { display: flex; gap: 7px; font-size: 11.5px; line-height: 1.5; color: var(--navy); margin-bottom: 3px; }
+.custa i { font-style: normal; color: #c7455a; font-weight: 900; }
+
+.garantias { display: flex; flex-direction: column; gap: 5px; }
+.garantias div { display: flex; gap: 7px; font-size: 11.5px; line-height: 1.4; color: #dcdfff; font-weight: 600; }
+.garantias i { font-style: normal; color: var(--yellow); font-weight: 900; }
+
+/* ══════════ Guias de conferência (só no PDF de prova) ══════════ */
+.guia { display: none; position: absolute; z-index: 50; pointer-events: none; }
+body.guias .guia { display: block; }
+.guia.corte  { border: 1px dashed #e11d48; inset: 3mm 3mm; }
+.guia.seg    { border: 1px dashed #06b6d4; inset: 9mm 9mm; }
+.guia.dobra  { top: 0; bottom: 0; width: 0; border-left: 1px dashed #e11d48; }
+.guia.rot    { top: 2mm; font-size: 8px; color: #e11d48; font-family: 'Inter', sans-serif; font-weight: 700; background: #fff; padding: 0 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ LADO EXTERNO ═══════════════════
+     esquerda → direita: Contracapa (148,5) | Capa (148,5)
+     ═════════════════════════════════════════════════════ -->
+<section class="folha">
+
+  <div class="fundo" style="left:0; width:151.5mm; background:var(--violet)"></div>
+  <div class="fundo" style="left:151.5mm; width:151.5mm; background:var(--violet)"></div>
+
+  <!-- ── Contracapa: 0 → 151,5 mm (sangria 3 + painel 148,5) ── -->
+  <div class="painel contra trim-esq" style="left:0; width:151.5mm">
+    <div class="conteudo" style="right:9mm">
+      <div class="marca"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+
+      <div style="margin-top:9mm">
+        <div class="eyebrow claro">Teste agora</div>
+        <h2 style="margin-top:8px">
+          <span class="hl on-dark" style="font-size:34px">7 dias grátis</span>
+        </h2>
+      </div>
+
+      <p style="font-size:12.5px;line-height:1.55;color:#dcdfff;margin-top:6mm;max-width:56mm">
+        Crie sua conta e veja quanto tempo volta para você.
+      </p>
+
+      <div class="garantias" style="margin-top:6mm">
+        <div><i>✓</i><span>Sem cartão de crédito</span></div>
+        <div><i>✓</i><span>Cancela quando quiser, sem burocracia</span></div>
+        <div><i>✓</i><span>O material que você criar continua seu</span></div>
+      </div>
+
+      <div class="mt-a" style="display:flex;flex-direction:column;gap:5mm">
+        <div class="qr">
+          <img src="assets/qr-site.svg" alt="QR code do site">
+          <div>
+            <b>Aponte a câmera do celular<br>e abra o Prof. Corujão</b>
+            <span>Cadastro com e-mail e senha, leva um minuto.</span>
+            <div class="url">www.profcorujao.com.br</div>
+          </div>
+        </div>
+
+        <div class="qr">
+          <img src="assets/qr-whats-apoiador.svg" alt="QR code do WhatsApp">
+          <div>
+            <b>Quer ajudar o Corujão<br>a crescer?</b>
+            <span>Chama no WhatsApp.</span>
+            <div class="url">(98) 98179-6309</div>
+          </div>
+        </div>
+
+        <div class="rodape">Prof. Corujão · © 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Capa: 151,5 → 303 mm (painel 148,5 + sangria 3) ── -->
+  <div class="painel capa trim-dir" style="left:151.5mm; width:151.5mm">
+    <div class="conteudo" style="left:9mm">
+      <div class="marca"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+
+      <div style="margin-top:9mm">
+        <span class="hl on-dark" style="font-size:15px">CANSADO DE FAZER TUDO<br>SOZINHO E SEM TEMPO<br>DE SOBRA?</span>
+      </div>
+
+      <p class="sub2">Pouco tempo, muita cobrança, sobrecarga que ninguém vê de fora.</p>
+
+      <div class="tags" style="margin-top:6mm">
+        <span class="tag">Corrigir provas</span>
+        <span class="tag">Slides de amanhã</span>
+        <span class="tag">Parecer dos alunos</span>
+        <span class="tag">Atividades</span>
+        <span class="tag">Plano da semana</span>
+        <span class="tag">Chamada</span>
+      </div>
+
+      <img src="../illu-01.png" alt="" class="capa-owl" style="width:72mm;margin-top:6mm">
+
+      <div class="mt-a" style="text-align:center">
+        <p style="font-size:12px;font-weight:800;color:#fff;line-height:1.4;max-width:56mm;margin:0 auto 5mm">
+          O assistente de IA feito por professor, para professor.
+        </p>
+        <div class="marca" style="justify-content:center"><img src="../logo.png" alt=""><span>Prof. Corujão</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guia corte"></div>
+  <div class="guia seg"></div>
+  <div class="guia dobra" style="left:151.5mm"></div>
+  <div class="guia rot" style="left:5mm">EXTERNO · Contracapa 148,5 | Capa 148,5</div>
+</section>
+
+<!-- ═══════════════════ LADO INTERNO ═══════════════════
+     esquerda → direita: Página 2 (148,5) | Página 3 (148,5)
+     ═════════════════════════════════════════════════════ -->
+<section class="folha">
+
+  <!-- ── Página 2: 0 → 151,5 mm · a dor ── -->
+  <div class="painel trim-esq" style="left:0; width:151.5mm">
+    <div class="conteudo" style="right:9mm">
+      <div class="eyebrow">O domingo de todo professor</div>
+      <h2 class="tit" style="margin-top:8px;font-size:24px">
+        A aula de segunda<br>ainda <span class="hl tr" style="font-size:24px">nem existe.</span>
+      </h2>
+
+      <p class="lead" style="margin-top:6mm;font-size:12.5px">
+        É domingo à noite. Você procura a habilidade da BNCC, escolhe as imagens,
+        monta os slides, inventa a atividade, faz a prova e o gabarito.
+        <b>E isso é uma turma. Você tem várias.</b>
+      </p>
+
+      <div class="foto" style="margin-top:6mm">
+        <img src="../illu-02.png" alt="Professora corrigindo provas à noite, sozinha em casa">
+      </div>
+
+      <div style="margin-top:6mm">
+        <div class="pergunta">Já pensou ter alguém que faz isso tudo por você?</div>
+      </div>
+
+      <div class="custa" style="margin-top:6mm">
+        <div class="cab">O que o domingo à noite rouba</div>
+        <div class="item"><i>✕</i><span>O sono da noite antes de segunda</span></div>
+        <div class="item"><i>✕</i><span>O fim de semana com quem você gosta</span></div>
+        <div class="item"><i>✕</i><span>O tempo que devia ser só seu</span></div>
+      </div>
+
+      <div class="mt-a">
+        <div class="fita">24 horas por dia. Sem reclamar.</div>
+        <p style="text-align:center;margin-top:6mm;font-size:13px;font-weight:800;color:var(--navy)">
+          E se eu te contar que existe...
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Página 3: 151,5 → 303 mm · a virada ── -->
+  <div class="painel trim-dir" style="left:151.5mm; width:151.5mm">
+    <div class="conteudo" style="left:9mm">
+      <div class="eyebrow">Conheça o Prof. Corujão</div>
+      <h2 class="tit" style="margin-top:8px;font-size:22px">
+        O agente que <span class="hl" style="font-size:22px">planeja</span><br>as suas aulas.
+      </h2>
+
+      <div style="margin-top:7mm;display:flex;flex-direction:column;gap:11mm">
+        <div class="passo">
+          <div class="n">1</div>
+          <div><b>Você diz o tema e a turma</b><p>Exemplo: “frações, 6º ano”.</p></div>
+        </div>
+        <div class="passo">
+          <div class="n">2</div>
+          <div><b>Ele monta tudo</b><p>Plano de aula, slides, atividade, prova e gabarito.</p></div>
+        </div>
+        <div class="passo">
+          <div class="n">3</div>
+          <div><b>A BNCC já vem certa</b><p>Os códigos das habilidades vêm da BNCC oficial do MEC.</p></div>
+        </div>
+        <div class="passo">
+          <div class="n">4</div>
+          <div><b>Você confere e baixa</b><p>O arquivo sai em Word ou PowerPoint.</p></div>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:9mm;font-size:13px;font-weight:800;color:var(--navy)">
+        Isso tudo pra você? E muito mais...
+      </p>
+
+      <div class="pills" style="margin-top:6mm">
+        <span class="pill">Parecer descritivo</span>
+        <span class="pill">Adaptação inclusiva</span>
+        <span class="pill">Recado para as famílias</span>
+        <span class="pill">Material a partir de vídeo ou PDF</span>
+        <span class="pill">Calendário e aulas organizados</span>
+        <span class="pill">Jogos, chamada e pontos</span>
+      </div>
+
+      <div class="mt-a">
+        <div class="recompensa">
+          <div class="cab">Enquanto ele monta, você</div>
+          <div class="item"><i>✓</i><span>Descansa</span></div>
+          <div class="item"><i>✓</i><span>Janta com a família</span></div>
+          <div class="item"><i>✓</i><span>Volta a ter domingo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guia corte"></div>
+  <div class="guia seg"></div>
+  <div class="guia dobra" style="left:151.5mm"></div>
+  <div class="guia rot" style="left:5mm">INTERNO · Página 2 148,5 | Página 3 148,5</div>
+</section>
+
+</body>
+</html>
