@@ -58,6 +58,43 @@ def otimizar(origem, destino):
                            progressive=True)
 
 
+# Injetado numa copia de verificacao: mede quanto cada pagina passou da
+# altura da folha. As rotacoes dos adesivos entram na area de rolagem sem
+# ocupar espaco de layout, entao sao zeradas antes de medir.
+CHECAGEM = """
+<style>* { transform: none !important; }</style>
+<script>
+window.addEventListener('load', function () {
+  var fora = [];
+  document.querySelectorAll('.pagina').forEach(function (c, i) {
+    var sobra = c.scrollHeight - c.clientHeight;
+    if (sobra > 1) fora.push('pagina ' + (i + 1) + ': ' + sobra.toFixed(0) + 'px');
+  });
+  var pre = document.createElement('pre');
+  pre.id = 'checagem';
+  pre.textContent = fora.length ? fora.join(' | ') : 'ok';
+  document.body.appendChild(pre);
+});
+</script>
+"""
+
+
+def checar_altura(chrome, build, html):
+    """Avisa se o conteudo de alguma pagina nao coube na folha."""
+    caminho = os.path.join(build, 'checagem.html')
+    open(caminho, 'w', encoding='utf-8').write(html.replace('</body>', CHECAGEM + '</body>'))
+    saida = subprocess.run([
+        chrome, '--headless', '--disable-gpu', '--no-sandbox',
+        '--virtual-time-budget=8000', '--dump-dom', 'file://' + caminho,
+    ], capture_output=True, text=True).stdout
+    achado = re.search(r'<pre id="checagem">(.*?)</pre>', saida, re.S)
+    resultado = achado.group(1).strip() if achado else 'nao foi possivel medir'
+    if resultado == 'ok':
+        print('  todas as paginas cabem na folha: ok')
+    else:
+        print('  ATENCAO, conteudo passou da folha -> ' + resultado)
+
+
 def checar_links(caminho):
     """Confere que os hiperlinks sobreviveram ao print-to-pdf do Chromium."""
     try:
@@ -98,8 +135,11 @@ def main():
     pagina = os.path.join(build, 'index.html')
     open(pagina, 'w', encoding='utf-8').write(html)
 
+    chrome = achar_chrome()
+    checar_altura(chrome, build, html)
+
     subprocess.run([
-        achar_chrome(),
+        chrome,
         '--headless', '--disable-gpu', '--no-sandbox', '--hide-scrollbars',
         '--font-render-hinting=none',
         '--run-all-compositor-stages-before-draw',
