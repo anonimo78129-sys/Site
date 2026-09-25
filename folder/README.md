@@ -290,3 +290,63 @@ Peça **dobra simples ao meio (meio-a-meio, formato cartão)**, couché brilho
 150g ou mais. Mande `folder-conheca.pdf` como está. Como a dobra é única e
 central, é a peça mais fácil das duas de explicar para a gráfica — não tem
 painel assimétrico para confundir.
+
+---
+
+# Peça 3 — Convite para a pesquisa do TCC (`pesquisa-tcc.html`)
+
+Não é folder. As duas peças acima são para imprimir com dobra física; esta é
+um **PDF de leitura normal**, A4 retrato comum, para abrir na tela, mandar por
+WhatsApp ou e-mail. Reaproveita o texto já validado do tríptico (Peça 1), só
+reorganizado para leitura de cima para baixo, com um bloco novo no topo
+convidando professores a participar da pesquisa do TCC.
+
+## O que muda em relação às outras duas peças
+
+- **Sem sangria, sem vinco, sem painel lado a lado.** Página A4 retrato com
+  margem normal (16mm × 18mm), a mesma margem que qualquer documento de Word
+- **QR code virou hiperlink de verdade.** Quem abre este PDF já está com o
+  link na tela; pedir para apontar a câmera pro próprio arquivo não faz
+  sentido. Os links (`app.profcorujao.com.br` e o WhatsApp) são `<a href>`
+  normais, e o Chromium preserva isso como anotação de link clicável no PDF —
+  confirme com `d.get_links()` do pymupdf depois de qualquer mudança
+- **Fluxo contínuo, não painel por painel.** Só a capa força quebra de
+  página (`break-after: page`); o resto do conteúdo flui livre, e cada folha
+  só quebra quando o espaço da anterior realmente acaba. Isso evita o defeito
+  que apareceu na primeira versão: forçar uma página por seção deixava metade
+  da folha em branco sempre que a seção era curta
+
+## Conteúdo novo (o resto é o tríptico reorganizado)
+
+A capa é o único texto genuinamente novo desta peça: o convite direto de
+Lyelson pedindo ajuda com a pesquisa, os critérios de quem pode participar
+(qualquer disciplina, da educação básica ao ensino superior, atuando no
+Maranhão) e o procedimento (7 dias testando com no mínimo 3 usos, depois um
+questionário rápido). O restante — a dor, o que é o app, como funciona por
+dentro, prova da BNCC, funcionalidades extras, jogos e FAQ — é o mesmo texto
+do `folder-prof-corujao.pdf`, só sem os cortes que o formato de painel exigia.
+
+Ficou de fora, de propósito, o plano pago "Apoiador Pro": numa peça pedindo
+gente pra testar de graça para uma pesquisa, uma oferta de assinatura no meio
+do convite compete com o pedido em vez de reforçar.
+
+## Como regerar
+
+```bash
+python3 folder/gerar_pesquisa_tcc.py
+```
+
+Mais simples que os geradores das outras duas peças: sem checagem de margem
+de painel (não existe painel), sem ajuste fino de tamanho de folha (A4 padrão
+já sai certo do Chromium). Em vez disso, confere quantos hiperlinks
+sobreviveram no PDF final e imprime o destino de cada um — se aparecer
+"ATENCAO: nenhum hiperlink encontrado", o `<a href>` foi perdido em algum
+lugar do HTML.
+
+## Arquivos específicos desta peça
+
+- `pesquisa-tcc.html` — o documento inteiro, A4 retrato, fluxo normal de
+  página (não painéis absolutos como as outras duas)
+- `gerar_pesquisa_tcc.py` — otimização de imagem e checagem de hiperlink;
+  reutiliza `fonts/` das outras peças
+- Sem pasta de QR: esta peça não usa nenhum
