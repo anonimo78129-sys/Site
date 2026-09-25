@@ -43,16 +43,26 @@
   --muted:     #5b6070;
 }
 
-@page { size: A4; margin: 16mm 18mm; }
+/* margin: 0 de propósito. Um @page com margem cria uma faixa em branco por
+   fora de QUALQUER fundo colorido da página (o Chromium desconta essa
+   margem do que é pintado, então o violeta da capa nunca chega até a borda
+   real da folha). O respiro do texto já vem do padding da .pagina abaixo. */
+@page { size: A4; margin: 0; }
 
 html, body {
   font-family: 'Inter', 'Liberation Sans', sans-serif;
   color: var(--ink);
-  background: #cdd1de;
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
+/* O cinza só existe para separar visualmente as "folhas" na pré-visualização
+   de tela. No PDF de verdade o body precisa ficar da cor do papel: o miolo
+   é um único bloco que não termina exatamente num múltiplo de 297mm, e
+   qualquer sobra do fundo do body na última página aparece como uma tarja
+   cinza colada embaixo do conteúdo. */
+@media screen { html, body { background: #cdd1de; } }
 
 .pagina {
   width: 210mm; min-height: 297mm;
